@@ -1,15 +1,10 @@
 package com.alena.preparationproject.dao;
 
 import com.alena.preparationproject.web.model.Jewelry;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -18,27 +13,25 @@ import java.util.function.Consumer;
 
 @Repository
 public class JewelryDao implements Dao<Jewelry> {
-    @PersistenceContext
-    private EntityManager entityManager;
+    @PersistenceUnit
+    private EntityManagerFactory entityManagerFactory;
 
     @Override
-    @Transactional
     public Optional<Jewelry> get(long id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         return Optional.ofNullable(entityManager.find(Jewelry.class, id));
     }
 
     @Override
-    @Transactional
     public List<Jewelry> getAll() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j", Jewelry.class);
         return query.getResultList();
     }
 
     @Override
-    @Transactional
     public void save(Jewelry jewelry) {
-        entityManager.persist(jewelry);
-        entityManager.flush();
+        executeInsideTransaction(entityManager -> entityManager.persist(jewelry));
     }
 
     @Override
@@ -53,11 +46,12 @@ public class JewelryDao implements Dao<Jewelry> {
     }
 
     @Override
-    public void delete(Jewelry user) {
-        executeInsideTransaction(entityManager -> entityManager.remove(user));
+    public void delete(Jewelry jewelry) {
+        executeInsideTransaction(entityManager -> entityManager.remove(jewelry));
     }
 
     private void executeInsideTransaction(Consumer<EntityManager> action) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         try {
             tx.begin();

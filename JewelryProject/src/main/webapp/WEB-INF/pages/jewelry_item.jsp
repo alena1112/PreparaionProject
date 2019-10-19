@@ -81,14 +81,16 @@
             height: 100px;
         }
 
-        .all-component-style button, .all-component-style input[type=button] {
+        .all-component-style button, .all-component-style input[type=button],
+        .all-component-style input[type=submit] {
             background: black;
             padding: 8px 15px 8px 15px;
             border: none;
             color: #fff;
         }
 
-        .all-component-style button:hover, .all-component-style input[type=button]:hover {
+        .all-component-style button:hover, .all-component-style input[type=button]:hover,
+        .all-component-style input[type=submit]:hover {
             background: black;
             box-shadow: none;
             -moz-box-shadow: none;
@@ -126,7 +128,7 @@
         </li>
         <li>
             <input type="submit" value="Сохранить"/>
-            <input type="button" value="Закрыть"/>
+            <input type="button" value="Закрыть" onclick="location.href='list'"/>
         </li>
     </ul>
 </spring:form>

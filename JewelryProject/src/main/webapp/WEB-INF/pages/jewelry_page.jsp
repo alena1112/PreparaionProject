@@ -4,13 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
+    <style type="text/css">
         table, td, th {
             border: 1px solid #ddd;
             text-align: left;
         }
 
         table {
+            margin: 10px auto;
             border-collapse: collapse;
             width: 100%;
         }
@@ -21,6 +22,13 @@
 
         tr:nth-child(even) {
             background-color: #f2f2f2;
+        }
+
+        input[type=button] {
+            background: black;
+            padding: 8px 15px 8px 15px;
+            border: none;
+            color: #fff;
         }
     </style>
 </head>
@@ -34,6 +42,7 @@
     <div style="overflow-x:auto;">
         <table>
             <tr>
+                <th></th>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Price</th>
@@ -42,6 +51,10 @@
             </tr>
             <c:forEach items="${jewelryList}" var="item" varStatus="status">
                 <tr>
+                    <td>
+                        <img src="${pageContext.request.contextPath}/resources/w3images/delete_button.png" style="width:100%"
+                            onclick="location.href='delete?id=${item.id}'"/>
+                    </td>
                     <td><a href="item?id=${item.id}">${item.id}</a></td>
                     <td>${item.name}</td>
                     <td>${item.price}</td>

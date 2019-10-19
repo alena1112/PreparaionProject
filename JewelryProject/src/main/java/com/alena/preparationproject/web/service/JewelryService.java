@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class JewelryService {
@@ -33,5 +34,12 @@ public class JewelryService {
 
     public void saveNew(Jewelry jewelry) {
         jewelryDao.save(jewelry);
+    }
+
+    public void deleteJewelry(long id) {
+        Jewelry jewelry = getJewelry(id);
+        if (jewelry != null) {
+            jewelryDao.delete(jewelry);
+        }
     }
 }

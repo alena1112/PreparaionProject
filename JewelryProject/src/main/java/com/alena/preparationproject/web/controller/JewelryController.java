@@ -44,4 +44,10 @@ public class JewelryController {
         Map<String, Object> map = new HashMap<>();
         return new ModelAndView("redirect:/jewelry/list", map);
     }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    public ModelAndView deleteJewelry(@RequestParam(value = "id") Long id) {
+        jewelryService.deleteJewelry(id);
+        return new ModelAndView("redirect:/jewelry/list", new HashMap<>());
+    }
 }
