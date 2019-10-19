@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class JewelryService {
@@ -19,5 +20,18 @@ public class JewelryService {
     public Jewelry getJewelry(long id) {
         return jewelryDao.get(id)
                 .orElse(null);
+    }
+
+    public void save(long id, Map<String, Object> params) {
+        Jewelry jewelry = getJewelry(id);
+        if (jewelry != null) {
+            synchronized (jewelryDao) {
+                jewelryDao.update(jewelry, params);
+            }
+        }
+    }
+
+    public void saveNew(Jewelry jewelry) {
+        jewelryDao.save(jewelry);
     }
 }

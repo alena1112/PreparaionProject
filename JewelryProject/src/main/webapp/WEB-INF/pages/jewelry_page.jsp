@@ -30,6 +30,7 @@
 <p>Список всех украшений</p>
 
 <spring:form method="get" action="/jewelry/list" modelAttribute="jewelryList">
+    <input type="button" value="Создать" onclick="location.href='create'"/>
     <div style="overflow-x:auto;">
         <table>
             <tr>

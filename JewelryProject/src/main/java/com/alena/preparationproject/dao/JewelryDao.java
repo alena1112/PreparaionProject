@@ -3,6 +3,7 @@ package com.alena.preparationproject.dao;
 import com.alena.preparationproject.web.model.Jewelry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import javax.persistence.EntityManager;
@@ -21,19 +22,23 @@ public class JewelryDao implements Dao<Jewelry> {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public Optional<Jewelry> get(long id) {
         return Optional.ofNullable(entityManager.find(Jewelry.class, id));
     }
 
     @Override
+    @Transactional
     public List<Jewelry> getAll() {
         TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j", Jewelry.class);
         return query.getResultList();
     }
 
     @Override
+    @Transactional
     public void save(Jewelry jewelry) {
-        executeInsideTransaction(entityManager -> entityManager.persist(jewelry));
+        entityManager.persist(jewelry);
+        entityManager.flush();
     }
 
     @Override

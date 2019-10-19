@@ -4,20 +4,131 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
+    <style type="text/css">
+        .all-component-style {
+            margin: 10px auto;/*величина отступа для всех сторон от родительского элемента*/
+            max-width: 400px;
+            padding: 20px 12px 10px 20px;/*отступы для содержимого компонента внутри него*/
+            font: 13px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+        }
 
+        .all-component-style li {
+            padding: 0;
+            display: block;
+            list-style: none;
+            margin: 10px 0 0 0;
+        }
+
+        .all-component-style label {
+            margin: 0 0 3px 0;
+            padding: 0px;
+            display: block;
+            font-weight: bold;
+        }
+
+        .all-component-style input[type=text],
+        .all-component-style input[type=date],
+        .all-component-style input[type=datetime],
+        .all-component-style input[type=number],
+        .all-component-style input[type=search],
+        .all-component-style input[type=time],
+        .all-component-style input[type=url],
+        .all-component-style input[type=email],
+        textarea,
+        select {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            border: 1px solid #BEBEBE;
+            padding: 7px;
+            margin: 0px;
+            -webkit-transition: all 0.30s ease-in-out;
+            -moz-transition: all 0.30s ease-in-out;
+            -ms-transition: all 0.30s ease-in-out;
+            -o-transition: all 0.30s ease-in-out;
+            outline: none;
+        }
+
+        .all-component-style input[type=text]:focus,
+        .all-component-style input[type=date]:focus,
+        .all-component-style input[type=datetime]:focus,
+        .all-component-style input[type=number]:focus,
+        .all-component-style input[type=search]:focus,
+        .all-component-style input[type=time]:focus,
+        .all-component-style input[type=url]:focus,
+        .all-component-style input[type=email]:focus,
+        .all-component-style textarea:focus,
+        .all-component-style select:focus {
+            -moz-box-shadow: 0 0 8px #ddd;
+            -webkit-box-shadow: 0 0 8px #ddd;
+            box-shadow: 0 0 8px #ddd;
+            border: 1px solid #ddd;
+        }
+
+        .all-component-style .field-divided {
+            width: 49%;
+        }
+
+        .all-component-style .field-long {
+            width: 100%;
+        }
+
+        .all-component-style .field-select {
+            width: 100%;
+        }
+
+        .all-component-style .field-textarea {
+            height: 100px;
+        }
+
+        .all-component-style button, .all-component-style input[type=button] {
+            background: black;
+            padding: 8px 15px 8px 15px;
+            border: none;
+            color: #fff;
+        }
+
+        .all-component-style button:hover, .all-component-style input[type=button]:hover {
+            background: black;
+            box-shadow: none;
+            -moz-box-shadow: none;
+            -webkit-box-shadow: none;
+        }
+
+        .all-component-style .required {
+            color: black;
+        }
     </style>
 </head>
 <body>
 
 <h2>Administration page</h2>
-<p>Редактирование украшения</p>
+<p>Создание украшения</p>
 
-<spring:form method="get" action="/jewelry/list" modelAttribute="jewelryList">
-    <div style="overflow-x:auto;">
-
-    </div>
-    <br/>
+<spring:form method="post" action="/jewelry/save" modelAttribute="jewelry">
+    <ul class="all-component-style">
+        <li>
+            <label>Name <span class="required">*</span></label>
+            <input type="text" name="name" path="name" class="field-long"/>
+        </li>
+        <li>
+            <label>Price <span class="required">*</span></label>
+            <input type="text" name="price" path="price" class="field-long"/>
+        </li>
+        <li>
+            <label>Description</label>
+            <textarea name="description" id="description" path="description"
+                      class="field-long field-textarea"></textarea>
+        </li>
+        <li>
+            <label>Image URL <span class="required">*</span></label>
+            <input type="text" name="imageUrl" path="imageUrl" class="field-long"/>
+        </li>
+        <li>
+            <input type="submit" value="Сохранить"/>
+            <input type="button" value="Закрыть"/>
+        </li>
+    </ul>
 </spring:form>
 
 </body>
