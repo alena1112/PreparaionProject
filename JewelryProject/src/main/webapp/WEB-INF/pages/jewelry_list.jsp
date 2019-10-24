@@ -38,7 +38,7 @@
 <p>Список всех украшений</p>
 
 <spring:form method="get" action="/jewelry/list" modelAttribute="jewelryList">
-    <input type="button" value="Создать" onclick="location.href='create'"/>
+    <input type="button" value="Создать" onclick="location.href='edit'"/>
     <div style="overflow-x:auto;">
         <table>
             <tr>
@@ -47,6 +47,7 @@
                 <th>Name</th>
                 <th>Price</th>
                 <th>Description</th>
+                <th>Type</th>
                 <th>Image URL</th>
             </tr>
             <c:forEach items="${jewelryList}" var="item" varStatus="status">
@@ -55,10 +56,11 @@
                         <img src="${pageContext.request.contextPath}/resources/w3images/delete_button.png" style="width:100%"
                             onclick="location.href='delete?id=${item.id}'"/>
                     </td>
-                    <td><a href="item?id=${item.id}">${item.id}</a></td>
+                    <td><a href="edit?id=${item.id}">${item.id}</a></td>
                     <td>${item.name}</td>
                     <td>${item.price}</td>
                     <td>${item.description}</td>
+                    <td>${item.type.name}</td>
                     <td>${item.imageUrl}</td>
                 </tr>
             </c:forEach>

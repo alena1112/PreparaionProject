@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public interface Dao<T extends IdentifiableEntity> {
-    Optional<T> get(long id);
+public interface Dao<T extends IdentifiableEntity, ID> {
+    Optional<T> get(ID id);
 
     List<T> getAll();
 
     void save(T t);
 
-    void update(T t, Map<String, Object> params);
+    void update(T t);
 
-    void delete(T t);
+    void delete(ID id);
 }

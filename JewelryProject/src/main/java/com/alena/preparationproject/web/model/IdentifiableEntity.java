@@ -1,9 +1,10 @@
 package com.alena.preparationproject.web.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @MappedSuperclass
-public class IdentifiableEntity {
+public class IdentifiableEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

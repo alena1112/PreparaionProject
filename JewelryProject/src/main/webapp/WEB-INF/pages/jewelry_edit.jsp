@@ -105,26 +105,32 @@
 <body>
 
 <h2>Administration page</h2>
-<p>Создание украшения</p>
+<p>Редактирование украшения</p>
 
-<spring:form method="post" action="/jewelry/save" modelAttribute="jewelry">
+<spring:form method="post" action="/jewelry/save?id=${jewelryItem.id}" modelAttribute="jewelryItem">
     <ul class="all-component-style">
         <li>
             <label>Name <span class="required">*</span></label>
-            <input type="text" name="name" path="name" class="field-long"/>
+            <input type="text" name="name" path="name" class="field-long" value="${jewelryItem.name}"/>
         </li>
         <li>
             <label>Price <span class="required">*</span></label>
-            <input type="text" name="price" path="price" class="field-long"/>
+            <input type="text" name="price" path="price" class="field-long" value="${jewelryItem.price}"/>
         </li>
         <li>
             <label>Description</label>
             <textarea name="description" id="description" path="description"
-                      class="field-long field-textarea"></textarea>
+                      class="field-long field-textarea">${jewelryItem.description}</textarea>
+        </li>
+        <li>
+            <label>Type <span class="required">*</span></label>
+            <spring:select path="type" class="field-long">
+                <spring:options items="${jewelryTypes}" itemLabel="name"/>
+            </spring:select>
         </li>
         <li>
             <label>Image URL <span class="required">*</span></label>
-            <input type="text" name="imageUrl" path="imageUrl" class="field-long"/>
+            <input type="text" name="imageUrl" path="imageUrl" class="field-long" value="${jewelryItem.imageUrl}"/>
         </li>
         <li>
             <input type="submit" value="Сохранить"/>

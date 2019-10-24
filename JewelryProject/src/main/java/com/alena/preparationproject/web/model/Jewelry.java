@@ -1,8 +1,11 @@
 package com.alena.preparationproject.web.model;
 
+import com.alena.preparationproject.web.FormatHelper;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 @NoArgsConstructor
@@ -17,6 +20,10 @@ public class Jewelry extends IdentifiableEntity {
 
     @Column(name = "description")
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private JewelryType type;
 
     @Column(name = "imageUrl")
     private String imageUrl;
@@ -51,6 +58,14 @@ public class Jewelry extends IdentifiableEntity {
         this.description = description;
     }
 
+    public JewelryType getType() {
+        return type;
+    }
+
+    public void setType(JewelryType type) {
+        this.type = type;
+    }
+
     public List<Material> getMaterials() {
         return materials;
     }
@@ -65,5 +80,9 @@ public class Jewelry extends IdentifiableEntity {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getFormatPrice() {
+        return FormatHelper.getPriceFormat(price, FormatHelper.Currency.RUB);
     }
 }
