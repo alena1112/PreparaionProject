@@ -27,6 +27,14 @@
     a.jewelry-item-class:hover { /*подчеркивание текста при наведении мышки*/
         text-decoration: underline;
     }
+
+    .w3-input {
+    	padding: 2px;
+    	display: block;
+    	border: none;
+    	border-bottom: 1px solid #ccc;
+    	width: 100%
+    }
 </style>
 <body>
 
@@ -86,7 +94,7 @@
 
         <div class="w3-col s6 w">
 
-            <div class="w3-container w3-justify w3-light-grey w3-mapping-bottom">
+            <div class="w3-container w3-justify w3-light-grey">
                 <h5>Способ доставки</h5>
 
                 <p>
@@ -94,26 +102,30 @@
                     <label>Почта России</label>
                 </p>
 
-                <p>
-                    <label style="font-size:12px">Город</label>
-                    <input class="w3-input w3-light-grey" type="text">
-                </p>
-                <p>
-                    <label style="font-size:12px">Адрес</label>
-                    <input class="w3-input w3-light-grey" type="text">
-                </p>
-                <p>
-                    <label style="font-size:12px">Индекс</label>
-                    <input class="w3-input w3-light-grey" type="text">
-                </p>
+                <div class="">
+                    <p>
+                        <label style="font-size:12px">Город</label>
+                        <input class="w3-input w3-light-grey" type="text" >
+                    </p>
+                    <p>
+                        <label style="font-size:12px">Адрес</label>
+                        <input class="w3-input w3-light-grey" type="text">
+                    </p>
+                    <p>
+                        <label style="font-size:12px">Индекс</label>
+                        <input class="w3-input w3-light-grey" type="text">
+                    </p>
+                </div>
+            </div>
 
+            <div class="w3-container w3-justify w3-light-grey">
                 <p>
                     <input class="w3-radio" type="radio" name="delivery" value="female">
                     <label>Самовывоз по г. Москва</label>
                 </p>
             </div>
 
-            <div class="w3-container w3-justify w3-light-grey">
+            <div class="w3-container w3-justify">
                 <h5>Способ оплаты</h5>
                 <p>
                     <input class="w3-radio" type="radio" name="payment" value="male" checked>
