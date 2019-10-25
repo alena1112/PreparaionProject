@@ -68,76 +68,74 @@
 
         <h4>Оформление заказа</h4>
 
-        <div class="w3-col s6 w">
 
-            <h5>Контактная информация</h5>
-
-            <form action="/action_page.php" target="_blank" class="w3-justify">
+        <div class="w3-row-padding w3-padding-16 w3-center">
+            <div class="w3-half w3-justify">
+                <h5>Контактная информация</h5>
                 <p>
-                    <label style="font-size:12px">Имя</label>
+                    <label style="font-size:12px">Имя <span class="required">*</span></label>
                     <input class="w3-input" type="text">
                 </p>
                 <p>
-                    <label style="font-size:12px">Фамилия</label>
+                    <label style="font-size:12px">Фамилия <span class="required">*</span></label>
                     <input class="w3-input" type="text">
                 </p>
                 <p>
-                    <label style="font-size:12px">Телефон</label>
+                    <label style="font-size:12px">Телефон <span class="required">*</span></label>
                     <input class="w3-input" type="text">
                 </p>
                 <p>
-                    <label style="font-size:12px">Электонная почта</label>
+                    <label style="font-size:12px">Электонная почта <span class="required">*</span></label>
                     <input class="w3-input" type="text">
                 </p>
-            </form>
-        </div>
+            </div>
 
-        <div class="w3-col s6 w">
-
-            <div class="w3-container w3-justify w3-light-grey">
+            <div class="w3-half w3-justify">
                 <h5>Способ доставки</h5>
+                <div class="w3-container w3-justify w3-light-grey" style="margin-bottom: 10px">
 
-                <p>
-                    <input class="w3-radio" type="radio" name="delivery" value="male" checked>
-                    <label>Почта России</label>
-                </p>
+                    <p>
+                        <input class="w3-radio" type="radio" name="delivery" value="male" checked>
+                        <label>Почта России</label>
+                    </p>
 
-                <div class="">
+                    <div style="margin-left: 10%">
+                        <p>
+                            <label style="font-size:12px">Город <span class="required">*</span></label>
+                            <input class="w3-input w3-light-grey" type="text" >
+                        </p>
+                        <p>
+                            <label style="font-size:12px">Адрес <span class="required">*</span></label>
+                            <input class="w3-input w3-light-grey" type="text">
+                        </p>
+                        <p>
+                            <label style="font-size:12px">Индекс <span class="required">*</span></label>
+                            <input class="w3-input w3-light-grey" type="text">
+                        </p>
+                    </div>
+                </div>
+
+                <div class="w3-container w3-justify w3-light-grey">
                     <p>
-                        <label style="font-size:12px">Город</label>
-                        <input class="w3-input w3-light-grey" type="text" >
+                        <input class="w3-radio" type="radio" name="delivery" value="female">
+                        <label>Самовывоз по г. Москва</label>
                     </p>
+                </div>
+
+                <h5>Способ оплаты</h5>
+
+                <div class="w3-container w3-justify">
                     <p>
-                        <label style="font-size:12px">Адрес</label>
-                        <input class="w3-input w3-light-grey" type="text">
+                        <input class="w3-radio" type="radio" name="payment" value="male" checked>
+                        <label>Перевод на карту банка</label>
                     </p>
+
                     <p>
-                        <label style="font-size:12px">Индекс</label>
-                        <input class="w3-input w3-light-grey" type="text">
+                        <input class="w3-radio" type="radio" name="payment" value="female">
+                        <label>Наличными при получении</label>
                     </p>
                 </div>
             </div>
-
-            <div class="w3-container w3-justify w3-light-grey">
-                <p>
-                    <input class="w3-radio" type="radio" name="delivery" value="female">
-                    <label>Самовывоз по г. Москва</label>
-                </p>
-            </div>
-
-            <div class="w3-container w3-justify">
-                <h5>Способ оплаты</h5>
-                <p>
-                    <input class="w3-radio" type="radio" name="payment" value="male" checked>
-                    <label>Перевод на карту банка</label>
-                </p>
-
-                <p>
-                    <input class="w3-radio" type="radio" name="payment" value="female">
-                    <label>Наличными при получении</label>
-                </p>
-            </div>
-
         </div>
     </div>
 
