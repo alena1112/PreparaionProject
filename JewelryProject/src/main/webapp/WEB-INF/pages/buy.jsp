@@ -6,15 +6,23 @@
 <title>Украшения ручной работы - купить дизайнерские украшения в интернет-магазине Graceful Jewelry</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     body, h1, h2, h3, h4, h5, h6 {
-        font-family: "Karma", sans-serif
+        font-family: 'Roboto', sans-serif;
     }
 
     .w3-bar-block .w3-bar-item {
         padding: 20px
+    }
+
+    input, button:active, button:focus {
+        outline:none;
+    }
+
+    button:hover {
+        background-color: white;
     }
 
     a.jewelry-item-class { /*для создания кликабельного украшения*/
@@ -41,8 +49,6 @@
 <!-- Top menu -->
 <div class="w3-top w3-border-bottom">
     <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-        <%--<div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">Menu</div>--%>
-        <%--<div class="w3-button w3-padding-16 w3-right">Mail</div>--%>
         <div class="w3-center w3-padding-16" style="font-size:30px;font-weight: 600;letter-spacing:1px">Graceful
             Jewelry
         </div>
@@ -67,6 +73,65 @@
     <div class="w3-row-padding w3-center">
 
         <h4>Оформление заказа</h4>
+
+        <div class="w3-container">
+          <table class="w3-table w3-bordered">
+            <tr>
+              <td>
+                  <div class="w3-cell">
+                    <img src="${pageContext.request.contextPath}/resources/w3images/1.jpg" alt="jewelry"
+                                        style="width="90" height="90"" class="w3-margin-right">
+                  </div>
+                  <div class="w3-cell w3-cell-middle">
+                    <a href="#" class="jewelry-item-class"><p style="margin:0;font-weight:600">
+                        Graceful shells</p></a>
+                    <p style="margin:0;font-size:12px">Яркие ассиметричные серьги с кристальным жемчугом Swarovski</p>
+                  </div>
+              </td>
+              <td style="text-align:right;font-size:18px;width:80px">
+                  <p>1 300 ₽</p>
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+            </td>
+            </tr>
+            <tr>
+              <td>
+                    <div class="w3-cell">
+                      <img src="${pageContext.request.contextPath}/resources/w3images/2.jpg" alt="jewelry"
+                                          style="width="90" height="90"" class="w3-margin-right">
+                    </div>
+                    <div class="w3-cell w3-cell-middle">
+                        <a href="#" class="jewelry-item-class"><p style="margin:0;font-weight:600">
+                            Graceful shells</p></a>
+                        <p style="margin:0;font-size:12px">Яркие ассиметричные серьги с кристальным жемчугом Swarovski</p>
+                      </div>
+                </td>
+              <td style="text-align:right;font-size:18px;width:80px">
+                <p>1 300 ₽</p>
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </td>
+            </tr>
+          </table>
+
+          <div class="w3-cell-row">
+            <div class="w3-cell w3-mobile w3-cell-middle" style="text-align:left;width:33%">
+                <p style="margin:8px 0">Промокод</p>
+                <div class="w3-row">
+                  <input class="w3-input w3-col s7" style="padding:4px 0" type="text">
+                  <button class="w3-btn w3-col s5 w3-white w3-border w3-round-large"
+                      style="border-color:#ff7180!important;padding:4px 0"><span style="color:#ff7180">Применить</span></button>
+                </div>
+              </div>
+              <div class="w3-cell w3-mobile w3-cell-middle" style="margin:8px 0;width:33%">
+                <button class="w3-btn w3-round-large w3-black">Оформить заказ</button>
+              </div>
+              <div class="w3-cell w3-mobile w3-cell-middle" style="text-align:right;width:33%">
+                <p class="w3-text-grey" style="font-size:14px;margin:8px 0">Скидка: 100 ₽</p>
+                <p class="w3-text-grey" style="font-size:14px;margin:8px 0">Доставка: 300 ₽</p>
+                <p style="font-weight:600;font-size:18px;margin:8px 0">ИТОГО: <span
+                    style="text-decoration:line-through">2 900 ₽</span><span style="color:#ff7180"> 2 800 ₽</span></p>
+              </div>
+          </div>
+        </div>
 
 
         <div class="w3-row-padding w3-padding-16 w3-center">
@@ -99,7 +164,7 @@
                         <label>Почта России</label>
                     </p>
 
-                    <div style="margin-left: 10%">
+                    <div style="margin-left: 10%; margin-right: 10%">
                         <p>
                             <label style="font-size:12px">Город <span class="required">*</span></label>
                             <input class="w3-input w3-light-grey" type="text" >

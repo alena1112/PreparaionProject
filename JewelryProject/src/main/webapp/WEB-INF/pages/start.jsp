@@ -6,11 +6,11 @@
 <title>Украшения ручной работы - купить дизайнерские украшения в интернет-магазине Graceful Jewelry</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     body, h1, h2, h3, h4, h5, h6 {
-        font-family: "Karma", sans-serif
+        font-family: 'Roboto', sans-serif;
     }
 
     .w3-bar-block .w3-bar-item {
@@ -45,7 +45,7 @@
     <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
         <%--<div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">Menu</div>--%>
         <%--<div class="w3-button w3-padding-16 w3-right">Mail</div>--%>
-        <div class="w3-center w3-padding-16" style="font-size:30px;font-weight: 600;letter-spacing:1px">Graceful Jewelry</div>
+        <div class="w3-center w3-padding-16" style="font-size:30px;font-weight:600;letter-spacing:1px">Graceful Jewelry</div>
     </div>
     <div class="w3-bar w3-white" style="max-width:1200px;margin:auto">
         <a href="/start?menu=new" class="w3-bar-item w3-button w3-mobile" style="font-size:11px;letter-spacing:1px;width:20%">НОВИНКИ</a>
