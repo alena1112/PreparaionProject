@@ -1,11 +1,10 @@
 package com.alena.preparationproject.web.model;
 
 import com.alena.preparationproject.web.FormatHelper;
+import com.alena.preparationproject.web.model.enums.JewelryType;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 @NoArgsConstructor

@@ -8,6 +8,8 @@
         <class>com.alena.preparationproject.web.model.Shop</class>
         <class>com.alena.preparationproject.web.model.Material</class>
         <class>com.alena.preparationproject.web.model.Jewelry</class>
+        <class>com.alena.preparationproject.web.model.PromotionalCode</class>
+        <class>com.alena.preparationproject.web.model.Order</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 <!--        <properties>-->

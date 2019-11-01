@@ -47,12 +47,17 @@
         <%--<div class="w3-button w3-padding-16 w3-right">Mail</div>--%>
         <div class="w3-center w3-padding-16" style="font-size:30px;font-weight:600;letter-spacing:1px">Graceful Jewelry</div>
     </div>
-    <div class="w3-bar w3-white" style="max-width:1200px;margin:auto">
-        <a href="/start?menu=new" class="w3-bar-item w3-button w3-mobile" style="font-size:11px;letter-spacing:1px;width:20%">НОВИНКИ</a>
-        <a href="/start?menu=all" class="w3-bar-item w3-button w3-mobile" style="font-size:11px;letter-spacing:1px;width:20%">ВСЕ УКРАШЕНИЯ</a>
-        <a href="/start?menu=bracelet" class="w3-bar-item w3-button w3-mobile" style="font-size:11px;letter-spacing:1px;width:20%">БРАСЛЕТЫ</a>
-        <a href="/start?menu=earrings" class="w3-bar-item w3-button w3-mobile" style="font-size:11px;letter-spacing:1px;width:20%">СЕРЬГИ</a>
-        <a href="/start?menu=necklace" class="w3-bar-item w3-button w3-mobile" style="font-size:11px;letter-spacing:1px;width:20%">КОЛЬЕ</a>
+    <div class="w3-bar w3-white w3-mobile" style="max-width:1200px;margin:auto">
+        <a href="/start?menu=new" class="w3-bar-item w3-button"
+           style="font-size:11px;letter-spacing:1px;width:20%">НОВИНКИ</a>
+        <a href="/start?menu=all" class="w3-bar-item w3-button"
+           style="font-size:11px;letter-spacing:1px;width:20%">ВСЕ УКРАШЕНИЯ</a>
+        <a href="/start?menu=bracelet" class="w3-bar-item w3-button"
+           style="font-size:11px;letter-spacing:1px;width:20%">БРАСЛЕТЫ</a>
+        <a href="/start?menu=earrings" class="w3-bar-item w3-button"
+           style="font-size:11px;letter-spacing:1px;width:20%">СЕРЬГИ</a>
+        <a href="/start?menu=necklace" class="w3-bar-item w3-button"
+           style="font-size:11px;letter-spacing:1px;width:20%">КОЛЬЕ</a>
     </div>
 </div>
 

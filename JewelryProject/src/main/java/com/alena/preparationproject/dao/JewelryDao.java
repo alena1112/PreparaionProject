@@ -1,14 +1,11 @@
 package com.alena.preparationproject.dao;
 
 import com.alena.preparationproject.web.model.Jewelry;
-import com.alena.preparationproject.web.model.JewelryType;
+import com.alena.preparationproject.web.model.enums.JewelryType;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.ReflectionUtils;
 
 import javax.persistence.*;
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 

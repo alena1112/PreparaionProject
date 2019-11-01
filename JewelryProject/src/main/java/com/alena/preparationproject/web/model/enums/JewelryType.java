@@ -1,4 +1,4 @@
-package com.alena.preparationproject.web.model;
+package com.alena.preparationproject.web.model.enums;
 
 import org.apache.commons.lang3.StringUtils;
 

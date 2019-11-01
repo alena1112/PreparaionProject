@@ -1,7 +1,7 @@
 package com.alena.preparationproject.web.controller;
 
 import com.alena.preparationproject.web.model.Jewelry;
-import com.alena.preparationproject.web.model.JewelryType;
+import com.alena.preparationproject.web.model.enums.JewelryType;
 import com.alena.preparationproject.web.service.JewelryService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
