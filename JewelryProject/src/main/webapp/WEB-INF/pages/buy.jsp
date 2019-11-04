@@ -8,6 +8,145 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script>
+    window.onload = function () {
+        var btn  = document.getElementById('createOrderButton');
+        var pickUpRadioBtn  = document.getElementById('pickUpRadioBtn');
+
+        var name = document.getElementById('nameInput');
+        var lastName = document.getElementById('lastNameInput');
+        var phone = document.getElementById('phoneInput');
+        var email = document.getElementById('emailInput');
+        var city = document.getElementById('cityInput');
+        var address = document.getElementById('addressInput');
+        var index = document.getElementById('indexInput');
+
+        var nameError = document.getElementById('nameError');
+        var lastNameError = document.getElementById('lastNameError');
+        var phoneError = document.getElementById('phoneError');
+        var emailError = document.getElementById('emailError');
+        var cityError = document.getElementById('cityError');
+        var addressError = document.getElementById('addressError');
+        var indexError = document.getElementById('indexError');
+
+        name.addEventListener("input", function (event) {
+           if (!name.validity.valueMissing) {
+             nameError.innerHTML = "";
+             nameError.className = "error";
+           }
+        }, false);
+
+        lastName.addEventListener("input", function (event) {
+           if (!lastName.validity.valueMissing) {
+             lastNameError.innerHTML = "";
+             lastNameError.className = "error";
+           }
+        }, false);
+
+        phone.addEventListener("input", function (event) {
+           if (!phone.validity.valueMissing) {
+             phoneError.innerHTML = "";
+             phoneError.className = "error";
+           }
+        }, false);
+
+        email.addEventListener("input", function (event) {
+           if (!email.validity.valueMissing) {
+             emailError.innerHTML = "";
+             emailError.className = "error";
+           }
+        }, false);
+
+        city.addEventListener("input", function (event) {
+           if (!city.validity.valueMissing) {
+             cityError.innerHTML = "";
+             cityError.className = "error";
+           }
+        }, false);
+
+        address.addEventListener("input", function (event) {
+           if (!address.validity.valueMissing) {
+             addressError.innerHTML = "";
+             addressError.className = "error";
+           }
+        }, false);
+
+        index.addEventListener("input", function (event) {
+           if (!index.validity.valueMissing) {
+             indexError.innerHTML = "";
+             indexError.className = "error";
+           }
+        }, false);
+
+        pickUpRadioBtn.addEventListener("click", function (event) {
+             cityError.innerHTML = "";
+             cityError.className = "error";
+
+             addressError.innerHTML = "";
+             addressError.className = "error";
+
+             indexError.innerHTML = "";
+             indexError.className = "error";
+        }, false);
+
+        btn.addEventListener("click", function (event) {
+          if (name.validity.valueMissing) {
+           nameError.innerHTML = "Введите имя";
+           nameError.className = "error active";
+           event.preventDefault();
+           window.location.href="#name";
+         } else if (lastName.validity.valueMissing) {
+           lastNameError.innerHTML = "Введите фамилию";
+           lastNameError.className = "error active";
+           event.preventDefault();
+           window.location.href="#lastName";
+         } else if (phone.validity.valueMissing) {
+          phoneError.innerHTML = "Введите телефон";
+          phoneError.className = "error active";
+          event.preventDefault();
+          window.location.href="#phone";
+        } else if (email.validity.valueMissing) {
+            emailError.innerHTML = "Введите адрес электронной почты";
+            emailError.className = "error active";
+            event.preventDefault();
+            window.location.href="#email";
+        } else if (city.validity.valueMissing) {
+            cityError.innerHTML = "Введите город";
+            cityError.className = "error active";
+            event.preventDefault();
+            window.location.href="#city";
+          } else if (address.validity.valueMissing) {
+             addressError.innerHTML = "Введите адрес";
+             addressError.className = "error active";
+             event.preventDefault();
+             window.location.href="#address";
+           } else if (index.validity.valueMissing) {
+             indexError.innerHTML = "Введите индекс";
+             indexError.className = "error active";
+             event.preventDefault();
+             window.location.href="#index";
+           }
+        }, false);
+
+        var promocodeBtn  = document.getElementById('promocodeBtn');
+        var promocode  = document.getElementById('promocodeInput');
+        var promocodeMsg  = document.getElementById('promocodeMsg');
+
+        promocode.addEventListener("input", function (event) {
+           if (!promocode.validity.valueMissing) {
+             promocodeMsg.innerHTML = "";
+             promocodeMsg.className = "error";
+           }
+        }, false);
+
+        promocodeBtn.addEventListener("click", function (event) {
+            if (promocode.validity.valueMissing) {
+               promocodeMsg.innerHTML = "Введите промокод";
+               promocodeMsg.className = "error active";
+            }
+        }, false);
+    }
+</script>
 <style>
     body, h1, h2, h3, h4, h5, h6 {
         font-family: 'Roboto', sans-serif;
@@ -43,6 +182,23 @@
         border-bottom: 1px solid #ccc;
         width: 100%
     }
+
+    .error {
+      width  : 100%;
+      padding: 0;
+
+      font-size: 80%;
+      color: white;
+      background-color: #ff7180;
+      border-radius: 0 0 5px 5px;
+
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    .error.active {
+      padding: 0.3em;
+    }
 </style>
 <body>
 
@@ -70,7 +226,7 @@
 <!-- !PAGE CONTENT! -->
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:120px">
 
-    <spring:form method="post" action="/buy/createOrder" modelAttribute="order">
+    <spring:form method="post" action="/buy/createOrder" modelAttribute="order" id="createOrderForm" novalidate="true">
         <div class="w3-row-padding w3-center">
 
             <h4>Оформление заказа</h4>
@@ -93,11 +249,10 @@
                             </td>
                             <td style="text-align:right;font-size:18px;width:80px">
                                 <p>${jewelry.formatPrice}</p>
-                                <form action="buy/deleteItem?itemId=${jewelry.id}" method="POST" id="deleteItemForm">
-                                    <button type="submit" style="border: none;background-color: white;cursor: pointer;" form="deleteItemForm">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <button type="button" style="border:none;background-color:white;cursor:pointer;"
+                                        onclick="location.href='buy/deleteItem?itemId=${jewelry.id}'">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-                                </form>
                             </td>
                         </tr>
                     </c:forEach>
@@ -107,18 +262,19 @@
                     <div class="w3-cell w3-mobile w3-cell-middle" style="text-align:left;width:33%">
                         <p style="margin:8px 0">Промокод</p>
                         <div class="w3-cell-row">
-                            <input class="w3-input w3-cell w3-half" style="padding:4px 0; width: 50%; min-width:50px"
-                                   type="text">
-                            <form action="buy/checkPromoCode?code=" method="POST" id="checkPromoCodeForm">
-                                <button class="w3-btn w3-cell w3-half w3-white w3-border w3-round-large"
-                                        form="checkPromoCodeForm" type="submit"
-                                        style="border-color:#ff7180!important;padding:4px 0; width: 50%;"><span
-                                        style="color:#ff7180">Применить</span></button>
-                            </form>
+                            <spring:input class="w3-input w3-cell w3-half" style="padding:4px 0; width: 50%; min-width:50px"
+                                   type="text" path="promocode.code" id="promocodeInput" required="required"/>
+                            <span id="promocodeMsg" class="error" aria-live="polite"></span>
+                            <button type="button" onclick="checkPromocode()" id="promocodeBtn"
+                                class="w3-btn w3-cell w3-half w3-white w3-border w3-round-large"
+                                style="border-color:#ff7180!important;padding:4px 0; width: 50%;">
+                                    <span style="color:#ff7180">Применить</span>
+                            </button>
                         </div>
                     </div>
                     <div class="w3-cell w3-mobile w3-cell-middle" style="margin:8px 0;width:33%">
-                        <button type="submit" class="w3-btn w3-round-large w3-black">Оформить заказ</button>
+                        <button type="submit" class="w3-btn w3-round-large w3-black"
+                            form="createOrderForm" id="createOrderButton">Оформить заказ</button>
                     </div>
                     <div class="w3-cell w3-mobile w3-cell-middle" style="text-align:right;width:33%">
                         <p class="w3-text-grey" style="font-size:14px;margin:8px 0">Скидка: 100 ₽</p>
@@ -134,25 +290,33 @@
             <div class="w3-row-padding w3-padding-16 w3-center">
                 <div class="w3-half w3-justify">
                     <h5>Контактная информация</h5>
+                    <hr style="border:none;margin:0" id="name">
                     <p>
                         <label style="font-size:12px">Имя <span class="required">*</span></label>
                         <spring:input class="w3-input" value="${order.userData.firstName}"
-                                      path="userData.firstName"/>
+                                      path="userData.firstName" id="nameInput" required="required"/>
+                        <span id="nameError" class="error" aria-live="polite"></span>
                     </p>
+                    <hr style="border:none;margin:0" id="lastName">
                     <p>
                         <label style="font-size:12px">Фамилия <span class="required">*</span></label>
                         <spring:input class="w3-input" value="${order.userData.lastName}"
-                                      path="userData.lastName"/>
+                                      path="userData.lastName" id="lastNameInput" required="required"/>
+                        <span id="lastNameError" class="error" aria-live="polite"></span>
                     </p>
+                    <hr style="border:none;margin:0" id="phone">
                     <p>
                         <label style="font-size:12px">Телефон <span class="required">*</span></label>
                         <spring:input class="w3-input" value="${order.userData.phone}"
-                                      path="userData.phone"/>
+                                      path="userData.phone" id="phoneInput" required="required"/>
+                        <span id="phoneError" class="error" aria-live="polite"></span>
                     </p>
+                    <hr style="border:none;margin:0" id="email">
                     <p>
                         <label style="font-size:12px">Электонная почта <span class="required">*</span></label>
                         <spring:input class="w3-input" value="${order.userData.email}"
-                                      path="userData.email"/>
+                                      path="userData.email" id="emailInput" required="required"/>
+                        <span id="emailError" class="error" aria-live="polite"></span>
                     </p>
                 </div>
 
@@ -169,31 +333,37 @@
                         </p>
 
                         <div style="margin-left: 10%; margin-right: 10%">
+                            <hr style="border:none;margin:0" id="city">
                             <p>
                                 <label id="cityLabel"
                                        style="font-size:12px;color: ${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'gray' : 'black' }">Город
                                     <span class="required">*</span></label>
                                 <spring:input class="w3-input w3-light-grey" value="${order.userData.city}"
-                                              path="userData.city" id="cityInput"
+                                              path="userData.city" id="cityInput" required="required"
                                               disabled="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'true' : 'false'}"/>
+                                <span id="cityError" class="error" aria-live="polite"></span>
                             </p>
+                            <hr style="border:none;margin:0" id="address">
                             <p>
                                 <label id="addressLabel"
                                        style="font-size:12px;color: ${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'gray' : 'black' }">Адрес
                                     <span
                                             class="required">*</span></label>
                                 <spring:input class="w3-input w3-light-grey" value="${order.userData.address}"
-                                              path="userData.address" id="addressInput"
+                                              path="userData.address" id="addressInput" required="required"
                                               disabled="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'true' : 'false'}"/>
+                                <span id="addressError" class="error" aria-live="polite"></span>
                             </p>
+                            <hr style="border:none;margin:0" id="index">
                             <p>
                                 <label id="indexLabel"
                                        style="font-size:12px;color: ${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'gray' : 'black' }">Индекс
                                     <span
                                             class="required">*</span></label>
                                 <spring:input class="w3-input w3-light-grey" value="${order.userData.postIndex}"
-                                              path="userData.postIndex" id="indexInput"
+                                              path="userData.postIndex" id="indexInput" required="required"
                                               disabled="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'true' : 'false'}"/>
+                                <span id="indexError" class="error" aria-live="polite"></span>
                             </p>
                         </div>
                     </div>
@@ -201,6 +371,7 @@
                     <div class="w3-container w3-justify w3-light-grey">
                         <p>
                             <spring:radiobutton class="w3-radio" path="deliveryType" value="PICKUP"
+                                                id="pickUpRadioBtn"
                                                 checked="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'checked' : '' }"
                                                 onclick="changePaymentTypeBtn()"/>
                             <label>Самовывоз по г. Москва</label>
@@ -273,6 +444,19 @@
         document.getElementById("cityInput").disabled = !checked;
         document.getElementById("addressInput").disabled = !checked;
         document.getElementById("indexInput").disabled = !checked;
+    }
+
+    function checkPromocode() {
+        var message;
+        var code = document.getElementById('promocodeInput').value;
+        if (code != "") {
+            window.location.href="buy/checkPromoCode?code=" + code;
+            message = "Промокод успешно применен";
+        }
+        else {
+            message = "Промокод недействителен";
+        }
+        document.getElementById("promocodeInput").innerHTML = message;
     }
 </script>
 

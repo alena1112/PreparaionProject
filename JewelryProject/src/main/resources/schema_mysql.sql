@@ -44,7 +44,7 @@ create table preparation_project.promotional_code (
   PRIMARY KEY (id)
 );
 
-create table preparation_project.order (
+create table preparation_project.user_order (
   id int not null AUTO_INCREMENT,
   promocode_id int,
   delivery_type varchar(20) not null,

@@ -9,7 +9,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Entity
-@Table(name = "order")
+@Table(name = "user_order")
 public class Order extends IdentifiableEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
