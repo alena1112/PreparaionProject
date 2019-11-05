@@ -1,5 +1,6 @@
 package com.alena.preparationproject.web.model;
 
+import com.alena.preparationproject.web.FormatHelper;
 import com.alena.preparationproject.web.model.enums.DeliveryType;
 import com.alena.preparationproject.web.model.enums.PaymentType;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,18 @@ public class Order extends IdentifiableEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_type")
     private PaymentType paymentType;
+
+    @Column(name = "delivery_cost")
+    private Double deliveryCost;
+
+    @Column(name = "discount")
+    private Double discount;
+
+    @Column(name = "total_cost")
+    private Double totalCost;
+
+    @Transient
+    private String promocodeMessage;
 
     @Embedded
     private UserData userData;
@@ -71,5 +84,49 @@ public class Order extends IdentifiableEntity {
 
     public void setUserData(UserData userData) {
         this.userData = userData;
+    }
+
+    public Double getDeliveryCost() {
+        return deliveryCost;
+    }
+
+    public void setDeliveryCost(Double deliveryCost) {
+        this.deliveryCost = deliveryCost;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public Double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(Double totalCost) {
+        this.totalCost = totalCost;
+    }
+
+    public String getFormatDeliveryCost() {
+        return FormatHelper.getPriceFormat(deliveryCost, FormatHelper.Currency.RUB);
+    }
+
+    public String getFormatDiscount() {
+        return FormatHelper.getPriceFormat(discount, FormatHelper.Currency.RUB);
+    }
+
+    public String getFormatTotalCost() {
+        return FormatHelper.getPriceFormat(totalCost, FormatHelper.Currency.RUB);
+    }
+
+    public String getPromocodeMessage() {
+        return promocodeMessage;
+    }
+
+    public void setPromocodeMessage(String promocodeMessage) {
+        this.promocodeMessage = promocodeMessage;
     }
 }

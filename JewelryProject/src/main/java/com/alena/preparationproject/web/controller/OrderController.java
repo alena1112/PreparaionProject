@@ -48,6 +48,14 @@ public class OrderController {
                 .findFirst()
                 .ifPresent(foundJewelry -> order.getJewelries().remove(foundJewelry));
 
+        double allJewelriesPrice = orderService.getAllJewelriesPrice(order.getJewelries());
+        order.setDiscount(orderService.getDiscount(allJewelriesPrice, order.getPromocode()));
+        order.setTotalCost(orderService.getTotalPrice(
+                allJewelriesPrice,
+                order.getDiscount(),
+                order.getDeliveryCost())
+        );
+
         ModelAndView modelAndView = new ModelAndView("redirect:/buy");
         modelAndView.addObject("order", order);
         return modelAndView;
@@ -56,12 +64,29 @@ public class OrderController {
     @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET)
     public ModelAndView checkPromoCode(@ModelAttribute("order") Order order,
                                        @RequestParam("code") String code) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/buy");
+        ModelAndView modelAndView = new ModelAndView("redirect:/buy#promocode");
         modelAndView.addObject("order", order);
-        if (orderService.isValidPromoCode(code)) {
 
+        PromotionalCode promotionalCode = orderService.getPromotionalCode(code);
+        if (promotionalCode != null && orderService.isValidPromoCode(promotionalCode)) {
+            order.setPromocode(promotionalCode);
+            double allJewelriesPrice = orderService.getAllJewelriesPrice(order.getJewelries());
+            order.setDiscount(orderService.getDiscount(allJewelriesPrice, promotionalCode));
+            order.setTotalCost(orderService.getTotalPrice(
+                    allJewelriesPrice,
+                    order.getDiscount(),
+                    order.getDeliveryCost())
+            );
+            order.setPromocodeMessage("Промокод успешно применен!");
         } else {
-
+            order.setPromocode(null);
+            order.setDiscount(0.0);
+            order.setTotalCost(orderService.getTotalPrice(
+                    orderService.getAllJewelriesPrice(order.getJewelries()),
+                    order.getDiscount(),
+                    order.getDeliveryCost())
+            );
+            order.setPromocodeMessage("Промокод не был найдет или не активен");
         }
         return modelAndView;
     }
@@ -72,10 +97,12 @@ public class OrderController {
         order.setUserData(new UserData());
         order.setDeliveryType(DeliveryType.RUSSIA_POST_OFFICE);
         order.setPaymentType(PaymentType.TRANSFER_TO_BANK_CARD);
-        order.setPromocode(new PromotionalCode());
         //TODO убрать!!!
         List<Jewelry> jewelries = jewelryService.getJewelries(JewelryType.BRACELET);
         order.setJewelries(jewelries);
+
+        order.setDeliveryCost(orderService.getDeliveryPrice(order.getDeliveryType()));
+        order.setTotalCost(orderService.getTotalPrice(orderService.getAllJewelriesPrice(order.getJewelries()), 0, order.getDeliveryCost()));
 
         return order;
     }

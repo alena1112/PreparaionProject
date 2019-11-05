@@ -13,9 +13,10 @@ public class FormatHelper {
     public enum Currency {RUB, USD}
 
     public static String getPriceFormat(Double price, Currency currency) {
+        price = price == null ? 0 : price;
         StringBuilder sb = new StringBuilder();
-        sb.append(price != null ? formatter.format(price) : "");
-        sb.append(price != null && currency == Currency.RUB ? " \u20BD" : "");
+        sb.append(formatter.format(price));
+        sb.append(currency == Currency.RUB ? " \u20BD" : "");
         return sb.toString();
     }
 }

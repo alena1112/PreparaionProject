@@ -25,7 +25,9 @@ public class PromocodeDao implements Dao<PromotionalCode, Long> {
         TypedQuery<PromotionalCode> query = entityManager.createQuery("SELECT c FROM PromotionalCode c " +
                         "where c.code = :code", PromotionalCode.class);
         query.setParameter("code", code);
-        return query.getSingleResult();
+        return query.getResultStream()
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
