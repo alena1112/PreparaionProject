@@ -4,6 +4,7 @@ import com.alena.preparationproject.web.FormatHelper;
 import com.alena.preparationproject.web.model.enums.DeliveryType;
 import com.alena.preparationproject.web.model.enums.PaymentType;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 
 import javax.persistence.*;
 import java.util.List;
@@ -110,6 +111,14 @@ public class Order extends IdentifiableEntity {
         this.totalCost = totalCost;
     }
 
+    public String getPromocodeMessage() {
+        return promocodeMessage;
+    }
+
+    public void setPromocodeMessage(String promocodeMessage) {
+        this.promocodeMessage = promocodeMessage;
+    }
+
     public String getFormatDeliveryCost() {
         return FormatHelper.getPriceFormat(deliveryCost, FormatHelper.Currency.RUB);
     }
@@ -122,11 +131,12 @@ public class Order extends IdentifiableEntity {
         return FormatHelper.getPriceFormat(totalCost, FormatHelper.Currency.RUB);
     }
 
-    public String getPromocodeMessage() {
-        return promocodeMessage;
-    }
-
-    public void setPromocodeMessage(String promocodeMessage) {
-        this.promocodeMessage = promocodeMessage;
+    public String getFormatCostWithoutDiscount() {
+        if (discount == null || Math.round(discount) == 0) {
+            return "";
+        }
+        return FormatHelper.getPriceFormat(
+                ObjectUtils.defaultIfNull(totalCost, 0.0) + discount,
+                FormatHelper.Currency.RUB);
     }
 }

@@ -91,6 +91,23 @@ public class OrderController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/checkDelivery", method = RequestMethod.GET)
+    public ModelAndView checkDelivery(@ModelAttribute("order") Order order,
+                                      @RequestParam("type") String type) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/buy#delivery");
+        modelAndView.addObject("order", order);
+
+        DeliveryType deliveryType = DeliveryType.fromId(type);
+        order.setDeliveryType(deliveryType);
+        order.setDeliveryCost(orderService.getDeliveryPrice(deliveryType));
+        order.setTotalCost(orderService.getTotalPrice(
+                orderService.getAllJewelriesPrice(order.getJewelries()),
+                order.getDiscount(),
+                order.getDeliveryCost())
+        );
+        return modelAndView;
+    }
+
     @ModelAttribute("order")
     public Order createOrder() {
         Order order = new Order();
@@ -102,7 +119,10 @@ public class OrderController {
         order.setJewelries(jewelries);
 
         order.setDeliveryCost(orderService.getDeliveryPrice(order.getDeliveryType()));
-        order.setTotalCost(orderService.getTotalPrice(orderService.getAllJewelriesPrice(order.getJewelries()), 0, order.getDeliveryCost()));
+        order.setTotalCost(orderService.getTotalPrice(
+                orderService.getAllJewelriesPrice(order.getJewelries()),
+                0.0,
+                order.getDeliveryCost()));
 
         return order;
     }

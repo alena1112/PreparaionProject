@@ -2,8 +2,10 @@ package com.alena.preparationproject.hibernate;
 
 import com.alena.preparationproject.web.model.Jewelry;
 import com.alena.preparationproject.web.model.Material;
+import com.alena.preparationproject.web.model.PromotionalCode;
 import com.alena.preparationproject.web.model.Shop;
 import com.alena.preparationproject.web.model.enums.JewelryType;
+import com.alena.preparationproject.web.model.enums.PromoCodeType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -14,12 +16,20 @@ import java.util.List;
 public class UpdateJewelriesInDB {
 
     public static void main(String[] args) {
+//        updateJewelries();
+        createPromocode();
+    }
 
+    private static Session getSession() {
         final SessionFactory sf = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .buildSessionFactory();
 
-        final Session session = sf.openSession();
+        return sf.openSession();
+    }
+
+    private static void updateJewelries() {
+        Session session = getSession();
 
         Transaction transaction = session.beginTransaction();
 
@@ -112,6 +122,22 @@ public class UpdateJewelriesInDB {
         transaction.commit();
 
         session.close();
+    }
 
+    private static void createPromocode() {
+        Session session = getSession();
+        Transaction transaction = session.beginTransaction();
+
+        PromotionalCode promocode = new PromotionalCode();
+        promocode.setCode("test");
+        promocode.setActive(true);
+        promocode.setPromoCodeType(PromoCodeType.PERCENT);
+        promocode.setValue(20.0);
+
+        session.save(promocode);
+
+        transaction.commit();
+
+        session.close();
     }
 }

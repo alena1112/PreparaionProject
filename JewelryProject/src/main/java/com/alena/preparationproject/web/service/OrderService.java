@@ -5,6 +5,7 @@ import com.alena.preparationproject.web.model.Jewelry;
 import com.alena.preparationproject.web.model.Order;
 import com.alena.preparationproject.web.model.PromotionalCode;
 import com.alena.preparationproject.web.model.enums.DeliveryType;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,10 @@ public class OrderService {
         return true;
     }
 
-    public double getTotalPrice(double allJewelriesPrice, double discount, double delivery) {
-        return allJewelriesPrice - discount + delivery;
+    public double getTotalPrice(Double allJewelriesPrice, Double discount, Double delivery) {
+        return ObjectUtils.defaultIfNull(allJewelriesPrice, 0.0) -
+                ObjectUtils.defaultIfNull(discount, 0.0) +
+                ObjectUtils.defaultIfNull(delivery, 0.0);
     }
 
     public double getAllJewelriesPrice(List<Jewelry> jewelries) {

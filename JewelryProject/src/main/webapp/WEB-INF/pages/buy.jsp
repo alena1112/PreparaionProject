@@ -296,7 +296,9 @@
                         <p class="w3-text-grey" style="font-size:14px;margin:8px 0">Скидка: ${order.formatDiscount}</p>
                         <p class="w3-text-grey" style="font-size:14px;margin:8px 0">Доставка: ${order.formatDeliveryCost}</p>
                         <p style="font-weight:600;font-size:18px;margin:8px 0">ИТОГО:
-                            <span style="text-decoration:line-through">2 900 ₽</span>
+                            <span style="text-decoration:line-through">
+                                ${order.formatCostWithoutDiscount}
+                            </span>
                             <span style="color:#ff7180"> ${order.formatTotalCost}</span>
                         </p>
                     </div>
@@ -454,6 +456,7 @@
         document.getElementById("cityInput").disabled = !checked;
         document.getElementById("addressInput").disabled = !checked;
         document.getElementById("indexInput").disabled = !checked;
+        window.location.href = "buy/checkDelivery?type=" + (checked === true ? "russiaPostOffice" : "pickup");
     }
 
     function checkPromocode() {
@@ -461,11 +464,7 @@
         var code = document.getElementById('promocodeInput').value;
         if (code != "") {
             window.location.href = "buy/checkPromoCode?code=" + code;
-            message = "Промокод успешно применен";
-        } else {
-            message = "Промокод недействителен";
         }
-        document.getElementById("promocodeInput").innerHTML = message;
     }
 </script>
 
