@@ -41,9 +41,6 @@ public class Order extends IdentifiableEntity {
     @Column(name = "total_cost")
     private Double totalCost;
 
-    @Transient
-    private String promocodeMessage;
-
     @Embedded
     private UserData userData;
 
@@ -109,14 +106,6 @@ public class Order extends IdentifiableEntity {
 
     public void setTotalCost(Double totalCost) {
         this.totalCost = totalCost;
-    }
-
-    public String getPromocodeMessage() {
-        return promocodeMessage;
-    }
-
-    public void setPromocodeMessage(String promocodeMessage) {
-        this.promocodeMessage = promocodeMessage;
     }
 
     public String getFormatDeliveryCost() {

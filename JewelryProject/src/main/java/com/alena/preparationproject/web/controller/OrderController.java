@@ -10,6 +10,8 @@ import com.alena.preparationproject.web.model.enums.PaymentType;
 import com.alena.preparationproject.web.service.JewelryService;
 import com.alena.preparationproject.web.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -61,11 +63,10 @@ public class OrderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET)
-    public ModelAndView checkPromoCode(@ModelAttribute("order") Order order,
-                                       @RequestParam("code") String code) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/buy#promocode");
-        modelAndView.addObject("order", order);
+    @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET, produces = "application/json")
+    public ResponseMessage checkPromoCode(@ModelAttribute("order") Order order,
+                                          @RequestParam("code") String code) {
+        ResponseMessage responseMessage = new ResponseMessage();
 
         PromotionalCode promotionalCode = orderService.getPromotionalCode(code);
         if (promotionalCode != null && orderService.isValidPromoCode(promotionalCode)) {
@@ -77,7 +78,10 @@ public class OrderController {
                     order.getDiscount(),
                     order.getDeliveryCost())
             );
-            order.setPromocodeMessage("Промокод успешно применен!");
+            responseMessage.setValidPromocode(true);
+            responseMessage.setPromocode(order.getDiscount());
+            responseMessage.setTotalPrice(order.getTotalCost());
+            return responseMessage;
         } else {
             order.setPromocode(null);
             order.setDiscount(0.0);
@@ -86,15 +90,17 @@ public class OrderController {
                     order.getDiscount(),
                     order.getDeliveryCost())
             );
-            order.setPromocodeMessage("Промокод не был найдет или не активен");
+            responseMessage.setValidPromocode(false);
+            responseMessage.setPromocode(order.getDiscount());
+            responseMessage.setTotalPrice(order.getTotalCost());
+            return responseMessage;
         }
-        return modelAndView;
     }
 
     @RequestMapping(value = "/checkDelivery", method = RequestMethod.GET)
     public ModelAndView checkDelivery(@ModelAttribute("order") Order order,
                                       @RequestParam("type") String type) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/buy#delivery");
+        ModelAndView modelAndView = new ModelAndView("redirect:/buy");
         modelAndView.addObject("order", order);
 
         DeliveryType deliveryType = DeliveryType.fromId(type);

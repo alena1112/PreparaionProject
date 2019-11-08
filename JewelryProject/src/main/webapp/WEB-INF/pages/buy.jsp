@@ -21,6 +21,7 @@
         var address = document.getElementById('addressInput');
         var index = document.getElementById('indexInput');
 
+        var createOrderError = document.getElementById('createOrderError');
         var nameError = document.getElementById('nameError');
         var lastNameError = document.getElementById('lastNameError');
         var phoneError = document.getElementById('phoneError');
@@ -33,6 +34,8 @@
             if (!name.validity.valueMissing) {
                 nameError.innerHTML = "";
                 nameError.className = "error";
+                createOrderError.innerHTML = "";
+                createOrderError.className = "messageError";
             }
         }, false);
 
@@ -40,6 +43,8 @@
             if (!lastName.validity.valueMissing) {
                 lastNameError.innerHTML = "";
                 lastNameError.className = "error";
+                createOrderError.innerHTML = "";
+                createOrderError.className = "messageError";
             }
         }, false);
 
@@ -47,6 +52,8 @@
             if (!phone.validity.valueMissing) {
                 phoneError.innerHTML = "";
                 phoneError.className = "error";
+                createOrderError.innerHTML = "";
+                createOrderError.className = "messageError";
             }
         }, false);
 
@@ -54,6 +61,8 @@
             if (!email.validity.valueMissing) {
                 emailError.innerHTML = "";
                 emailError.className = "error";
+                createOrderError.innerHTML = "";
+                createOrderError.className = "messageError";
             }
         }, false);
 
@@ -61,6 +70,8 @@
             if (!city.validity.valueMissing) {
                 cityError.innerHTML = "";
                 cityError.className = "error";
+                createOrderError.innerHTML = "";
+                createOrderError.className = "messageError";
             }
         }, false);
 
@@ -68,6 +79,8 @@
             if (!address.validity.valueMissing) {
                 addressError.innerHTML = "";
                 addressError.className = "error";
+                createOrderError.innerHTML = "";
+                createOrderError.className = "messageError";
             }
         }, false);
 
@@ -75,6 +88,8 @@
             if (!index.validity.valueMissing) {
                 indexError.innerHTML = "";
                 indexError.className = "error";
+                createOrderError.innerHTML = "";
+                createOrderError.className = "messageError";
             }
         }, false);
 
@@ -90,41 +105,36 @@
         }, false);
 
         btn.addEventListener("click", function (event) {
+            createOrderError.innerHTML = "Проверьте правильность заполнения полей ниже";
+            createOrderError.className = "messageError active";
             if (name.validity.valueMissing) {
                 nameError.innerHTML = "Введите имя";
                 nameError.className = "error active";
                 event.preventDefault();
-                window.location.href = "#name";
             } else if (lastName.validity.valueMissing) {
                 lastNameError.innerHTML = "Введите фамилию";
                 lastNameError.className = "error active";
                 event.preventDefault();
-                window.location.href = "#lastName";
             } else if (phone.validity.valueMissing) {
                 phoneError.innerHTML = "Введите телефон";
                 phoneError.className = "error active";
                 event.preventDefault();
-                window.location.href = "#phone";
             } else if (email.validity.valueMissing) {
                 emailError.innerHTML = "Введите адрес электронной почты";
                 emailError.className = "error active";
                 event.preventDefault();
-                window.location.href = "#email";
             } else if (city.validity.valueMissing) {
                 cityError.innerHTML = "Введите город";
                 cityError.className = "error active";
                 event.preventDefault();
-                window.location.href = "#city";
             } else if (address.validity.valueMissing) {
                 addressError.innerHTML = "Введите адрес";
                 addressError.className = "error active";
                 event.preventDefault();
-                window.location.href = "#address";
             } else if (index.validity.valueMissing) {
                 indexError.innerHTML = "Введите индекс";
                 indexError.className = "error active";
                 event.preventDefault();
-                window.location.href = "#index";
             }
         }, false);
 
@@ -135,15 +145,14 @@
         promocode.addEventListener("input", function (event) {
             if (!promocode.validity.valueMissing) {
                 promocodeError.innerHTML = "";
-                promocodeError.className = "promocodeError";
+                promocodeError.className = "messageError";
             }
         }, false);
 
         promocodeBtn.addEventListener("click", function (event) {
             if (promocode.validity.valueMissing) {
                 promocodeError.innerHTML = "Введите промокод";
-                promocodeError.className = "promocodeError active";
-                promocodeMsg.innerHTML = ""
+                promocodeError.className = "messageError active";
             }
         }, false);
     }
@@ -201,7 +210,7 @@
         padding: 0.3em;
     }
 
-    .promocodeError {
+    .messageError {
         width: 100%;
         padding: 0;
 
@@ -209,7 +218,7 @@
         color: #ff7180;
     }
 
-    .promocodeError.active {
+    .messageError.active {
         padding: 0.3em;
     }
 </style>
@@ -272,17 +281,17 @@
                 </table>
 
                 <div class="w3-cell-row">
-                    <div id="promocode" class="w3-cell w3-mobile w3-cell-middle" style="text-align:left;width:33%">
-                        <p style="margin:8px 0">Промокод</p>
+                    <div class="w3-cell w3-mobile w3-cell-middle" style="text-align:left;width:33%">
+                        <p>Промокод</p>
                         <div class="w3-cell-row">
                             <div class="w3-cell w3-half" style="padding:4px 0; width: 50%; min-width:50px">
                                 <input class="w3-input" type="text" id="promocodeInput" required="required"
                                        value="${order.promocode != null ? order.promocode.code : ''}"/>
-                                <span id="promocodeError" class="promocodeError" aria-live="polite">${order.promocodeMessage}</span>
+                                <span id="promocodeError" class="messageError" aria-live="polite"></span>
                             </div>
                             <button type="button" onclick="checkPromocode()" id="promocodeBtn"
                                     class="w3-btn w3-cell w3-half w3-white w3-border w3-round-large"
-                                    style="border-color:#ff7180!important;padding:4px 0; width: 50%;">
+                                    style="border-color:#ff7180!important;padding:4px 0; width: 50%">
                                 <span style="color:#ff7180">Применить</span>
                             </button>
                         </div>
@@ -291,9 +300,11 @@
                         <button type="submit" class="w3-btn w3-round-large w3-black"
                                 form="createOrderForm" id="createOrderButton">Оформить заказ
                         </button>
+                        <br>
+                        <span id="createOrderError" class="messageError" aria-live="polite"></span>
                     </div>
-                    <div class="w3-cell w3-mobile w3-cell-middle" style="text-align:right;width:33%">
-                        <p class="w3-text-grey" style="font-size:14px;margin:8px 0">Скидка: ${order.formatDiscount}</p>
+                    <div class="w3-cell w3-mobile" style="padding:8px 0;text-align:right;width:33%">
+                        <p class="w3-text-grey" style="font-size:14px;margin:0">Скидка: ${order.formatDiscount}</p>
                         <p class="w3-text-grey" style="font-size:14px;margin:8px 0">Доставка: ${order.formatDeliveryCost}</p>
                         <p style="font-weight:600;font-size:18px;margin:8px 0">ИТОГО:
                             <span style="text-decoration:line-through">
@@ -309,25 +320,25 @@
             <div class="w3-row-padding w3-padding-16 w3-center">
                 <div class="w3-half w3-justify">
                     <h5>Контактная информация</h5>
-                    <p id="name">
+                    <p>
                         <label style="font-size:12px">Имя <span class="required">*</span></label>
                         <spring:input class="w3-input" value="${order.userData.firstName}"
                                       path="userData.firstName" id="nameInput" required="required"/>
                         <span id="nameError" class="error" aria-live="polite"></span>
                     </p>
-                    <p id="lastName">
+                    <p>
                         <label style="font-size:12px">Фамилия <span class="required">*</span></label>
                         <spring:input class="w3-input" value="${order.userData.lastName}"
                                       path="userData.lastName" id="lastNameInput" required="required"/>
                         <span id="lastNameError" class="error" aria-live="polite"></span>
                     </p>
-                    <p id="phone">
+                    <p>
                         <label style="font-size:12px">Телефон <span class="required">*</span></label>
                         <spring:input class="w3-input" value="${order.userData.phone}"
                                       path="userData.phone" id="phoneInput" required="required"/>
                         <span id="phoneError" class="error" aria-live="polite"></span>
                     </p>
-                    <p id="email">
+                    <p>
                         <label style="font-size:12px">Электонная почта <span class="required">*</span></label>
                         <spring:input class="w3-input" value="${order.userData.email}"
                                       path="userData.email" id="emailInput" required="required"/>
@@ -348,7 +359,7 @@
                         </p>
 
                         <div style="margin-left: 10%; margin-right: 10%">
-                            <p id="city">
+                            <p>
                                 <label id="cityLabel"
                                        style="font-size:12px;color: ${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'gray' : 'black' }">Город
                                     <span class="required">*</span></label>
@@ -357,7 +368,7 @@
                                               disabled="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'true' : 'false'}"/>
                                 <span id="cityError" class="error" aria-live="polite"></span>
                             </p>
-                            <p id="address">
+                            <p>
                                 <label id="addressLabel"
                                        style="font-size:12px;color: ${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'gray' : 'black' }">Адрес
                                     <span
@@ -367,7 +378,7 @@
                                               disabled="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'true' : 'false'}"/>
                                 <span id="addressError" class="error" aria-live="polite"></span>
                             </p>
-                            <p id="index">
+                            <p>
                                 <label id="indexLabel"
                                        style="font-size:12px;color: ${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'gray' : 'black' }">Индекс
                                     <span
@@ -458,13 +469,33 @@
         document.getElementById("indexInput").disabled = !checked;
         window.location.href = "buy/checkDelivery?type=" + (checked === true ? "russiaPostOffice" : "pickup");
     }
+</script>
 
+<script type="text/javascript">
     function checkPromocode() {
-        var message;
         var code = document.getElementById('promocodeInput').value;
-        if (code != "") {
-            window.location.href = "buy/checkPromoCode?code=" + code;
+        var promocodeError = document.getElementById('promocodeError');
+
+        if (code !== '') {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.status === 200) {
+                    if (this.responseText === "true") {
+                        promocodeError.innerHTML = "Промокод успешно применен";
+                    } else {
+                        promocodeError.innerHTML = "Промокод не был найден или не активен";
+                    }
+                } else {
+                    promocodeError.innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "buy/checkPromoCode?code=" + code, true);
+            xhttp.send();
         }
+    }
+
+    function recalculatePrice(promocode) {
+
     }
 </script>
 
