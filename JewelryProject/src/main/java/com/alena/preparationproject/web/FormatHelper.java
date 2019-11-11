@@ -16,7 +16,7 @@ public class FormatHelper {
         price = price == null ? 0 : price;
         StringBuilder sb = new StringBuilder();
         sb.append(formatter.format(price));
-        sb.append(currency == Currency.RUB ? " \u20BD" : "");
+//        sb.append(currency == Currency.RUB ? " \u20BD" : "");
         return sb.toString();
     }
 }

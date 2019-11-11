@@ -2,9 +2,10 @@ package com.alena.preparationproject.web.controller;
 
 public class ResponseMessage {
     private Boolean isValidPromocode;
-    private Double promocode;
-    private Double totalPrice;
-    private Double deliveryPrice;
+    private String formatPromocode;
+    private String formatTotalCost;
+    private String formatCostWithoutDiscount;
+    private String formatDeliveryPrice;
 
     public Boolean getValidPromocode() {
         return isValidPromocode;
@@ -14,27 +15,35 @@ public class ResponseMessage {
         isValidPromocode = validPromocode;
     }
 
-    public Double getPromocode() {
-        return promocode;
+    public String getFormatPromocode() {
+        return formatPromocode;
     }
 
-    public void setPromocode(Double promocode) {
-        this.promocode = promocode;
+    public void setFormatPromocode(String formatPromocode) {
+        this.formatPromocode = formatPromocode;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
+    public String getFormatTotalCost() {
+        return formatTotalCost;
     }
 
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setFormatTotalCost(String formatTotalCost) {
+        this.formatTotalCost = formatTotalCost;
     }
 
-    public Double getDeliveryPrice() {
-        return deliveryPrice;
+    public String getFormatDeliveryPrice() {
+        return formatDeliveryPrice;
     }
 
-    public void setDeliveryPrice(Double deliveryPrice) {
-        this.deliveryPrice = deliveryPrice;
+    public void setFormatDeliveryPrice(String formatDeliveryPrice) {
+        this.formatDeliveryPrice = formatDeliveryPrice;
+    }
+
+    public String getFormatCostWithoutDiscount() {
+        return formatCostWithoutDiscount;
+    }
+
+    public void setFormatCostWithoutDiscount(String formatCostWithoutDiscount) {
+        this.formatCostWithoutDiscount = formatCostWithoutDiscount;
     }
 }

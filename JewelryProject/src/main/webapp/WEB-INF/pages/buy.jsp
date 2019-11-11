@@ -304,13 +304,15 @@
                         <span id="createOrderError" class="messageError" aria-live="polite"></span>
                     </div>
                     <div class="w3-cell w3-mobile" style="padding:8px 0;text-align:right;width:33%">
-                        <p class="w3-text-grey" style="font-size:14px;margin:0">Скидка: ${order.formatDiscount}</p>
-                        <p class="w3-text-grey" style="font-size:14px;margin:8px 0">Доставка: ${order.formatDeliveryCost}</p>
+                        <p class="w3-text-grey" style="font-size:14px;margin:0">Скидка:
+                            <span id="formatDiscountSpan"></span>
+                        </p>
+                        <p class="w3-text-grey" style="font-size:14px;margin:8px 0">Доставка:
+                            <span id="formatDeliveryCostSpan"></span>
+                        </p>
                         <p style="font-weight:600;font-size:18px;margin:8px 0">ИТОГО:
-                            <span style="text-decoration:line-through">
-                                ${order.formatCostWithoutDiscount}
-                            </span>
-                            <span style="color:#ff7180"> ${order.formatTotalCost}</span>
+                            <span id="formatCostWithoutDiscountSpan" style="text-decoration:line-through"></span>
+                            <span id="formatTotalCostSpan" style="color:#ff7180"></span>
                         </p>
                     </div>
                 </div>
@@ -478,15 +480,16 @@
 
         if (code !== '') {
             var xhttp = new XMLHttpRequest();
+            xhttp.responseType = "text";
             xhttp.onreadystatechange = function () {
-                if (this.status === 200) {
-                    if (this.responseText === "true") {
+                if (this.status === 200 && this.responseText !== '') {
+                    var responseMessage = JSON.parse(this.responseText);
+                    if (responseMessage.validPromocode === true) {
                         promocodeError.innerHTML = "Промокод успешно применен";
                     } else {
                         promocodeError.innerHTML = "Промокод не был найден или не активен";
                     }
-                } else {
-                    promocodeError.innerHTML = this.responseText;
+                    recalculatePrice(responseMessage);
                 }
             };
             xhttp.open("GET", "buy/checkPromoCode?code=" + code, true);
@@ -494,8 +497,24 @@
         }
     }
 
-    function recalculatePrice(promocode) {
+    function recalculatePrice(responseMessage) {
+        var formatDiscountSpan = document.getElementById('formatDiscountSpan');
+        var formatDeliveryCostSpan = document.getElementById('formatDeliveryCostSpan');
+        var formatCostWithoutDiscountSpan = document.getElementById('formatCostWithoutDiscountSpan');
+        var formatTotalCostSpan = document.getElementById('formatTotalCostSpan');
 
+        if (responseMessage.formatPromocode !== null) {
+            formatDiscountSpan.innerHTML = " " + responseMessage.formatPromocode + " \u20BD";
+        }
+        if (responseMessage.formatDeliveryPrice !== null) {
+            formatDeliveryCostSpan.innerHTML = responseMessage.formatDeliveryPrice + " \u20BD";
+        }
+        if (responseMessage.formatCostWithoutDiscount !== null) {
+            formatCostWithoutDiscountSpan.innerHTML = responseMessage.formatCostWithoutDiscount + " \u20BD";
+        } else {
+            formatCostWithoutDiscountSpan.innerHTML = "";
+        }
+        formatTotalCostSpan.innerHTML = responseMessage.formatTotalCost + " \u20BD";
     }
 </script>
 

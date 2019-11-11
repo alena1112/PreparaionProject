@@ -1,5 +1,6 @@
 package com.alena.preparationproject.web.controller;
 
+import com.alena.preparationproject.web.FormatHelper;
 import com.alena.preparationproject.web.model.Jewelry;
 import com.alena.preparationproject.web.model.Order;
 import com.alena.preparationproject.web.model.PromotionalCode;
@@ -9,13 +10,14 @@ import com.alena.preparationproject.web.model.enums.JewelryType;
 import com.alena.preparationproject.web.model.enums.PaymentType;
 import com.alena.preparationproject.web.service.JewelryService;
 import com.alena.preparationproject.web.service.OrderService;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -63,9 +65,9 @@ public class OrderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET, produces = "application/json")
-    public ResponseMessage checkPromoCode(@ModelAttribute("order") Order order,
-                                          @RequestParam("code") String code) {
+    @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String checkPromoCode(@ModelAttribute("order") Order order,
+                          @RequestParam("code") String code) throws IOException {
         ResponseMessage responseMessage = new ResponseMessage();
 
         PromotionalCode promotionalCode = orderService.getPromotionalCode(code);
@@ -79,9 +81,11 @@ public class OrderController {
                     order.getDeliveryCost())
             );
             responseMessage.setValidPromocode(true);
-            responseMessage.setPromocode(order.getDiscount());
-            responseMessage.setTotalPrice(order.getTotalCost());
-            return responseMessage;
+            responseMessage.setFormatPromocode(order.getFormatDiscount());
+            responseMessage.setFormatTotalCost(order.getFormatTotalCost());
+            responseMessage.setFormatCostWithoutDiscount(order.getFormatCostWithoutDiscount());
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(responseMessage);
         } else {
             order.setPromocode(null);
             order.setDiscount(0.0);
@@ -91,9 +95,10 @@ public class OrderController {
                     order.getDeliveryCost())
             );
             responseMessage.setValidPromocode(false);
-            responseMessage.setPromocode(order.getDiscount());
-            responseMessage.setTotalPrice(order.getTotalCost());
-            return responseMessage;
+            responseMessage.setFormatPromocode(order.getFormatDiscount());
+            responseMessage.setFormatTotalCost(order.getFormatTotalCost());
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.writeValueAsString(responseMessage);
         }
     }
 
