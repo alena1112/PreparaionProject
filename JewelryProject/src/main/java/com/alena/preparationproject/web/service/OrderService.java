@@ -60,7 +60,7 @@ public class OrderService {
     }
 
     public double getDiscount(double allJewelriesPrice, PromotionalCode promotionalCode) {
-        if (promotionalCode != null && promotionalCode.getId() != null) {
+        if (promotionalCode != null && promotionalCode.getId() != null && Math.round(allJewelriesPrice) != 0) {
             switch (promotionalCode.getPromoCodeType()) {
                 case PERCENT:
                     if (promotionalCode.getValue() < 100) {

@@ -120,12 +120,20 @@ public class Order extends IdentifiableEntity {
         return FormatHelper.getPriceFormat(totalCost, FormatHelper.Currency.RUB);
     }
 
-    public String getFormatCostWithoutDiscount() {
+    public Double getCostWithoutDiscount() {
         if (discount == null || Math.round(discount) == 0) {
+            return null;
+        }
+        return ObjectUtils.defaultIfNull(totalCost, 0.0) + discount;
+    }
+
+    public String getFormatCostWithoutDiscount() {
+        Double costWithoutDiscount = getCostWithoutDiscount();
+        if (costWithoutDiscount == null) {
             return "";
         }
         return FormatHelper.getPriceFormat(
-                ObjectUtils.defaultIfNull(totalCost, 0.0) + discount,
+                costWithoutDiscount,
                 FormatHelper.Currency.RUB);
     }
 }

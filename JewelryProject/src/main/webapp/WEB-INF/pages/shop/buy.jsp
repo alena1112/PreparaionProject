@@ -9,7 +9,24 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
+    function addEvent(field, fieldError, createOrderError) {
+        field.addEventListener("input", function (event) {
+            if (!field.validity.valueMissing) {
+                fieldError.innerHTML = "";
+                fieldError.className = "error";
+                createOrderError.innerHTML = "";
+                createOrderError.className = "messageError";
+            }
+        }, false);
+    }
+</script>
+<script>
     window.onload = function () {
+        var length = document.getElementById('jewelriesTable').rows.length;
+        if (length === 0) {
+            hideOrder();
+        }
+
         var btn = document.getElementById('createOrderButton');
         var pickUpRadioBtn = document.getElementById('pickUpRadioBtn');
 
@@ -30,68 +47,13 @@
         var addressError = document.getElementById('addressError');
         var indexError = document.getElementById('indexError');
 
-        name.addEventListener("input", function (event) {
-            if (!name.validity.valueMissing) {
-                nameError.innerHTML = "";
-                nameError.className = "error";
-                createOrderError.innerHTML = "";
-                createOrderError.className = "messageError";
-            }
-        }, false);
-
-        lastName.addEventListener("input", function (event) {
-            if (!lastName.validity.valueMissing) {
-                lastNameError.innerHTML = "";
-                lastNameError.className = "error";
-                createOrderError.innerHTML = "";
-                createOrderError.className = "messageError";
-            }
-        }, false);
-
-        phone.addEventListener("input", function (event) {
-            if (!phone.validity.valueMissing) {
-                phoneError.innerHTML = "";
-                phoneError.className = "error";
-                createOrderError.innerHTML = "";
-                createOrderError.className = "messageError";
-            }
-        }, false);
-
-        email.addEventListener("input", function (event) {
-            if (!email.validity.valueMissing) {
-                emailError.innerHTML = "";
-                emailError.className = "error";
-                createOrderError.innerHTML = "";
-                createOrderError.className = "messageError";
-            }
-        }, false);
-
-        city.addEventListener("input", function (event) {
-            if (!city.validity.valueMissing) {
-                cityError.innerHTML = "";
-                cityError.className = "error";
-                createOrderError.innerHTML = "";
-                createOrderError.className = "messageError";
-            }
-        }, false);
-
-        address.addEventListener("input", function (event) {
-            if (!address.validity.valueMissing) {
-                addressError.innerHTML = "";
-                addressError.className = "error";
-                createOrderError.innerHTML = "";
-                createOrderError.className = "messageError";
-            }
-        }, false);
-
-        index.addEventListener("input", function (event) {
-            if (!index.validity.valueMissing) {
-                indexError.innerHTML = "";
-                indexError.className = "error";
-                createOrderError.innerHTML = "";
-                createOrderError.className = "messageError";
-            }
-        }, false);
+        addEvent(name, nameError, createOrderError);
+        addEvent(lastName, lastNameError, createOrderError);
+        addEvent(phone, phoneError, createOrderError);
+        addEvent(email, emailError, createOrderError);
+        addEvent(city, cityError, createOrderError);
+        addEvent(address, addressError, createOrderError);
+        addEvent(index, indexError, createOrderError);
 
         pickUpRadioBtn.addEventListener("click", function (event) {
             cityError.innerHTML = "";
@@ -232,15 +194,15 @@
         </div>
     </div>
     <div class="w3-bar w3-white w3-mobile" style="max-width:1200px;margin:auto">
-        <a href="/start?menu=new" class="w3-bar-item w3-button"
+        <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
            style="font-size:11px;letter-spacing:1px;width:20%">НОВИНКИ</a>
-        <a href="/start?menu=all" class="w3-bar-item w3-button"
+        <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
            style="font-size:11px;letter-spacing:1px;width:20%">ВСЕ УКРАШЕНИЯ</a>
-        <a href="/start?menu=bracelet" class="w3-bar-item w3-button"
+        <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item w3-button"
            style="font-size:11px;letter-spacing:1px;width:20%">БРАСЛЕТЫ</a>
-        <a href="/start?menu=earrings" class="w3-bar-item w3-button"
+        <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item w3-button"
            style="font-size:11px;letter-spacing:1px;width:20%">СЕРЬГИ</a>
-        <a href="/start?menu=necklace" class="w3-bar-item w3-button"
+        <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
            style="font-size:11px;letter-spacing:1px;width:20%">КОЛЬЕ</a>
     </div>
 </div>
@@ -248,13 +210,14 @@
 <!-- !PAGE CONTENT! -->
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:110px">
 
+    <p id="emptyOrder" class="w3-text-grey" style="display: none;margin-top: 20px;margin-bottom: 350px;font-size: 12px">Ваша корзина пуста</p>
     <spring:form method="post" action="/buy/createOrder" modelAttribute="order" id="createOrderForm" novalidate="true">
-        <div class="w3-row-padding w3-center">
+        <div class="w3-row-padding w3-center" id="mainDiv">
 
             <h4>Оформление заказа</h4>
 
             <div class="w3-container">
-                <table class="w3-table w3-bordered">
+                <table id="jewelriesTable" class="w3-table w3-bordered">
                     <c:forEach items="${order.jewelries}" var="jewelry">
                         <tr>
                             <td>
@@ -272,7 +235,7 @@
                             <td style="text-align:right;font-size:18px;width:80px">
                                 <p>${jewelry.formatPrice}</p>
                                 <button type="button" style="border:none;background-color:white;cursor:pointer;"
-                                        onclick="location.href='buy/deleteItem?itemId=${jewelry.id}'">
+                                        onclick="deleteItem(this, ${jewelry.id})">
                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                 </button>
                             </td>
@@ -305,14 +268,14 @@
                     </div>
                     <div class="w3-cell w3-mobile" style="padding:8px 0;text-align:right;width:33%">
                         <p class="w3-text-grey" style="font-size:14px;margin:0">Скидка:
-                            <span id="formatDiscountSpan"></span>
+                            <span id="formatDiscountSpan">${order.formatDiscount}</span>
                         </p>
                         <p class="w3-text-grey" style="font-size:14px;margin:8px 0">Доставка:
-                            <span id="formatDeliveryCostSpan"></span>
+                            <span id="formatDeliveryCostSpan">${order.formatDeliveryCost}</span>
                         </p>
                         <p style="font-weight:600;font-size:18px;margin:8px 0">ИТОГО:
-                            <span id="formatCostWithoutDiscountSpan" style="text-decoration:line-through"></span>
-                            <span id="formatTotalCostSpan" style="color:#ff7180"></span>
+                            <span id="formatCostWithoutDiscountSpan" style="text-decoration:line-through">${order.formatCostWithoutDiscount}</span>
+                            <span id="formatTotalCostSpan" style="color:#ff7180"> ${order.formatTotalCost}</span>
                         </p>
                     </div>
                 </div>
@@ -356,7 +319,7 @@
                             <spring:radiobutton class="w3-radio" path="deliveryType" value="RUSSIA_POST_OFFICE"
                                                 id="postOfficeRadioBtn"
                                                 checked="${order.deliveryType != null && order.deliveryType.id == 'russiaPostOffice' ? 'checked' : '' }"
-                                                onclick="changePaymentTypeBtn()"/>
+                                                onclick="checkDeliveryType()"/>
                             <label>Почта России</label>
                         </p>
 
@@ -398,7 +361,7 @@
                             <spring:radiobutton class="w3-radio" path="deliveryType" value="PICKUP"
                                                 id="pickUpRadioBtn"
                                                 checked="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'checked' : '' }"
-                                                onclick="changePaymentTypeBtn()"/>
+                                                onclick="checkDeliveryType()"/>
                             <label>Самовывоз по г. Москва</label>
                         </p>
                     </div>
@@ -456,32 +419,43 @@
     <!-- End page content -->
 </div>
 
-<script>
-    function changePaymentTypeBtn() {
+<script type="text/javascript">
+    function checkDeliveryType() {
         var checked = document.getElementById("postOfficeRadioBtn").checked;
         document.getElementById("cashPaymentRadioBtn").checked = false;
         document.getElementById("cashPaymentRadioBtn").disabled = checked;
+        if (checked) {
+            document.getElementById("transferPaymentRadioBtn").checked = true;
+        }
+
         document.getElementById("cashPaymentLabel").style.color = checked === true ? "gray" : "black";
-        // document.getElementById("transferPaymentRadioBtn").checked = true;
         document.getElementById("cityLabel").style.color = checked === false ? "gray" : "black";
         document.getElementById("addressLabel").style.color = checked === false ? "gray" : "black";
         document.getElementById("indexLabel").style.color = checked === false ? "gray" : "black";
         document.getElementById("cityInput").disabled = !checked;
         document.getElementById("addressInput").disabled = !checked;
         document.getElementById("indexInput").disabled = !checked;
-        window.location.href = "buy/checkDelivery?type=" + (checked === true ? "russiaPostOffice" : "pickup");
-    }
-</script>
 
-<script type="text/javascript">
+        var request = new XMLHttpRequest();
+        request.responseType = "text";
+        request.onreadystatechange = function () {
+            if (this.status === 200 && this.responseText !== '') {
+                var responseMessage = JSON.parse(this.responseText);
+                recalculatePrice(responseMessage);
+            }
+        };
+        request.open("GET", "buy/checkDelivery?type=" + (checked === true ? "russiaPostOffice" : "pickup"), true);
+        request.send();
+    }
+
     function checkPromocode() {
         var code = document.getElementById('promocodeInput').value;
         var promocodeError = document.getElementById('promocodeError');
 
         if (code !== '') {
-            var xhttp = new XMLHttpRequest();
-            xhttp.responseType = "text";
-            xhttp.onreadystatechange = function () {
+            var request = new XMLHttpRequest();
+            request.responseType = "text";
+            request.onreadystatechange = function () {
                 if (this.status === 200 && this.responseText !== '') {
                     var responseMessage = JSON.parse(this.responseText);
                     if (responseMessage.validPromocode === true) {
@@ -492,9 +466,29 @@
                     recalculatePrice(responseMessage);
                 }
             };
-            xhttp.open("GET", "buy/checkPromoCode?code=" + code, true);
-            xhttp.send();
+            request.open("GET", "buy/checkPromoCode?code=" + code, true);
+            request.send();
         }
+    }
+
+    function deleteItem(r, jewelryId) {
+        var length = document.getElementById('jewelriesTable').rows.length;
+        var i = r.parentNode.parentNode.rowIndex;
+        var request = new XMLHttpRequest();
+        request.responseType = "text";
+        request.onreadystatechange = function () {
+            if (this.status === 200 && this.responseText !== '') {
+                if (length !== 1) {
+                    var responseMessage = JSON.parse(this.responseText);
+                    document.getElementById("jewelriesTable").deleteRow(i);
+                    recalculatePrice(responseMessage);
+                } else {
+                    hideOrder();
+                }
+            }
+        };
+        request.open("GET", "buy/deleteItem?itemId=" + jewelryId, true);
+        request.send();
     }
 
     function recalculatePrice(responseMessage) {
@@ -503,18 +497,19 @@
         var formatCostWithoutDiscountSpan = document.getElementById('formatCostWithoutDiscountSpan');
         var formatTotalCostSpan = document.getElementById('formatTotalCostSpan');
 
-        if (responseMessage.formatPromocode !== null) {
-            formatDiscountSpan.innerHTML = " " + responseMessage.formatPromocode + " \u20BD";
-        }
-        if (responseMessage.formatDeliveryPrice !== null) {
-            formatDeliveryCostSpan.innerHTML = responseMessage.formatDeliveryPrice + " \u20BD";
-        }
-        if (responseMessage.formatCostWithoutDiscount !== null) {
+        formatDiscountSpan.innerHTML = responseMessage.formatPromocode + " \u20BD";
+        formatDeliveryCostSpan.innerHTML = responseMessage.formatDeliveryPrice + " \u20BD";
+        if (responseMessage.formatCostWithoutDiscount !== '0') {
             formatCostWithoutDiscountSpan.innerHTML = responseMessage.formatCostWithoutDiscount + " \u20BD";
         } else {
             formatCostWithoutDiscountSpan.innerHTML = "";
         }
         formatTotalCostSpan.innerHTML = responseMessage.formatTotalCost + " \u20BD";
+    }
+
+    function hideOrder() {
+        document.getElementById('mainDiv').style.display = 'none';
+        document.getElementById('emptyOrder').style.display = 'block';
     }
 </script>
 

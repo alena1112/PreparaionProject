@@ -34,7 +34,7 @@ public class StartController {
             list.add(allJewelries.subList(i, end));
         }
         modelAndView.addObject("jewelryList", list);
-        modelAndView.setViewName("start");
+        modelAndView.setViewName("shop/start");
         return modelAndView;
     }
 

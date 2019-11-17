@@ -1,13 +1,9 @@
 package com.alena.preparationproject.web.controller;
 
 import com.alena.preparationproject.web.FormatHelper;
-import com.alena.preparationproject.web.model.Jewelry;
 import com.alena.preparationproject.web.model.Order;
 import com.alena.preparationproject.web.model.PromotionalCode;
-import com.alena.preparationproject.web.model.UserData;
 import com.alena.preparationproject.web.model.enums.DeliveryType;
-import com.alena.preparationproject.web.model.enums.JewelryType;
-import com.alena.preparationproject.web.model.enums.PaymentType;
 import com.alena.preparationproject.web.service.JewelryService;
 import com.alena.preparationproject.web.service.OrderService;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @SessionAttributes(value = "order")
@@ -32,7 +27,7 @@ public class OrderController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getAllJewelries(@ModelAttribute("order") Order order) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("buy");
+        modelAndView.setViewName("shop/buy");
         modelAndView.addObject("order", order);
         return modelAndView;
     }
@@ -40,15 +35,37 @@ public class OrderController {
     @RequestMapping(value = "/createOrder", method = RequestMethod.POST)
     public ModelAndView createOrder(@ModelAttribute("order") Order order) {
         ModelAndView modelAndView = new ModelAndView("redirect:/buy");
-        modelAndView.addObject("order", createOrder());
+        modelAndView.addObject("order", order);
         return modelAndView;
     }
 
     @RequestMapping(value = "/deleteItem", method = RequestMethod.GET)
-    public ModelAndView deleteItem(@ModelAttribute("order") Order order,
-                                   @RequestParam("itemId") Long jewelryId) {
+    public @ResponseBody String deleteItem(@ModelAttribute("order") Order order,
+                                           @RequestParam("itemId") Long jewelryId) throws IOException {
+        ResponseMessage responseMessage = calculateCostWithJewelries(order, jewelryId);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(responseMessage);
+    }
+
+    @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String checkPromoCode(@ModelAttribute("order") Order order,
+                                               @RequestParam("code") String code) throws IOException {
+        ResponseMessage responseMessage = calculateCostWithPromoCode(order, code);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(responseMessage);
+    }
+
+    @RequestMapping(value = "/checkDelivery", method = RequestMethod.GET)
+    public @ResponseBody String checkDelivery(@ModelAttribute("order") Order order,
+                                              @RequestParam("type") String type) throws IOException {
+        ResponseMessage responseMessage = calculateCostWithDelivery(order, type);
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(responseMessage);
+    }
+
+    private ResponseMessage calculateCostWithJewelries(Order order, Long droppedItemId) {
         order.getJewelries().stream()
-                .filter(jewelry -> jewelry.getId().equals(jewelryId))
+                .filter(jewelry -> jewelry.getId().equals(droppedItemId))
                 .findFirst()
                 .ifPresent(foundJewelry -> order.getJewelries().remove(foundJewelry));
 
@@ -59,18 +76,23 @@ public class OrderController {
                 order.getDiscount(),
                 order.getDeliveryCost())
         );
-
-        ModelAndView modelAndView = new ModelAndView("redirect:/buy");
-        modelAndView.addObject("order", order);
-        return modelAndView;
+        return createResponseMessage(order);
     }
 
-    @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String checkPromoCode(@ModelAttribute("order") Order order,
-                          @RequestParam("code") String code) throws IOException {
-        ResponseMessage responseMessage = new ResponseMessage();
+    private ResponseMessage calculateCostWithDelivery(Order order, String deliveryType) {
+        DeliveryType type = DeliveryType.fromId(deliveryType);
+        order.setDeliveryType(type);
+        order.setDeliveryCost(orderService.getDeliveryPrice(type));
+        order.setTotalCost(orderService.getTotalPrice(
+                orderService.getAllJewelriesPrice(order.getJewelries()),
+                order.getDiscount(),
+                order.getDeliveryCost())
+        );
+        return createResponseMessage(order);
+    }
 
-        PromotionalCode promotionalCode = orderService.getPromotionalCode(code);
+    private ResponseMessage calculateCostWithPromoCode(Order order, String promocode) {
+        PromotionalCode promotionalCode = orderService.getPromotionalCode(promocode);
         if (promotionalCode != null && orderService.isValidPromoCode(promotionalCode)) {
             order.setPromocode(promotionalCode);
             double allJewelriesPrice = orderService.getAllJewelriesPrice(order.getJewelries());
@@ -80,12 +102,6 @@ public class OrderController {
                     order.getDiscount(),
                     order.getDeliveryCost())
             );
-            responseMessage.setValidPromocode(true);
-            responseMessage.setFormatPromocode(order.getFormatDiscount());
-            responseMessage.setFormatTotalCost(order.getFormatTotalCost());
-            responseMessage.setFormatCostWithoutDiscount(order.getFormatCostWithoutDiscount());
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(responseMessage);
         } else {
             order.setPromocode(null);
             order.setDiscount(0.0);
@@ -94,47 +110,17 @@ public class OrderController {
                     order.getDiscount(),
                     order.getDeliveryCost())
             );
-            responseMessage.setValidPromocode(false);
-            responseMessage.setFormatPromocode(order.getFormatDiscount());
-            responseMessage.setFormatTotalCost(order.getFormatTotalCost());
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(responseMessage);
         }
+        return createResponseMessage(order);
     }
 
-    @RequestMapping(value = "/checkDelivery", method = RequestMethod.GET)
-    public ModelAndView checkDelivery(@ModelAttribute("order") Order order,
-                                      @RequestParam("type") String type) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/buy");
-        modelAndView.addObject("order", order);
-
-        DeliveryType deliveryType = DeliveryType.fromId(type);
-        order.setDeliveryType(deliveryType);
-        order.setDeliveryCost(orderService.getDeliveryPrice(deliveryType));
-        order.setTotalCost(orderService.getTotalPrice(
-                orderService.getAllJewelriesPrice(order.getJewelries()),
-                order.getDiscount(),
-                order.getDeliveryCost())
-        );
-        return modelAndView;
-    }
-
-    @ModelAttribute("order")
-    public Order createOrder() {
-        Order order = new Order();
-        order.setUserData(new UserData());
-        order.setDeliveryType(DeliveryType.RUSSIA_POST_OFFICE);
-        order.setPaymentType(PaymentType.TRANSFER_TO_BANK_CARD);
-        //TODO убрать!!!
-        List<Jewelry> jewelries = jewelryService.getJewelries(JewelryType.BRACELET);
-        order.setJewelries(jewelries);
-
-        order.setDeliveryCost(orderService.getDeliveryPrice(order.getDeliveryType()));
-        order.setTotalCost(orderService.getTotalPrice(
-                orderService.getAllJewelriesPrice(order.getJewelries()),
-                0.0,
-                order.getDeliveryCost()));
-
-        return order;
+    private ResponseMessage createResponseMessage(Order order) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        responseMessage.setValidPromocode(order.getPromocode() != null);
+        responseMessage.setFormatPromocode(FormatHelper.getPriceFormat(order.getDiscount()));
+        responseMessage.setFormatDeliveryPrice(FormatHelper.getPriceFormat(order.getDeliveryCost()));
+        responseMessage.setFormatTotalCost(FormatHelper.getPriceFormat(order.getTotalCost()));
+        responseMessage.setFormatCostWithoutDiscount(FormatHelper.getPriceFormat(order.getCostWithoutDiscount()));
+        return responseMessage;
     }
 }

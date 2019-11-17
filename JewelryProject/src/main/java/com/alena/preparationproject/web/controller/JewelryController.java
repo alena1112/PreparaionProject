@@ -1,55 +1,64 @@
 package com.alena.preparationproject.web.controller;
 
 import com.alena.preparationproject.web.model.Jewelry;
-import com.alena.preparationproject.web.model.enums.JewelryType;
+import com.alena.preparationproject.web.model.Order;
+import com.alena.preparationproject.web.model.UserData;
+import com.alena.preparationproject.web.model.enums.DeliveryType;
+import com.alena.preparationproject.web.model.enums.PaymentType;
 import com.alena.preparationproject.web.service.JewelryService;
+import com.alena.preparationproject.web.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping("/jewelry")
+@SessionAttributes(value = "order")
 public class JewelryController {
     @Autowired
     private JewelryService jewelryService;
+    @Autowired
+    private OrderService orderService;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ModelAndView getAllJewelries() {
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView editJewelry(@RequestParam(value = "id") Long id,
+                                    @ModelAttribute("order") Order order) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("jewelryList", jewelryService.getAllJewelries());
-        modelAndView.setViewName("jewelry_list");
+        modelAndView.addObject("jewelry", jewelryService.getJewelry(id));
+        modelAndView.addObject("order", order);
+        modelAndView.setViewName("shop/jewelry");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public ModelAndView editJewelry(@RequestParam(value = "id", required = false) Long id) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("jewelryItem", id != null ? jewelryService.getJewelry(id) : new Jewelry());
-        modelAndView.addObject("jewelryTypes", JewelryType.values());
-        modelAndView.setViewName("jewelry_edit");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView saveJewelry(@RequestParam(value = "id") Long id, @ModelAttribute("jewelryItem") Jewelry jewelry) {
-        if (id == null) {
-            jewelryService.saveNew(jewelry);
-        } else {
-            jewelry.setId(id);
-            jewelryService.save(jewelry);
+    @RequestMapping(value = "/addInOrder", method = RequestMethod.POST)
+    public ModelAndView addInOrder(@RequestParam(value = "id") Long id,
+                                   @ModelAttribute("order") Order order) {
+        Jewelry jewelry = jewelryService.getJewelry(id);
+        if (jewelry != null) {
+            order.getJewelries().add(jewelry);
         }
-        return new ModelAndView("redirect:/jewelry/list", new HashMap<>());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("order", order);
+        modelAndView.setViewName("redirect:/jewelry?id=" + id);
+        return modelAndView;
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public ModelAndView deleteJewelry(@RequestParam(value = "id") Long id) {
-        jewelryService.deleteJewelry(id);
-        return new ModelAndView("redirect:/jewelry/list", new HashMap<>());
+    @ModelAttribute("order")
+    public Order createOrder() {
+        Order order = new Order();
+        order.setUserData(new UserData());
+        order.setJewelries(new ArrayList<>());
+        order.setDeliveryType(DeliveryType.RUSSIA_POST_OFFICE);
+        order.setPaymentType(PaymentType.TRANSFER_TO_BANK_CARD);
+        order.setDeliveryCost(orderService.getDeliveryPrice(order.getDeliveryType()));
+        order.setTotalCost(orderService.getTotalPrice(
+                orderService.getAllJewelriesPrice(order.getJewelries()),
+                0.0,
+                order.getDeliveryCost()));
+
+        return order;
     }
 }

@@ -27,6 +27,20 @@
     a.jewelry-item-class:hover { /*подчеркивание текста при наведении мышки*/
         text-decoration: underline;
     }
+
+    body {
+        background-image: url('http://pve.su/example/sn2.png'), url('http://pve.su/example/sn3.png'), url('http://pve.su/example/sn1.png');
+        animation: snow 20s linear infinite;
+    }
+
+    @keyframes snow {
+        0% {
+            background-position: 0 0, 0 0, 0 0;
+        }
+        100% {
+            background-position: 500px 500px, 400px 400px, 200px 200px;
+        }
+    }
 </style>
 <body>
 
@@ -36,15 +50,15 @@
         <div class="w3-center w3-padding-16" style="font-size:30px;font-weight:600;letter-spacing:1px">Graceful Jewelry</div>
     </div>
     <div class="w3-bar w3-white w3-mobile" style="max-width:1200px;margin:auto">
-        <a href="/start?menu=new" class="w3-bar-item w3-button"
+        <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
            style="font-size:11px;letter-spacing:1px;width:20%">НОВИНКИ</a>
-        <a href="/start?menu=all" class="w3-bar-item w3-button"
+        <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
            style="font-size:11px;letter-spacing:1px;width:20%">ВСЕ УКРАШЕНИЯ</a>
-        <a href="/start?menu=bracelet" class="w3-bar-item w3-button"
+        <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item w3-button"
            style="font-size:11px;letter-spacing:1px;width:20%">БРАСЛЕТЫ</a>
-        <a href="/start?menu=earrings" class="w3-bar-item w3-button"
+        <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item w3-button"
            style="font-size:11px;letter-spacing:1px;width:20%">СЕРЬГИ</a>
-        <a href="/start?menu=necklace" class="w3-bar-item w3-button"
+        <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
            style="font-size:11px;letter-spacing:1px;width:20%">КОЛЬЕ</a>
     </div>
 </div>
@@ -57,13 +71,13 @@
             <div class="w3-row-padding w3-padding-16 w3-center" id="row">
                 <c:forEach items="${list}" var="item">
                     <div class="w3-quarter">
-                        <a href="/buy" class="jewelry-item-class">
+                        <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}" class="jewelry-item-class">
                             <img src="${pageContext.request.contextPath}/resources/w3images/${item.imageUrl}"
                                  alt="${item.name}"
                                  style="width:100%">
                         </a>
-                        <a href="/buy" class="jewelry-item-class"><h3>${item.name}</h3></a>
-                        <a href="/buy" class="jewelry-item-class"><p>${item.description}</p></a>
+                        <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}" class="jewelry-item-class"><h3>${item.name}</h3></a>
+                        <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}" class="jewelry-item-class"><p>${item.description}</p></a>
                         <p class="w3-text-grey">${item.formatPrice}</p>
                     </div>
                 </c:forEach>
