@@ -24,14 +24,36 @@ public class Jewelry extends IdentifiableEntity {
     @Column(name = "type")
     private JewelryType type;
 
-    @Column(name = "imageUrl")
-    private String imageUrl;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "main_image_id")
+    private Image mainImage;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "jewelry_image",
+            joinColumns = {@JoinColumn(name = "jewelry_id")},
+            inverseJoinColumns = {@JoinColumn(name = "image_id")})
+    private List<Image> images;
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "jewelry_material",
             joinColumns = {@JoinColumn(name = "jewelry_id")},
             inverseJoinColumns = {@JoinColumn(name = "material_id")})
     private List<Material> materials;
+
+    @Column(name = "material_description")
+    private String materialDescription;
+
+    @Column(name = "size")
+    private String size;
+
+    @Column(name = "weight")
+    private String weight;
+
+    @Column(name = "is_sold")
+    private Boolean isSold;
+
+    @Column(name = "is_hide")
+    private Boolean isHide;
 
     public String getName() {
         return name;
@@ -73,12 +95,60 @@ public class Jewelry extends IdentifiableEntity {
         this.materials = materials;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public Image getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(Image mainImage) {
+        this.mainImage = mainImage;
+    }
+
+    public String getMaterialDescription() {
+        return materialDescription;
+    }
+
+    public void setMaterialDescription(String materialDescription) {
+        this.materialDescription = materialDescription;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public Boolean getSold() {
+        return isSold;
+    }
+
+    public void setSold(Boolean sold) {
+        isSold = sold;
+    }
+
+    public Boolean getHide() {
+        return isHide;
+    }
+
+    public void setHide(Boolean hide) {
+        isHide = hide;
     }
 
     public String getFormatPrice() {

@@ -11,7 +11,9 @@
 <script>
     window.onload = function () {
         if (${isContains} === true) {
-            changeAddInOrderBtn();
+            var btn = document.getElementById("addInOrderBtn");
+            btn.innerText = "Товар в корзине";
+            btn.disabled = true;
         }
     }
 </script>
@@ -73,32 +75,25 @@
         <div class="w3-row w3-white w3-padding-16">
 
             <div class="w3-col s7 w3-mobile">
-                <div class="w3-container" id="apartment">
-                    <div class="w3-display-container mySlides">
-                        <img src="${pageContext.request.contextPath}/resources/w3images/${jewelry.imageUrl}"
-                             alt="${jewelry.name}"
-                             style="width:100%">
-                    </div>
-                    <div class="w3-display-container mySlides">
-                        <img src="${pageContext.request.contextPath}/resources/w3images/${jewelry.imageUrl}"
-                             alt="${jewelry.name}"
-                             style="width:100%">
-                    </div>
+                <div class="w3-container" id="imagesDiv">
+                    <c:forEach items="${jewelry.images}" var="image">
+                        <div class="w3-display-container mySlides">
+                            <img src="${image.path}"
+                                 alt="${jewelry.name}"
+                                 style="width:100%">
+                        </div>
+                    </c:forEach>
                 </div>
 
                 <div class="w3-row-padding w3-section">
-                    <div class="w3-col s3">
-                        <img class="demo w3-opacity w3-hover-opacity-off"
-                             alt="${jewelry.name}"
-                             src="${pageContext.request.contextPath}/resources/w3images/${jewelry.imageUrl}"
-                             style="width:100%;cursor:pointer" onclick="currentDiv(1)">
-                    </div>
-                    <div class="w3-col s3">
-                        <img class="demo w3-opacity w3-hover-opacity-off"
-                             alt="${jewelry.name}"
-                             src="${pageContext.request.contextPath}/resources/w3images/${jewelry.imageUrl}"
-                             style="width:100%;cursor:pointer" onclick="currentDiv(2)">
-                    </div>
+                    <c:forEach items="${jewelry.images}" var="image">
+                        <div class="w3-col s3">
+                            <img class="demo w3-opacity w3-hover-opacity-off"
+                                 alt="${jewelry.name}"
+                                 src="${image.path}"
+                                 style="width:100%;cursor:pointer" onclick="currentDiv(1)">
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
 
@@ -115,11 +110,10 @@
                     </button>
                 </div>
                 <p style="letter-spacing:1px;font-size:12px;margin-top: 0;margin-bottom: 10px" align="justify">
-                    МАТЕРИАЛЫ: фурнитура с гипоаллегренным покрытием родий; натуральные камни лазурита; авантюриновое
-                    стекло; фианиты</p>
+                    МАТЕРИАЛЫ: ${jewelry.materialDescription}</p>
                 <p style="letter-spacing:1px;font-size:12px;margin-top: 0;margin-bottom: 10px" align="justify">РАЗМЕР:
-                    длина браслета 10 см, длина цепочки 5 см</p>
-                <p style="letter-spacing:1px;font-size:12px;margin: 0" align="justify">ВЕС: 10 гр.</p>
+                        ${jewelry.weight}</p>
+                <p style="letter-spacing:1px;font-size:12px;margin: 0" align="justify">ВЕС: ${jewelry.size}</p>
             </div>
         </div>
 
@@ -163,7 +157,7 @@
         document.getElementById("myOverlay").style.display = "none";
     }
 
-    // Slideshow Apartment Images
+    // Slideshow Images
     var slideIndex = 1;
     showDivs(slideIndex);
 
@@ -193,12 +187,6 @@
         }
         x[slideIndex - 1].style.display = "block";
         dots[slideIndex - 1].className += " w3-opacity-off";
-    }
-
-    function changeAddInOrderBtn() {
-        var btn = document.getElementById("addInOrderBtn");
-        btn.innerText = "Товар в корзине";
-        btn.disabled = true;
     }
 </script>
 

@@ -42,4 +42,13 @@ public class JewelryService {
     public void deleteJewelry(long id) {
         jewelryDao.delete(id);
     }
+
+    public synchronized void sellJewelries(List<Jewelry> jewelries) {
+        for (Jewelry jewelry : order.getJewelries()) {
+            Jewelry foundJewelry = jewelryService.getJewelry(jewelry.getId());
+            if (foundJewelry.getSold() || !foundJewelry.getPrice().equals(jewelry.getPrice())) {
+                throw new CreateOrderException(foundJewelry);
+            }
+        }
+    }
 }

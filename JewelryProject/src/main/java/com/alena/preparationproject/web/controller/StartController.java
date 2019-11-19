@@ -1,14 +1,14 @@
 package com.alena.preparationproject.web.controller;
 
 import com.alena.preparationproject.web.model.Jewelry;
+import com.alena.preparationproject.web.model.Order;
 import com.alena.preparationproject.web.model.enums.JewelryType;
 import com.alena.preparationproject.web.service.JewelryService;
+import com.alena.preparationproject.web.service.OrderService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -16,10 +16,13 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@SessionAttributes(value = "order")
 @RequestMapping("/start")
 public class StartController {
     @Autowired
     private JewelryService jewelryService;
+    @Autowired
+    private OrderService orderService;
 
     private static final String MENU_ALL = "all";
     private static final String MENU_NEW = "new";
@@ -50,5 +53,10 @@ public class StartController {
             }
         }
         return new ArrayList<>();
+    }
+
+    @ModelAttribute("order")
+    public Order createOrder() {
+        return orderService.createDefaultOrder();
     }
 }

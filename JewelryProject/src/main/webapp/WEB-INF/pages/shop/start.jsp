@@ -27,27 +27,29 @@
     a.jewelry-item-class:hover { /*подчеркивание текста при наведении мышки*/
         text-decoration: underline;
     }
-
-    body {
-        background-image: url('http://pve.su/example/sn2.png'), url('http://pve.su/example/sn3.png'), url('http://pve.su/example/sn1.png');
-        animation: snow 20s linear infinite;
-    }
-
-    @keyframes snow {
-        0% {
-            background-position: 0 0, 0 0, 0 0;
-        }
-        100% {
-            background-position: 500px 500px, 400px 400px, 200px 200px;
-        }
-    }
 </style>
 <body>
 
 <!-- Top menu -->
-<div class="w3-top w3-border-bottom">
+<div class="w3-top w3-border-bottom" style="min-height: 110px; max-height: 130px">
     <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-        <div class="w3-center w3-padding-16" style="font-size:30px;font-weight:600;letter-spacing:1px">Graceful Jewelry</div>
+        <div class="w3-row w3-padding-16" style="margin-left:16px;margin-right:16px">
+            <div class="w3-col s2">
+                <span style="color: white">s4</span>
+            </div>
+
+            <div class="w3-col s8 w3-center" style="font-size:30px;font-weight: 600;letter-spacing:1px">
+                <span>Graceful Jewelry</span>
+            </div>
+
+            <div class="w3-col s2">
+                <div class="w3-right" onclick="location.href='buy'">
+                    <i class="fa fa-shopping-cart w3-xlarge" style="cursor:pointer"></i>
+                    <span style="font-size:14px;font-weight:400;vertical-align:middle">${order.jewelries.size()}</span>
+                </div>
+            </div>
+        </div>
+
     </div>
     <div class="w3-bar w3-white w3-mobile" style="max-width:1200px;margin:auto">
         <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
@@ -66,18 +68,23 @@
 <!-- !PAGE CONTENT! -->
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:110px">
 
+    <p id="emptyList" class="w3-text-grey" style="display: ${jewelryList.size() == 0 ? 'display' : 'none'};margin-top: 20px;margin-bottom: 350px;font-size: 12px">
+        В данном разделе украшения пока отсутствуют</p>
     <spring:form method="get" action="/start?type=all" modelAttribute="jewelryList">
         <c:forEach items="${jewelryList}" var="list">
             <div class="w3-row-padding w3-padding-16 w3-center" id="row">
                 <c:forEach items="${list}" var="item">
                     <div class="w3-quarter">
-                        <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}" class="jewelry-item-class">
-                            <img src="${pageContext.request.contextPath}/resources/w3images/${item.imageUrl}"
+                        <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}"
+                           class="jewelry-item-class">
+                            <img src="${item.mainImage.path}"
                                  alt="${item.name}"
                                  style="width:100%">
                         </a>
-                        <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}" class="jewelry-item-class"><h3>${item.name}</h3></a>
-                        <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}" class="jewelry-item-class"><p>${item.description}</p></a>
+                        <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}"
+                           class="jewelry-item-class"><h3>${item.name}</h3></a>
+                        <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}"
+                           class="jewelry-item-class"><p>${item.description}</p></a>
                         <p class="w3-text-grey">${item.formatPrice}</p>
                     </div>
                 </c:forEach>
@@ -111,9 +118,6 @@
 
     <!-- End page content -->
 </div>
-
-<script>
-</script>
 
 </body>
 </html>

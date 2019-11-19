@@ -15,14 +15,24 @@ create table preparation_project.material (
   FOREIGN KEY (shop_id) REFERENCES preparation_project.shop(id)
 );
 
+create table preparation_project.image (
+  id int not null AUTO_INCREMENT,
+  path varchar(300),
+  PRIMARY KEY (id)
+);
+
 create table preparation_project.jewelry (
   id int not null AUTO_INCREMENT,
   name varchar(100),
   price double,
   description varchar(500),
   type varchar(50),
-  imageUrl varchar(50),
-  PRIMARY KEY (id)
+  main_image_id int,
+  material_description varchar(500),
+  size varchar(500),
+  weight varchar(500),
+  PRIMARY KEY (id),
+  FOREIGN KEY (main_image_id) REFERENCES preparation_project.image(id)
 );
 
 create table preparation_project.jewelry_material (
@@ -30,6 +40,13 @@ create table preparation_project.jewelry_material (
   material_id int not null,
   FOREIGN KEY (jewelry_id) REFERENCES preparation_project.jewelry(id),
   FOREIGN KEY (material_id) REFERENCES preparation_project.material(id)
+);
+
+create table preparation_project.jewelry_image (
+  jewelry_id int not null,
+  image_id int not null,
+  FOREIGN KEY (jewelry_id) REFERENCES preparation_project.jewelry(id),
+  FOREIGN KEY (image_id) REFERENCES preparation_project.image(id)
 );
 
 create table preparation_project.promotional_code (

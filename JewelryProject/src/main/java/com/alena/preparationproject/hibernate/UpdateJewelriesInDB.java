@@ -1,9 +1,6 @@
 package com.alena.preparationproject.hibernate;
 
-import com.alena.preparationproject.web.model.Jewelry;
-import com.alena.preparationproject.web.model.Material;
-import com.alena.preparationproject.web.model.PromotionalCode;
-import com.alena.preparationproject.web.model.Shop;
+import com.alena.preparationproject.web.model.*;
 import com.alena.preparationproject.web.model.enums.JewelryType;
 import com.alena.preparationproject.web.model.enums.PromoCodeType;
 import org.hibernate.Session;
@@ -11,13 +8,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class UpdateJewelriesInDB {
 
     public static void main(String[] args) {
-//        updateJewelries();
-        createPromocode();
+        updateJewelries();
+//        createPromocode();
     }
 
     private static Session getSession() {
@@ -28,19 +26,27 @@ public class UpdateJewelriesInDB {
         return sf.openSession();
     }
 
+    private static Image createImage(String path, Session session) {
+        Image image = new Image();
+        image.setPath("http://localhost:9998/resources/w3images/" + path);
+        session.save(image);
+        return image;
+    }
+
     private static void updateJewelries() {
         Session session = getSession();
 
         Transaction transaction = session.beginTransaction();
 
         session.createQuery("delete from Jewelry").executeUpdate();
+        session.createQuery("delete from Image").executeUpdate();
 
         Jewelry jewelry1 = new Jewelry();
         jewelry1.setName("Graceful Shells");
         jewelry1.setPrice(0.0);
         jewelry1.setDescription("Яркие ассиметричные серьги с кристальным жемчугом Swarovski");
         jewelry1.setType(JewelryType.EARRINGS);
-        jewelry1.setImageUrl("1.jpg");
+        jewelry1.setMainImage(createImage("1.jpg", session));
         session.save(jewelry1);
 
         Jewelry jewelry2 = new Jewelry();
@@ -48,7 +54,7 @@ public class UpdateJewelriesInDB {
         jewelry2.setPrice(0.0);
         jewelry2.setDescription("Нежные серьги со стеклянными бутонами лэмпворк");
         jewelry2.setType(JewelryType.EARRINGS);
-        jewelry2.setImageUrl("2.jpg");
+        jewelry2.setMainImage(createImage("2.jpg", session));
         session.save(jewelry2);
 
         Jewelry jewelry3 = new Jewelry();
@@ -56,7 +62,7 @@ public class UpdateJewelriesInDB {
         jewelry3.setPrice(0.0);
         jewelry3.setDescription("Позолоченные серьги мятый металл с эмалью");
         jewelry3.setType(JewelryType.EARRINGS);
-        jewelry3.setImageUrl("3.jpg");
+        jewelry3.setMainImage(createImage("3.jpg", session));
         session.save(jewelry3);
 
         Jewelry jewelry4 = new Jewelry();
@@ -64,7 +70,7 @@ public class UpdateJewelriesInDB {
         jewelry4.setPrice(0.0);
         jewelry4.setDescription("Барочный жемчуг качества Grade AA, позолоченная фурнитура");
         jewelry4.setType(JewelryType.EARRINGS);
-        jewelry4.setImageUrl("4.jpg");
+        jewelry4.setMainImage(createImage("4.jpg", session));
         session.save(jewelry4);
 
         Jewelry jewelry5 = new Jewelry();
@@ -72,7 +78,7 @@ public class UpdateJewelriesInDB {
         jewelry5.setPrice(0.0);
         jewelry5.setDescription("Нежный браслет с миксом натурального пресноводного жемчуга и жемчуга бива, аметиста, розового опала");
         jewelry5.setType(JewelryType.BRACELET);
-        jewelry5.setImageUrl("5.jpg");
+        jewelry5.setMainImage(createImage("5.jpg", session));
         session.save(jewelry5);
 
         Jewelry jewelry6 = new Jewelry();
@@ -80,7 +86,7 @@ public class UpdateJewelriesInDB {
         jewelry6.setPrice(0.0);
         jewelry6.setDescription("Двойной браслет из натурального жемчуга с изящной застёжкой. Позолоченная фурнитура, инкрустация фианиты");
         jewelry6.setType(JewelryType.BRACELET);
-        jewelry6.setImageUrl("6.jpg");
+        jewelry6.setMainImage(createImage("6.jpg", session));
         session.save(jewelry6);
 
         Jewelry jewelry7 = new Jewelry();
@@ -88,7 +94,7 @@ public class UpdateJewelriesInDB {
         jewelry7.setPrice(0.0);
         jewelry7.setDescription("Роскошный браслет из натурального барочного жемчуга и удобной магнитной застежкой, инкрустация фианиты");
         jewelry7.setType(JewelryType.BRACELET);
-        jewelry7.setImageUrl("7.jpg");
+        jewelry7.setMainImage(createImage("7.jpg", session));
         session.save(jewelry7);
 
         Jewelry jewelry8 = new Jewelry();
@@ -96,7 +102,12 @@ public class UpdateJewelriesInDB {
         jewelry8.setPrice(2000.0);
         jewelry8.setDescription("Браслет с авантюриновым стеклом и лазуритом. Посеребрённая фурнитура, фианиты");
         jewelry8.setType(JewelryType.BRACELET);
-        jewelry8.setImageUrl("8.jpg");
+        Image image = createImage("8.jpg", session);
+        jewelry8.setMainImage(image);
+        jewelry8.setImages(Arrays.asList(image));
+        jewelry8.setMaterialDescription("Фурнитура с гипоаллегренным покрытием родий; натуральные камни лазурита; авантюриновое стекло; фианиты");
+        jewelry8.setWeight("Длина браслета 10 см, длина цепочки 5 см");
+        jewelry8.setSize("10 гр.");
         session.save(jewelry8);
 
         Jewelry jewelry9 = new Jewelry();
@@ -104,19 +115,19 @@ public class UpdateJewelriesInDB {
         jewelry9.setPrice(1600.0);
         jewelry9.setDescription("Нежный и невесомый браслет из бусин натурального говлита и кварца. Посеребрённая фурнитура со вставками из фианитов");
         jewelry9.setType(JewelryType.BRACELET);
-        jewelry9.setImageUrl("9.jpg");
+        jewelry9.setMainImage(createImage("9.jpg", session));
         session.save(jewelry9);
 
         Jewelry jewelry10 = new Jewelry();
-        jewelry10.setImageUrl("10.jpg");
+        jewelry10.setMainImage(createImage("10.jpg", session));
         session.save(jewelry10);
 
         Jewelry jewelry11 = new Jewelry();
-        jewelry11.setImageUrl("11.jpg");
+        jewelry11.setMainImage(createImage("11.jpg", session));
         session.save(jewelry11);
 
         Jewelry jewelry12 = new Jewelry();
-        jewelry12.setImageUrl("12.jpg");
+        jewelry12.setMainImage(createImage("12.jpg", session));
         session.save(jewelry12);
 
         transaction.commit();

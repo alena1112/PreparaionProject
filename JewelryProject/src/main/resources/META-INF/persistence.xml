@@ -10,6 +10,7 @@
         <class>com.alena.preparationproject.web.model.Jewelry</class>
         <class>com.alena.preparationproject.web.model.PromotionalCode</class>
         <class>com.alena.preparationproject.web.model.Order</class>
+        <class>com.alena.preparationproject.web.model.Image</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 <!--        <properties>-->

@@ -189,9 +189,23 @@
 <!-- Top menu -->
 <div class="w3-top w3-border-bottom" style="min-height: 110px; max-height: 130px">
     <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-        <div class="w3-center w3-padding-16" style="font-size:30px;font-weight: 600;letter-spacing:1px">
-            Graceful Jewelry
+        <div class="w3-row w3-padding-16" style="margin-left:16px;margin-right:16px">
+            <div class="w3-col s2">
+                <span style="color: white">s4</span>
+            </div>
+
+            <div class="w3-col s8 w3-center" style="font-size:30px;font-weight: 600;letter-spacing:1px">
+                <span>Graceful Jewelry</span>
+            </div>
+
+            <div class="w3-col s2">
+                <div class="w3-right" onclick="location.href='buy'">
+                    <i class="fa fa-shopping-cart w3-xlarge" style="cursor:pointer"></i>
+                    <span style="font-size:14px;font-weight:400;vertical-align:middle">${order.jewelries.size()}</span>
+                </div>
+            </div>
         </div>
+
     </div>
     <div class="w3-bar w3-white w3-mobile" style="max-width:1200px;margin:auto">
         <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
@@ -222,12 +236,12 @@
                         <tr>
                             <td>
                                 <div class="w3-cell">
-                                    <img src="${pageContext.request.contextPath}/resources/w3images/${jewelry.imageUrl}"
+                                    <img src="${jewelry.mainImage.path}"
                                          alt="jewelry"
                                          style="width:90px; height:90px" class="w3-margin-right">
                                 </div>
                                 <div class="w3-cell w3-cell-middle">
-                                    <a href="#" class="jewelry-item-class"><p
+                                    <a href="${pageContext.request.contextPath}/jewelry?id=${jewelry.id}" class="jewelry-item-class"><p
                                             style="margin:0;font-weight:600">${jewelry.name}</p></a>
                                     <p style="margin:0;font-size:12px">${jewelry.description}</p>
                                 </div>
@@ -474,13 +488,13 @@
     function deleteItem(r, jewelryId) {
         var length = document.getElementById('jewelriesTable').rows.length;
         var i = r.parentNode.parentNode.rowIndex;
+        document.getElementById("jewelriesTable").deleteRow(i);
         var request = new XMLHttpRequest();
         request.responseType = "text";
         request.onreadystatechange = function () {
             if (this.status === 200 && this.responseText !== '') {
                 if (length !== 1) {
                     var responseMessage = JSON.parse(this.responseText);
-                    document.getElementById("jewelriesTable").deleteRow(i);
                     recalculatePrice(responseMessage);
                 } else {
                     hideOrder();
