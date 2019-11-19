@@ -9,6 +9,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
+    window.onload = function () {
+        if (${isContains} === true) {
+            changeAddInOrderBtn();
+        }
+    }
 </script>
 <style>
     body, h1, h2, h3, h4, h5, h6 {
@@ -39,7 +44,7 @@
             </div>
 
             <div class="w3-col s2">
-                <div class="w3-right">
+                <div class="w3-right" onclick="location.href='buy'">
                     <i class="fa fa-shopping-cart w3-xlarge" style="cursor:pointer"></i>
                     <span style="font-size:14px;font-weight:400;vertical-align:middle">${order.jewelries.size()}</span>
                 </div>

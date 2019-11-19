@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 @Controller
 @RequestMapping("/jewelry")
@@ -27,8 +28,14 @@ public class JewelryController {
     public ModelAndView editJewelry(@RequestParam(value = "id") Long id,
                                     @ModelAttribute("order") Order order) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("jewelry", jewelryService.getJewelry(id));
+        Jewelry jewelry = jewelryService.getJewelry(id);
+        modelAndView.addObject("jewelry", jewelry);
         modelAndView.addObject("order", order);
+        modelAndView.addObject("isContains",
+                order.getJewelries()
+                        .stream()
+                        .anyMatch(j -> j.getId().equals(jewelry.getId()))
+        );
         modelAndView.setViewName("shop/jewelry");
         return modelAndView;
     }
