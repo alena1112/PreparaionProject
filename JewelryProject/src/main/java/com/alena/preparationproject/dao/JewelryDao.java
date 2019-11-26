@@ -8,35 +8,40 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @Repository
-public class JewelryDao implements Dao<Jewelry, Long> {
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
-
+public class JewelryDao extends Dao<Jewelry, Long> {
     @Override
     public Optional<Jewelry> get(Long id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return Optional.ofNullable(entityManager.find(Jewelry.class, id));
+        return Optional.ofNullable(executeInsideTransaction(entityManager -> {
+            return entityManager.find(Jewelry.class, id);
+        }));
     }
 
     @Override
     public List<Jewelry> getAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j", Jewelry.class);
-        return query.getResultList();
+        return executeInsideTransaction(entityManager -> {
+            TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j where j.isHide = false " +
+                    "order by j.isSold", Jewelry.class);
+            return query.getResultList();
+        });
     }
 
     public List<Jewelry> getAll(JewelryType type) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j where j.type = :type", Jewelry.class);
-        query.setParameter("type", type);
-        return query.getResultList();
+        return executeInsideTransaction(entityManager -> {
+            TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j where j.type = :type and " +
+                    "j.isHide = false order by j.isSold", Jewelry.class);
+            query.setParameter("type", type);
+            return query.getResultList();
+        });
     }
 
     @Override
     public void save(Jewelry jewelry) {
-        executeInsideTransaction(entityManager -> entityManager.persist(jewelry));
+        executeInsideTransaction(entityManager -> {
+            entityManager.persist(jewelry);
+        });
     }
 
     @Override
@@ -53,18 +58,5 @@ public class JewelryDao implements Dao<Jewelry, Long> {
                     entityManager.remove(foundJewelry);
                 }
         );
-    }
-
-    private void executeInsideTransaction(Consumer<EntityManager> action) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        EntityTransaction tx = entityManager.getTransaction();
-        try {
-            tx.begin();
-            action.accept(entityManager);
-            tx.commit();
-        } catch (RuntimeException e) {
-            tx.rollback();
-            throw e;
-        }
     }
 }

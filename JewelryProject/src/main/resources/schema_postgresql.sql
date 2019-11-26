@@ -26,6 +26,8 @@ create table jewelry (
   material_description varchar(500),
   size varchar(500),
   weight varchar(500),
+  is_sold BOOLEAN not null default false,
+  is_hide BOOLEAN not null default false,
   FOREIGN KEY (main_image_id) REFERENCES image(id)
 );
 
@@ -58,7 +60,7 @@ create table user_order (
   id SERIAL PRIMARY KEY,
   promocode_id int,
   delivery_type varchar(20) not null,
-  payment_type varchar(20) not null,
+  payment_type varchar(50) not null,
   delivery_cost decimal,
   discount decimal,
   total_cost decimal,

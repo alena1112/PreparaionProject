@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class PromocodeDao implements Dao<PromotionalCode, Long> {
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
+public class PromocodeDao extends Dao<PromotionalCode, Long> {
 
     @Override
     public Optional<PromotionalCode> get(Long aLong) {
@@ -21,13 +19,14 @@ public class PromocodeDao implements Dao<PromotionalCode, Long> {
     }
 
     public PromotionalCode getByCode(String code) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        TypedQuery<PromotionalCode> query = entityManager.createQuery("SELECT c FROM PromotionalCode c " +
-                        "where c.code = :code", PromotionalCode.class);
-        query.setParameter("code", code);
-        return query.getResultStream()
-                .findFirst()
-                .orElse(null);
+        return executeInsideTransaction(entityManager -> {
+            TypedQuery<PromotionalCode> query = entityManager.createQuery("SELECT c FROM PromotionalCode c " +
+                    "where c.code = :code", PromotionalCode.class);
+            query.setParameter("code", code);
+            return query.getResultStream()
+                    .findFirst()
+                    .orElse(null);
+        });
     }
 
     @Override

@@ -10,8 +10,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
     window.onload = function () {
-        if (${isContains} === true) {
-            var btn = document.getElementById("addInOrderBtn");
+        var btn = document.getElementById("addInOrderBtn");
+        if (${jewelry.sold} === true) {
+            btn.innerText = "Нет в наличии";
+            btn.disabled = true;
+        } else if (${isContains} === true) {
             btn.innerText = "Товар в корзине";
             btn.disabled = true;
         }

@@ -9,6 +9,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
+    window.onload = function () {
+        if (${type == "SUCCESSFUL_ORDER"}) {
+            document.getElementById('infoMsg').innerHTML = "Заказ успешно создан";
+        }
+    }
 </script>
 <style>
     body, h1, h2, h3, h4, h5, h6 {
@@ -24,9 +29,23 @@
 <!-- Top menu -->
 <div class="w3-top w3-border-bottom" style="min-height: 110px; max-height: 130px">
     <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-        <div class="w3-center w3-padding-16" style="font-size:30px;font-weight: 600;letter-spacing:1px">
-            Graceful Jewelry
+        <div class="w3-row w3-padding-16" style="margin-left:16px;margin-right:16px">
+            <div class="w3-col s2">
+                <span style="color: white">s4</span>
+            </div>
+
+            <div class="w3-col s8 w3-center" style="font-size:30px;font-weight: 600;letter-spacing:1px">
+                <span>Graceful Jewelry</span>
+            </div>
+
+            <div class="w3-col s2">
+                <div class="w3-right" onclick="location.href='buy'">
+                    <i class="fa fa-shopping-cart w3-xlarge" style="cursor:pointer"></i>
+                    <span style="font-size:14px;font-weight:400;vertical-align:middle">${order.jewelries.size()}</span>
+                </div>
+            </div>
         </div>
+
     </div>
     <div class="w3-bar w3-white w3-mobile" style="max-width:1200px;margin:auto">
         <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
@@ -44,6 +63,7 @@
 
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:110px">
 
+    <p id="infoMsg" class="w3-text-grey" style="margin-top: 20px;margin-bottom: 350px;font-size: 12px"></p>
 
     <hr>
 

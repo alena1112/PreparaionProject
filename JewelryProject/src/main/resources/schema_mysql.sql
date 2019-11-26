@@ -31,6 +31,8 @@ create table preparation_project.jewelry (
   material_description varchar(500),
   size varchar(500),
   weight varchar(500),
+  is_sold tinyint(1) not null default 0,
+  is_hide tinyint(1) not null default 0,
   PRIMARY KEY (id),
   FOREIGN KEY (main_image_id) REFERENCES preparation_project.image(id)
 );
@@ -65,7 +67,7 @@ create table preparation_project.user_order (
   id int not null AUTO_INCREMENT,
   promocode_id int,
   delivery_type varchar(20) not null,
-  payment_type varchar(20) not null,
+  payment_type varchar(50) not null,
   delivery_cost double,
   discount double,
   total_cost double,

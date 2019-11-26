@@ -1,11 +1,13 @@
 package com.alena.preparationproject.web.service;
 
+import com.alena.preparationproject.dao.OrderDao;
 import com.alena.preparationproject.web.model.Jewelry;
 import com.alena.preparationproject.web.model.Order;
 import com.alena.preparationproject.web.model.PromotionalCode;
 import com.alena.preparationproject.web.model.UserData;
 import com.alena.preparationproject.web.model.enums.DeliveryType;
 import com.alena.preparationproject.web.model.enums.PaymentType;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,11 @@ import java.util.List;
 public class OrderService {
     private final PromoCodeService promoCodeService;
     private final JewelryService jewelryService;
+    private final OrderDao orderDao;
 
     @Autowired
-    public OrderService(PromoCodeService promoCodeService, JewelryService jewelryService) {
+    public OrderService(OrderDao orderDao, PromoCodeService promoCodeService, JewelryService jewelryService) {
+        this.orderDao = orderDao;
         this.promoCodeService = promoCodeService;
         this.jewelryService = jewelryService;
     }
@@ -39,18 +43,47 @@ public class OrderService {
         return order;
     }
 
+//не должно происходить апдейт в базе по параметрам, украшениям, промокоду
     public void saveOrder(Order order) throws CreateOrderException {
-        if (order.getJewelries() != null && !order.getJewelries().isEmpty()) {
-            jewelryService.sellJewelries(order.getJewelries());
-        }
-        if (order.getPromocode() != null) {
-            PromotionalCode appliedPromoCode = promoCodeService.applyPromotionCode(order.getPromocode());
-            if (appliedPromoCode != null) {
-                order.setPromocode(appliedPromoCode);
-            } else {
-                throw new CreateOrderException();
-            }
+        synchronized (jewelryService) {
+            synchronized (promoCodeService) {
+                validateOrder(order);
 
+                promoCodeService.applyPromotionCode(order.getPromocode());
+                jewelryService.sellJewelries(order.getJewelries());
+                orderDao.save(order);
+            }
+        }
+    }
+
+    private void validateOrder(Order order) throws CreateOrderException {
+        for (Jewelry orderJewelry : order.getJewelries()) {
+            Jewelry jewelry = jewelryService.getJewelry(orderJewelry.getId());
+            if (jewelry == null) {
+                throw new CreateOrderException(CreateOrderException.ExceptionType.JEWELRY_DOES_NOT_EXIST, orderJewelry);
+            }
+            if (BooleanUtils.isTrue(jewelry.getSold())) {
+                throw new CreateOrderException(CreateOrderException.ExceptionType.JEWELRY_SOLD, orderJewelry);
+            }
+            if (!jewelry.getPrice().equals(orderJewelry.getPrice())) {
+                throw new CreateOrderException(CreateOrderException.ExceptionType.JEWELRY_PRICE_CHANGE, orderJewelry);
+            }
+        }
+        double allJewelriesPrice = getAllJewelriesPrice(order.getJewelries());
+        if (order.getPromocode() != null) {
+            PromotionalCode promotionalCode = promoCodeService.getPromotionalCode(order.getPromocode().getCode());
+            if (promotionalCode == null) {
+                throw new CreateOrderException(CreateOrderException.ExceptionType.PROMOCODE_DOES_NOT_EXIST);
+            }
+            if (!promoCodeService.isValidPromoCode(promotionalCode)) {
+                throw new CreateOrderException(CreateOrderException.ExceptionType.PROMOCODE_IS_NOT_VALID);
+            }
+            if (Math.round(order.getDiscount()) != Math.round(promoCodeService.getDiscount(allJewelriesPrice, promotionalCode))) {
+                throw new CreateOrderException(CreateOrderException.ExceptionType.PROMOCODE_IS_CHANGED);
+            }
+        }
+        if (Math.round(order.getDeliveryCost()) != getDeliveryPrice(order.getDeliveryType())) {
+            throw new CreateOrderException(CreateOrderException.ExceptionType.DELIVERY_IS_CHANGED);
         }
     }
 
@@ -107,14 +140,18 @@ public class OrderService {
                     order.getDeliveryCost())
             );
         } else {
-            order.setPromocode(null);
-            order.setDiscount(0.0);
-            order.setTotalCost(getTotalPrice(
-                    getAllJewelriesPrice(order.getJewelries()),
-                    order.getDiscount(),
-                    order.getDeliveryCost())
-            );
+            updateOrderForInvalidPromoCode(order);
         }
+    }
+
+    public void updateOrderForInvalidPromoCode(Order order) {
+        order.setPromocode(null);
+        order.setDiscount(0.0);
+        order.setTotalCost(getTotalPrice(
+                getAllJewelriesPrice(order.getJewelries()),
+                order.getDiscount(),
+                order.getDeliveryCost())
+        );
     }
 
     private double getTotalPrice(Double allJewelriesPrice, Double discount, Double delivery) {

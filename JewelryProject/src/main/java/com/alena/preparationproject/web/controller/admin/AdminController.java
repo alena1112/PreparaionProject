@@ -14,8 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 
 @Controller
-@RequestMapping("/item")
-public class ItemController {
+@RequestMapping("/admin")
+public class AdminController {
     @Autowired
     private JewelryService jewelryService;
 
@@ -23,7 +23,7 @@ public class ItemController {
     public ModelAndView getAllJewelries() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("jewelryList", jewelryService.getAllJewelries());
-        modelAndView.setViewName("jewelry_list");
+        modelAndView.setViewName("admin/jewelry_list");
         return modelAndView;
     }
 
@@ -32,7 +32,7 @@ public class ItemController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("jewelryItem", id != null ? jewelryService.getJewelry(id) : new Jewelry());
         modelAndView.addObject("jewelryTypes", JewelryType.values());
-        modelAndView.setViewName("jewelry_edit");
+        modelAndView.setViewName("admin/jewelry_edit");
         return modelAndView;
     }
 

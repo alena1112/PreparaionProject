@@ -3,13 +3,41 @@ package com.alena.preparationproject.web.service;
 import com.alena.preparationproject.web.model.Jewelry;
 
 public class CreateOrderException extends Exception {
-    private Jewelry soldJewelry;
-    private ExceptionType type;
+    private ExceptionType exceptionType;
+    private Jewelry jewelry;
 
-    public CreateOrderException(Jewelry soldJewelry) {
-        this.soldJewelry = soldJewelry;
-        this.type = ExceptionType.SOLD;
+    public CreateOrderException(ExceptionType exceptionType) {
+        this.exceptionType = exceptionType;
     }
 
-    public enum ExceptionType {SOLD}
+    public CreateOrderException(ExceptionType exceptionType, Jewelry jewelry) {
+        this.exceptionType = exceptionType;
+        this.jewelry = jewelry;
+    }
+
+    public ExceptionType getExceptionType() {
+        return exceptionType;
+    }
+
+    public void setExceptionType(ExceptionType exceptionType) {
+        this.exceptionType = exceptionType;
+    }
+
+    public Jewelry getJewelry() {
+        return jewelry;
+    }
+
+    public void setJewelry(Jewelry jewelry) {
+        this.jewelry = jewelry;
+    }
+
+    public enum ExceptionType {
+        JEWELRY_SOLD,
+        JEWELRY_PRICE_CHANGE,
+        JEWELRY_DOES_NOT_EXIST,
+        PROMOCODE_DOES_NOT_EXIST,
+        PROMOCODE_IS_NOT_VALID,
+        PROMOCODE_IS_CHANGED,
+        DELIVERY_IS_CHANGED
+    }
 }

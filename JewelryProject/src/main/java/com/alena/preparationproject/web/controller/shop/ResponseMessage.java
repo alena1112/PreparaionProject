@@ -1,4 +1,4 @@
-package com.alena.preparationproject.web.controller;
+package com.alena.preparationproject.web.controller.shop;
 
 public class ResponseMessage {
     private Boolean isValidPromocode;

@@ -29,24 +29,21 @@ public class PromoCodeService {
         return true;
     }
 
-    public synchronized PromotionalCode applyPromotionCode(PromotionalCode promotionalCode) {
+    public boolean applyPromotionCode(PromotionalCode promotionalCode) {
         if (promotionalCode != null) {
-            PromotionalCode foundPromoCode = getPromotionalCode(promotionalCode.getCode());
-            if (foundPromoCode != null && isValidPromoCode(foundPromoCode)) {
-                foundPromoCode.setCurrentUsesNumber(foundPromoCode.getCurrentUsesNumber() + 1);
-                if (foundPromoCode.getMaxUsesNumber() != null &&
-                        foundPromoCode.getMaxUsesNumber().equals(foundPromoCode.getCurrentUsesNumber())) {
-                    foundPromoCode.setActive(false);
-                }
-                if (foundPromoCode.getExpirationDate() != null &&
-                        System.currentTimeMillis() > foundPromoCode.getExpirationDate().getTime()) {
-                    foundPromoCode.setActive(false);
-                }
-                promocodeDao.save(foundPromoCode);
-                return foundPromoCode;
+            promotionalCode.setCurrentUsesNumber(promotionalCode.getCurrentUsesNumber() + 1);
+            if (promotionalCode.getMaxUsesNumber() != null &&
+                    promotionalCode.getMaxUsesNumber().equals(promotionalCode.getCurrentUsesNumber())) {
+                promotionalCode.setActive(false);
             }
+            if (promotionalCode.getExpirationDate() != null &&
+                    System.currentTimeMillis() > promotionalCode.getExpirationDate().getTime()) {
+                promotionalCode.setActive(false);
+            }
+            promocodeDao.save(promotionalCode);
+            return true;
         }
-        return null;
+        return false;
     }
 
     public double getDiscount(double allJewelriesPrice, PromotionalCode promotionalCode) {

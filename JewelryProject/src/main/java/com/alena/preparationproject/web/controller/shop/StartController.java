@@ -1,4 +1,4 @@
-package com.alena.preparationproject.web.controller;
+package com.alena.preparationproject.web.controller.shop;
 
 import com.alena.preparationproject.web.model.Jewelry;
 import com.alena.preparationproject.web.model.Order;

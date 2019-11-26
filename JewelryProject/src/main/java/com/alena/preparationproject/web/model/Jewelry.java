@@ -50,10 +50,10 @@ public class Jewelry extends IdentifiableEntity {
     private String weight;
 
     @Column(name = "is_sold")
-    private Boolean isSold;
+    private Boolean isSold = false;
 
     @Column(name = "is_hide")
-    private Boolean isHide;
+    private Boolean isHide = false;
 
     public String getName() {
         return name;

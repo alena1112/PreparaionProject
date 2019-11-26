@@ -19,6 +19,11 @@
             }
         }, false);
     }
+
+    function createOrderErrorActivate() {
+        createOrderError.innerHTML = "Проверьте правильность заполнения полей ниже";
+        createOrderError.className = "messageError active";
+    }
 </script>
 <script>
     window.onload = function () {
@@ -67,33 +72,38 @@
         }, false);
 
         btn.addEventListener("click", function (event) {
-            createOrderError.innerHTML = "Проверьте правильность заполнения полей ниже";
-            createOrderError.className = "messageError active";
             if (name.validity.valueMissing) {
+                createOrderErrorActivate();
                 nameError.innerHTML = "Введите имя";
                 nameError.className = "error active";
                 event.preventDefault();
             } else if (lastName.validity.valueMissing) {
+                createOrderErrorActivate();
                 lastNameError.innerHTML = "Введите фамилию";
                 lastNameError.className = "error active";
                 event.preventDefault();
             } else if (phone.validity.valueMissing) {
+                createOrderErrorActivate();
                 phoneError.innerHTML = "Введите телефон";
                 phoneError.className = "error active";
                 event.preventDefault();
             } else if (email.validity.valueMissing) {
+                createOrderErrorActivate();
                 emailError.innerHTML = "Введите адрес электронной почты";
                 emailError.className = "error active";
                 event.preventDefault();
             } else if (city.validity.valueMissing) {
+                createOrderErrorActivate();
                 cityError.innerHTML = "Введите город";
                 cityError.className = "error active";
                 event.preventDefault();
             } else if (address.validity.valueMissing) {
+                createOrderErrorActivate();
                 addressError.innerHTML = "Введите адрес";
                 addressError.className = "error active";
                 event.preventDefault();
             } else if (index.validity.valueMissing) {
+                createOrderErrorActivate();
                 indexError.innerHTML = "Введите индекс";
                 indexError.className = "error active";
                 event.preventDefault();
