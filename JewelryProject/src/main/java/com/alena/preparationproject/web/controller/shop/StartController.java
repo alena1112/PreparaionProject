@@ -43,13 +43,13 @@ public class StartController {
 
     private List<Jewelry> getJewelries(String menu) {
         if (StringUtils.isBlank(menu) || MENU_ALL.equals(menu)) {
-            return jewelryService.getAllJewelries();
+            return jewelryService.getAllUnhiddenJewelries();
         } else if (MENU_NEW.equals(menu)) {
-            return jewelryService.getNewJewelries(new Date(), 10);
+            return jewelryService.getNewUnhiddenJewelries(new Date(), 10);
         } else {
             JewelryType jewelryType = JewelryType.fromId(menu);
             if (jewelryType != null) {
-                return jewelryService.getJewelries(jewelryType);
+                return jewelryService.getUnhiddenJewelries(jewelryType);
             }
         }
         return new ArrayList<>();

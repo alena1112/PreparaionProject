@@ -22,13 +22,20 @@ public class JewelryDao extends Dao<Jewelry, Long> {
     @Override
     public List<Jewelry> getAll() {
         return executeInsideTransaction(entityManager -> {
+            TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j", Jewelry.class);
+            return query.getResultList();
+        });
+    }
+
+    public List<Jewelry> getAllUnhidden() {
+        return executeInsideTransaction(entityManager -> {
             TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j where j.isHide = false " +
                     "order by j.isSold", Jewelry.class);
             return query.getResultList();
         });
     }
 
-    public List<Jewelry> getAll(JewelryType type) {
+    public List<Jewelry> getAllUnhidden(JewelryType type) {
         return executeInsideTransaction(entityManager -> {
             TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j where j.type = :type and " +
                     "j.isHide = false order by j.isSold", Jewelry.class);

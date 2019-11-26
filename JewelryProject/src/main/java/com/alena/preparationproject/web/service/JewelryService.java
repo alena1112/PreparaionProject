@@ -14,16 +14,20 @@ public class JewelryService {
     @Autowired
     private JewelryDao jewelryDao;
 
+    public List<Jewelry> getAllUnhiddenJewelries() {
+        return jewelryDao.getAllUnhidden();
+    }
+
     public List<Jewelry> getAllJewelries() {
         return jewelryDao.getAll();
     }
 
-    public List<Jewelry> getNewJewelries(Date fromDate, int maxCount) {
-        return jewelryDao.getAll();
+    public List<Jewelry> getNewUnhiddenJewelries(Date fromDate, int maxCount) {
+        return jewelryDao.getAllUnhidden();
     }
 
-    public List<Jewelry> getJewelries(JewelryType type) {
-        return jewelryDao.getAll(type);
+    public List<Jewelry> getUnhiddenJewelries(JewelryType type) {
+        return jewelryDao.getAllUnhidden(type);
     }
 
     public Jewelry getJewelry(long id) {

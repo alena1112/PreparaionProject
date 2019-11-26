@@ -43,6 +43,10 @@ public class OrderService {
         return order;
     }
 
+    public List<Order> getAllOrders() {
+        return orderDao.getAll();
+    }
+
 //не должно происходить апдейт в базе по параметрам, украшениям, промокоду
     public void saveOrder(Order order) throws CreateOrderException {
         synchronized (jewelryService) {

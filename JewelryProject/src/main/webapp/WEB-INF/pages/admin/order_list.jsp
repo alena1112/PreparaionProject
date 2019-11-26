@@ -52,34 +52,40 @@
         <table class="table table-bordered <%--table-striped--%> table-hover">
             <tr>
                 <th>Id</th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
-                <th>Type</th>
-                <th>Materials Description</th>
-                <th>Weight</th>
-                <th>Size</th>
-                <th>Is Hide</th>
-                <th>Is Sold</th>
+                <th>Jewelries</th>
+                <th>Promocode</th>
+                <th>Delivery Type</th>
+                <th>Payment Type</th>
+                <th>Delivery Cost</th>
+                <th>Discount</th>
+                <th>Total Cost</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Patronymic</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>City</th>
+                <th>Address</th>
+                <th>Post Index</th>
             </tr>
-            <c:forEach items="${jewelryList}" var="item" varStatus="status">
+            <c:forEach items="${orderList}" var="item" varStatus="status">
                 <tr ondblclick="location.href='edit?id=${item.id}'">
                     <td>${item.id}</td>
-                    <td>
-                        <img src="${item.mainImage.path}"
-                             alt="jewelry"
-                             style="width:90px; height:90px">
-                    </td>
-                    <td>${item.name}</td>
-                    <td>${item.price}</td>
-                    <td>${item.description}</td>
-                    <td>${item.type.name}</td>
-                    <td>${item.materialDescription}</td>
-                    <td>${item.weight}</td>
-                    <td>${item.size}</td>
-                    <td>${item.hide}</td>
-                    <td>${item.sold}</td>
+                    <td>${item.jewelries}</td>
+                    <td>${item.promocode.code}</td>
+                    <td>${item.deliveryType.name}</td>
+                    <td>${item.paymentType.name}</td>
+                    <td>${item.deliveryCost}</td>
+                    <td>${item.discount}</td>
+                    <td>${item.totalCost}</td>
+                    <td>${item.userData.firstName}</td>
+                    <td>${item.userData.lastName}</td>
+                    <td>${item.userData.patronymic}</td>
+                    <td>${item.userData.phone}</td>
+                    <td>${item.userData.email}</td>
+                    <td>${item.userData.city}</td>
+                    <td>${item.userData.address}</td>
+                    <td>${item.userData.postIndex}</td>
                 </tr>
             </c:forEach>
         </table>
