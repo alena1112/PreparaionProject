@@ -1,13 +1,12 @@
 package com.alena.preparationproject.dao;
 
-import com.alena.preparationproject.web.model.IdentifiableEntity;
+import com.alena.preparationproject.mvc.model.IdentifiableEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceUnit;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;

@@ -1,11 +1,8 @@
 package com.alena.preparationproject.dao;
 
-import com.alena.preparationproject.web.model.PromotionalCode;
+import com.alena.preparationproject.mvc.model.PromotionalCode;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +28,10 @@ public class PromocodeDao extends Dao<PromotionalCode, Long> {
 
     @Override
     public List<PromotionalCode> getAll() {
-        return null;
+        return executeInsideTransaction(entityManager -> {
+            TypedQuery<PromotionalCode> query = entityManager.createQuery("SELECT c FROM PromotionalCode c", PromotionalCode.class);
+            return query.getResultList();
+        });
     }
 
     @Override

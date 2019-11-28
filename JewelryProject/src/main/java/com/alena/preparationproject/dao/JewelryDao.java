@@ -1,14 +1,12 @@
 package com.alena.preparationproject.dao;
 
-import com.alena.preparationproject.web.model.Jewelry;
-import com.alena.preparationproject.web.model.enums.JewelryType;
+import com.alena.preparationproject.mvc.model.Jewelry;
+import com.alena.preparationproject.mvc.model.enums.JewelryType;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Repository
 public class JewelryDao extends Dao<Jewelry, Long> {

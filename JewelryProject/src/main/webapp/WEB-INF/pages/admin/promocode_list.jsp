@@ -91,41 +91,29 @@
     </div>
 </nav>
 
-<spring:form method="get" action="/jewelry/list" modelAttribute="jewelryList">
+<spring:form method="get" action="/promocode/list" modelAttribute="promocodeList">
     <div class="container-fluid">
         <input class="btn btn-primary mb-3" type="button" value="Создать" onclick="location.href='edit'"/>
         <input class="btn btn-primary mb-3" type="button" value="Удалить" onclick="delete_item()"/>
         <table class="table table-bordered" id="mainTable">
             <tr class="table_heading">
                 <th>Id</th>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Description</th>
+                <th>Code</th>
                 <th>Type</th>
-                <th>Materials Description</th>
-                <th>Weight</th>
-                <th>Size</th>
-                <th>Is Hide</th>
-                <th>Is Sold</th>
+                <th>Value</th>
+                <th>Max Uses Number</th>
+                <th>Current Uses Number</th>
+                <th>Expiration Date</th>
             </tr>
-            <c:forEach items="${jewelryList}" var="item" varStatus="status">
+            <c:forEach items="${promocodeList}" var="item" varStatus="status">
                 <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='edit?id=${item.id}'" style="cursor: pointer">
                     <td>${item.id}</td>
-                    <td>
-                        <img src="${item.mainImage.path}"
-                             alt="jewelry"
-                             style="width:90px; height:90px">
-                    </td>
-                    <td>${item.name}</td>
-                    <td>${item.price}</td>
-                    <td>${item.description}</td>
-                    <td>${item.type.name}</td>
-                    <td>${item.materialDescription}</td>
-                    <td>${item.weight}</td>
-                    <td>${item.size}</td>
-                    <td>${item.hide}</td>
-                    <td>${item.sold}</td>
+                    <td>${item.code}</td>
+                    <td>${item.promoCodeType.name}</td>
+                    <td>${item.value}</td>
+                    <td>${item.maxUsesNumber}</td>
+                    <td>${item.currentUsesNumber}</td>
+                    <td>${item.expirationDate}</td>
                 </tr>
             </c:forEach>
         </table>

@@ -1,6 +1,6 @@
 package com.alena.preparationproject.dao;
 
-import com.alena.preparationproject.web.model.Order;
+import com.alena.preparationproject.mvc.model.Order;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;

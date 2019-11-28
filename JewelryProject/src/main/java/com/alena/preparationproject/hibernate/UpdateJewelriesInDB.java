@@ -1,15 +1,14 @@
 package com.alena.preparationproject.hibernate;
 
-import com.alena.preparationproject.web.model.*;
-import com.alena.preparationproject.web.model.enums.JewelryType;
-import com.alena.preparationproject.web.model.enums.PromoCodeType;
+import com.alena.preparationproject.mvc.model.*;
+import com.alena.preparationproject.mvc.model.enums.JewelryType;
+import com.alena.preparationproject.mvc.model.enums.PromoCodeType;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class UpdateJewelriesInDB {
 
