@@ -30,8 +30,7 @@ public class MainConsole {
 
     public static void main(String[] args) {
         try {
-            ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-            Calculator calculator = (Calculator) context.getBean("calculator");
+            Calculator calculator = new Calculator();
 
             ClassLoader classLoader = MainConsole.class.getClassLoader();
             File dirFile = new File(classLoader.getResource("html").getFile());
@@ -41,7 +40,7 @@ public class MainConsole {
             for (File dir : dirFile.listFiles()) {
                 Shops shop = Shops.getShopById(dir.getName());
                 if (shop != null) {
-                    HtmlReader htmlReader = (HtmlReader) context.getBean(shop.getId() + "Parser");
+                    HtmlReader htmlReader = /*(HtmlReader) context.getBean(shop.getId() + "Parser")*/null;
                     JewelryOrder order;
                     for (File file : dir.listFiles()) {
                         String fileName = file.getName();

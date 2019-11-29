@@ -1,7 +1,7 @@
 package com.alena.preparationproject.admin.htmlreader;
 
-import com.bijou.web.model.JewelryItem;
-import com.bijou.web.model.JewelryName;
+import com.alena.preparationproject.admin.model.JewelryItem;
+import com.alena.preparationproject.admin.model.JewelryName;
 import org.jsoup.select.Elements;
 
 import java.util.function.Function;

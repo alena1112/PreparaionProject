@@ -1,12 +1,11 @@
 package com.alena.preparationproject.admin.htmlreader;
 
-import com.bijou.web.model.JewelryItem;
-import com.bijou.web.model.JewelryOrder;
+import com.alena.preparationproject.admin.model.JewelryItem;
+import com.alena.preparationproject.admin.model.JewelryOrder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.lang.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -87,7 +86,6 @@ public class HtmlReader {
         this.tableAttributeName = tableAttributeName;
     }
 
-    @Nullable
     public JewelryOrder parse(File file, Function<Elements, JewelryItem> parseLineFnc,
                               Function<Document, Double> parseDeliveryFnc, String shopName) {
         String result = parseDocument(file);

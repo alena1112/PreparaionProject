@@ -6,31 +6,31 @@
 <hibernate-configuration>
     <session-factory>
         <!-- Database connection settings -->
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <!--<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>-->
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/preparation_project</property>
-        <!--<property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/preparation_project</property>-->
-        <property name="hibernate.connection.username">root</property>
-        <!--<property name="hibernate.connection.username">postgres</property>-->
+<!--        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>-->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+<!--        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/preparation_project</property>-->
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/preparation_project</property>
+<!--        <property name="hibernate.connection.username">root</property>-->
+        <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">root</property>
         <!-- JDBC connection pool (use the built-in) -->
         <property name="hibernate.connection.pool_size">100</property>
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">false</property>
         <!-- SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-        <!--<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>-->
+<!--        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>-->
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.connection.CharSet">utf8</property>
         <property name="hibernate.connection.characterEncoding">utf8</property>
         <property name="hibernate.connection.useUnicode">true</property>
 
-        <mapping class="com.alena.preparationproject.web.model.Shop"/>
-        <mapping class="com.alena.preparationproject.web.model.Material"/>
-        <mapping class="com.alena.preparationproject.web.model.Jewelry"/>
-        <mapping class="com.alena.preparationproject.web.model.PromotionalCode"/>
-        <mapping class="com.alena.preparationproject.web.model.Order"/>
-        <mapping class="com.alena.preparationproject.web.model.Image"/>
+        <mapping class="com.alena.preparationproject.mvc.model.Shop"/>
+        <mapping class="com.alena.preparationproject.mvc.model.Material"/>
+        <mapping class="com.alena.preparationproject.mvc.model.Jewelry"/>
+        <mapping class="com.alena.preparationproject.mvc.model.PromotionalCode"/>
+        <mapping class="com.alena.preparationproject.mvc.model.Order"/>
+        <mapping class="com.alena.preparationproject.mvc.model.Image"/>
 
     </session-factory>
 </hibernate-configuration>

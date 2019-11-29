@@ -1,5 +1,9 @@
 package com.alena.preparationproject.admin.htmlreader;
 
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.util.Iterator;
 import java.util.function.Function;
 import java.util.regex.Matcher;

@@ -27,7 +27,7 @@ public class UpdateJewelriesInDB {
 
     private static Image createImage(String path, Session session) {
         Image image = new Image();
-        image.setPath("http://localhost:9998/resources/w3images/" + path);
+        image.setPath("http://localhost:9999/resources/w3images/" + path);
         session.save(image);
         return image;
     }
