@@ -19,39 +19,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-//добавление изображений
-//учесть процентные скидки в заказе
-//добавить парсинг другого сайта
-//сделать удобным добавление нового файла обработки
-//красивый вывод и командная строка
-//ui - vadiin
-//бд
 public class MainConsole {
 
     public static void main(String[] args) {
         try {
-            Calculator calculator = new Calculator();
+            ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+            Calculator calculator = (Calculator) context.getBean("calculator");
 
             ClassLoader classLoader = MainConsole.class.getClassLoader();
-            File dirFile = new File(classLoader.getResource("html").getFile());
-
-            Map<String, File> storageFiles = getStorageFiles();
+            File dirFile = new File("C:/Users/KovalenkoAI/Desktop/Личное/PreparaionProject/JewelryProject/src/main/java/com/alena/preparationproject/admin/html");
 
             for (File dir : dirFile.listFiles()) {
                 Shops shop = Shops.getShopById(dir.getName());
                 if (shop != null) {
-                    HtmlReader htmlReader = /*(HtmlReader) context.getBean(shop.getId() + "Parser")*/null;
+                    HtmlReader htmlReader = (HtmlReader) context.getBean(shop.getId() + "Parser");
                     JewelryOrder order;
                     for (File file : dir.listFiles()) {
-                        String fileName = file.getName();
-                        if (storageFiles != null && storageFiles.containsKey(fileName.replace("html", "xml"))) {
-                            order = unmarshalling(storageFiles.get(fileName.replace("html", "xml")));
-                        } else {
-                            order = htmlReader.parse(file, LineParser.parseLine(shop), DeliveryCostParser.parseDelivery(shop),
-                                    shop.name());
-                            calculator.calculate(order);
-                            marshaller(order, fileName);
-                        }
+                        order = htmlReader.parse(file, LineParser.parseLine(shop), DeliveryCostParser.parseDelivery(shop),
+                                shop.name());
+                        calculator.calculate(order);
                         if (order != null) {
                             System.out.print(generateConsoleOutputString(order));
                         }
@@ -59,7 +45,7 @@ public class MainConsole {
                 }
             }
 
-        } catch (JAXBException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
