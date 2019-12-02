@@ -98,22 +98,26 @@
         <table class="table table-bordered" id="mainTable">
             <tr class="table_heading">
                 <th>Id</th>
+                <th>Image</th>
                 <th>Name</th>
+                <th>Shop</th>
+                <th>Number</th>
                 <th>Price</th>
                 <th>Unit Price With Delivery</th>
-                <th>Number</th>
-                <th>Image URL</th>
-                <th>Order</th>
             </tr>
             <c:forEach items="${materialList}" var="item" varStatus="status">
                 <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='edit?id=${item.id}'" style="cursor: pointer">
                     <td>${item.id}</td>
+                    <td>
+                        <img src="${item.imageURL}"
+                             alt="material"
+                             style="width:50px; height:50px">
+                    </td>
                     <td>${item.name}</td>
+                    <td>${item.order.formatOrder}</td>
+                    <td>${item.number}</td>
                     <td>${item.price}</td>
                     <td>${item.unitPriceWithDelivery}</td>
-                    <td>${item.number}</td>
-                    <td>${item.imageURL}</td>
-                    <td>${item.order}</td>
                 </tr>
             </c:forEach>
         </table>

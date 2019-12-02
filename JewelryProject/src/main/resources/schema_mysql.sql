@@ -11,6 +11,7 @@ create table preparation_project.material_order (
   delivery_price double,
   shop_id int not null,
   purchase_date DATETIME,
+  PRIMARY KEY (id),
   FOREIGN KEY (shop_id) REFERENCES preparation_project.shop(id)
 );
 

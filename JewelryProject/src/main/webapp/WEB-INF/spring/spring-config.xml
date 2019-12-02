@@ -68,8 +68,8 @@
         <property name="tableAttributeName" value="class"/>
         <property name="tableName" value="order_list"/>
         <property name="lineTag" value="ul"/>
-        <property name="columnTag" value="li"/>
-        <property name="columnSize" value="8"/>
+        <property name="columnTag" value="li,img"/>
+        <property name="columnSize" value="11"/>
     </bean>
 
     <bean id="stilnayaParser" class="com.alena.preparationproject.admin.htmlreader.HtmlReader">

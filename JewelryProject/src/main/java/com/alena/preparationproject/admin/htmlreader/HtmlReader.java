@@ -108,7 +108,10 @@ public class HtmlReader {
                 if (tableAttribute.equals(tableName)) {
                     Elements trTags = table.select(lineTag);
                     for (Element trTag : trTags) {
-                        Elements tdTags = trTag.select(columnTag);
+                        Elements tdTags = new Elements();
+                        for (String tag : columnTag.split(",")) {
+                            tdTags.addAll(trTag.select(tag));
+                        }
                         if (tdTags.size() == columnSize && !"list_title".equals(trTag.attributes().get("class"))/*special for pandahall*/) {
                             Material item = parseLineFnc.apply(tdTags);
                             if (item != null) {

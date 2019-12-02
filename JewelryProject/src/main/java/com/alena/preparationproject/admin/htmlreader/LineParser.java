@@ -37,10 +37,13 @@ public class LineParser {
             throw new RegexPatternNotCorrectException(pattern.toString(), Shops.GREEN_BIRD.getId(), tags.get(1).text());
         }
 
+        tags.get(0).childNodes().get(1).attributes().get("src");
+
         Material material = new Material();
         material.setName(name);
         material.setNumber(Integer.parseInt(tags.get(2).text()) * numberInPackage);
         material.setPrice(Double.parseDouble(tags.get(3).text()));
+        material.setImageURL("https://greenbird.ru" + tags.get(0).childNodes().get(1).attributes().get("src"));
         return material;
     }
 
@@ -49,12 +52,10 @@ public class LineParser {
         String nameStr = tags.get(2).text();
         int numberInPackage = 1;
         if (nameStr.contains(";")) {
-            Pattern pattern = Pattern.compile("^([\\wа-яА-Я-,~:.&\\s]+);\\s[a-zA-Zа-яА-Я\\s]*(\\d+)[\\wа-яА-Я\"',.~\\s\\/\\(\\)]+$");
+            Pattern pattern = Pattern.compile("^.+(\\s|~)(\\d+)(\\sшт|pcs).+$");
             Matcher m = pattern.matcher(nameStr);
             if (m.matches()) {
                 numberInPackage = Integer.parseInt(m.group(2));
-            } else {
-                throw new RegexPatternNotCorrectException(pattern.toString(), Shops.PANDAHALL.getId(), nameStr);
             }
         }
         int packageSize = 1;
@@ -81,6 +82,7 @@ public class LineParser {
         material.setName(name);
         material.setNumber(orderQty * numberInPackage * packageSize);
         material.setPrice(price / orderQty);
+        material.setImageURL(tags.get(10).attributes().get("origin"));
         return material;
     }
 

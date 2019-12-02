@@ -1,5 +1,7 @@
 package com.alena.preparationproject.mvc.model;
 
+import com.alena.preparationproject.mvc.FormatHelper;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -50,5 +52,9 @@ public class MaterialOrder extends IdentifiableEntity {
 
     public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
+    }
+
+    public String getFormatOrder() {
+        return String.format("%s, дата %s, доставка %s", shop.getName(), FormatHelper.formatDate.format(purchaseDate), deliveryPrice);
     }
 }

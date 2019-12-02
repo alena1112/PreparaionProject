@@ -38,7 +38,7 @@ public class DeliveryCostParser {
                     Element pTag = pTagsIterator.next();
                     if (pTag.attributes().get("class").equals("delivery")) {
                         String deliveryStr = pTag.select("span").text();
-                        Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я.]+([\\d.]+)$");
+                        Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я.]+([\\d.,]+)$");
                         Matcher m = pattern.matcher(deliveryStr);
                         if (m.matches()) {
                             return Double.parseDouble(m.group(1));

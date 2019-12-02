@@ -34,7 +34,7 @@ public class UpdateJewelriesInDB {
 
     private static Image createImage(String path, Session session) {
         Image image = new Image();
-        image.setPath("http://localhost:9999/resources/w3images/" + path);
+        image.setPath("http://localhost:9998/resources/w3images/" + path);
         session.save(image);
         return image;
     }
@@ -164,10 +164,16 @@ public class UpdateJewelriesInDB {
         try {
             session = getSession();
             transaction = session.beginTransaction();
+
+            session.createQuery("delete from Material").executeUpdate();
+            session.createQuery("delete from MaterialOrder").executeUpdate();
+            session.createQuery("delete from Shop").executeUpdate();
+
             ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
             Calculator calculator = (Calculator) context.getBean("calculator");
 
-            File dirFile = new File("/Users/alena/Desktop/Мои проги/PreparationProject/JewelryProject/src/main/java/com/alena/preparationproject/admin/html");
+//            File dirFile = new File("/Users/alena/Desktop/Мои проги/PreparationProject/JewelryProject/src/main/java/com/alena/preparationproject/admin/html");
+            File dirFile = new File("C:/Users/KovalenkoAI/Desktop/Личное/PreparaionProject/JewelryProject/src/main/java/com/alena/preparationproject/admin/html");
 
             List<Shop> shops = new ArrayList<>();
 

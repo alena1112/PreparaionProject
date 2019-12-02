@@ -4,10 +4,12 @@ import com.alena.preparationproject.mvc.model.Jewelry;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class FormatHelper {
     public static DecimalFormatSymbols decimalFormatSymbols = DecimalFormatSymbols.getInstance();
+    public static SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy");
 
     static {
         decimalFormatSymbols.setGroupingSeparator(' ');
