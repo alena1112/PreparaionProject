@@ -3,12 +3,23 @@ create table shop (
   name varchar(100)
 );
 
+create table material_order (
+  id SERIAL PRIMARY KEY,
+  delivery_price decimal,
+  shop_id int not null,
+  purchase_date timestamp,
+  FOREIGN KEY (shop_id) REFERENCES shop(id)
+);
+
 create table material (
   id SERIAL PRIMARY KEY,
-  name varchar(100),
+  name varchar(1000),
   price decimal,
-  shop_id int,
-  FOREIGN KEY (shop_id) REFERENCES shop(id)
+  unit_price_with_delivery decimal,
+  number int,
+  image_url varchar(300),
+  material_order_id int not null,
+  FOREIGN KEY (material_order_id) REFERENCES material_order(id)
 );
 
 create table image (

@@ -76,7 +76,7 @@
         <property name="charsetName" value="utf-8"/>
         <property name="tableTag" value="table"/>
         <property name="tableAttributeName" value="class"/>
-        <property name="tableName" value="vmbs-order-items"/>
+        <property name="tableName" value="vmbs-order-materials"/>
         <property name="lineTag" value="tr"/>
         <property name="columnTag" value="td"/>
         <property name="columnSize" value="7"/>

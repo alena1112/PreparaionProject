@@ -1,7 +1,8 @@
 package com.alena.preparationproject.admin.htmlreader;
 
-import com.alena.preparationproject.admin.model.JewelryItem;
-import com.alena.preparationproject.admin.model.JewelryOrder;
+import com.alena.preparationproject.mvc.model.Material;
+import com.alena.preparationproject.mvc.model.MaterialOrder;
+import com.alena.preparationproject.mvc.model.Shop;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -86,15 +87,19 @@ public class HtmlReader {
         this.tableAttributeName = tableAttributeName;
     }
 
-    public JewelryOrder parse(File file, Function<Elements, JewelryItem> parseLineFnc,
-                              Function<Document, Double> parseDeliveryFnc, String shopName) {
+    public MaterialOrder parse(File file, Function<Elements, Material> parseLineFnc,
+                               Function<Document, Double> parseDeliveryFnc, Shop shop) {
         String result = parseDocument(file);
         Document doc = Jsoup.parse(result);
         Elements tableElements = doc.select(tableTag);
         Iterator<Element> tables = tableElements.iterator();
 
-        List<JewelryItem> items = new ArrayList<>();
-        JewelryOrder order = new JewelryOrder(items, parseDeliveryFnc.apply(doc), shopName, getDate(file.getName()));
+        List<Material> items = new ArrayList<>();
+        MaterialOrder order = new MaterialOrder();
+        order.setMaterials(items);
+        order.setDeliveryPrice(parseDeliveryFnc.apply(doc));
+        order.setShop(shop);
+        order.setPurchaseDate(getDate(file.getName()));
 
         while (tables.hasNext()) {
             Element table = tables.next();
@@ -105,8 +110,9 @@ public class HtmlReader {
                     for (Element trTag : trTags) {
                         Elements tdTags = trTag.select(columnTag);
                         if (tdTags.size() == columnSize && !"list_title".equals(trTag.attributes().get("class"))/*special for pandahall*/) {
-                            JewelryItem item = parseLineFnc.apply(tdTags);
+                            Material item = parseLineFnc.apply(tdTags);
                             if (item != null) {
+                                item.setOrder(order);
                                 items.add(item);
                             }
                         }

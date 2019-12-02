@@ -6,13 +6,24 @@ create table preparation_project.shop (
   PRIMARY KEY (id)
 );
 
+create table preparation_project.material_order (
+  id int not null AUTO_INCREMENT,
+  delivery_price double,
+  shop_id int not null,
+  purchase_date DATETIME,
+  FOREIGN KEY (shop_id) REFERENCES preparation_project.shop(id)
+);
+
 create table preparation_project.material (
   id int not null AUTO_INCREMENT,
-  name varchar(100),
+  name varchar(1000),
   price double,
-  shop_id int,
+  unit_price_with_delivery double,
+  number int,
+  image_url varchar(300),
+  material_order_id int not null,
   PRIMARY KEY (id),
-  FOREIGN KEY (shop_id) REFERENCES preparation_project.shop(id)
+  FOREIGN KEY (material_order_id) REFERENCES preparation_project.material_order(id)
 );
 
 create table preparation_project.image (

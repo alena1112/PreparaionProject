@@ -1,24 +1,24 @@
 package com.alena.preparationproject.admin.htmlreader;
 
-import com.alena.preparationproject.admin.model.JewelryItem;
-import com.alena.preparationproject.admin.model.JewelryOrder;
+import com.alena.preparationproject.mvc.model.Material;
+import com.alena.preparationproject.mvc.model.MaterialOrder;
 
 public class Calculator {
 
     public Calculator() {
     }
 
-    public void calculate(JewelryOrder order) {
+    public void calculate(MaterialOrder order) {
         int numOfItems = 0;
-        for (JewelryItem item : order.getItems()) {
+        for (Material item : order.getMaterials()) {
             numOfItems += item.getNumber();
         }
 
-        double delivery = order.getDeliveryAmount() / numOfItems;
+        double delivery = order.getDeliveryPrice() / numOfItems;
 
-        for (JewelryItem item : order.getItems()) {
+        for (Material item : order.getMaterials()) {
             double price = item.getPrice() / item.getNumber() + delivery;
-            item.setPriceWithDelivery(price);
+            item.setUnitPriceWithDelivery(price);
         }
     }
 }

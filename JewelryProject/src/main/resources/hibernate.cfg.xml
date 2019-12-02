@@ -27,6 +27,7 @@
 
         <mapping class="com.alena.preparationproject.mvc.model.Shop"/>
         <mapping class="com.alena.preparationproject.mvc.model.Material"/>
+        <mapping class="com.alena.preparationproject.mvc.model.MaterialOrder"/>
         <mapping class="com.alena.preparationproject.mvc.model.Jewelry"/>
         <mapping class="com.alena.preparationproject.mvc.model.PromotionalCode"/>
         <mapping class="com.alena.preparationproject.mvc.model.Order"/>

@@ -85,7 +85,7 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/admin/material/list">Materials</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/shop/list">Materials</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/shop/list">Shops</a>
             </li>
         </ul>
     </div>

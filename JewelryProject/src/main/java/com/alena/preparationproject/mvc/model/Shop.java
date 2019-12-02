@@ -10,7 +10,7 @@ public class Shop extends IdentifiableEntity {
     private String name;
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-    private List<Material> materials;
+    private List<MaterialOrder> orders;
 
     public String getName() {
         return name;
@@ -20,11 +20,11 @@ public class Shop extends IdentifiableEntity {
         this.name = name;
     }
 
-    public List<Material> getMaterials() {
-        return materials;
+    public List<MaterialOrder> getOrders() {
+        return orders;
     }
 
-    public void setMaterials(List<Material> materials) {
-        this.materials = materials;
+    public void setOrders(List<MaterialOrder> orders) {
+        this.orders = orders;
     }
 }

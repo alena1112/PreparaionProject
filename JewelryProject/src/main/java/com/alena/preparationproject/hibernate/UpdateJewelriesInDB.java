@@ -1,5 +1,6 @@
 package com.alena.preparationproject.hibernate;
 
+import com.alena.preparationproject.admin.htmlreader.*;
 import com.alena.preparationproject.mvc.model.*;
 import com.alena.preparationproject.mvc.model.enums.JewelryType;
 import com.alena.preparationproject.mvc.model.enums.PromoCodeType;
@@ -7,14 +8,20 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class UpdateJewelriesInDB {
 
     public static void main(String[] args) {
-        updateJewelries();
+//        updateJewelries();
 //        createPromocode();
+        createMaterials();
     }
 
     private static Session getSession() {
@@ -149,5 +156,62 @@ public class UpdateJewelriesInDB {
         transaction.commit();
 
         session.close();
+    }
+
+    private static void createMaterials() {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = getSession();
+            transaction = session.beginTransaction();
+            ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+            Calculator calculator = (Calculator) context.getBean("calculator");
+
+            File dirFile = new File("/Users/alena/Desktop/Мои проги/PreparationProject/JewelryProject/src/main/java/com/alena/preparationproject/admin/html");
+
+            List<Shop> shops = new ArrayList<>();
+
+            for (File dir : dirFile.listFiles()) {
+                Shops shopId = Shops.getShopById(dir.getName());
+                if (shopId != null) {
+
+                    Shop shop = shops.stream()
+                            .filter(item -> item.getName().equals(shopId.name()))
+                            .findAny()
+                            .orElse(null);
+                    if (shop == null) {
+                        shop = new Shop();
+                        shop.setName(shopId.name());
+                        shops.add(shop);
+                        session.save(shop);
+                    }
+
+
+                    HtmlReader htmlReader = (HtmlReader) context.getBean(shopId.getId() + "Parser");
+                    MaterialOrder order;
+                    for (File file : dir.listFiles()) {
+                        order = htmlReader.parse(file, LineParser.parseLine(shopId), DeliveryCostParser.parseDelivery(shopId),
+                                shop);
+                        calculator.calculate(order);
+                        if (order != null) {
+                            session.save(order);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            if (transaction != null) {
+                transaction.commit();
+            }
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 }

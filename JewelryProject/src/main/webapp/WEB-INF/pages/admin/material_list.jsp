@@ -85,7 +85,7 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/admin/material/list">Materials</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/shop/list">Materials</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/shop/list">Shops</a>
             </li>
         </ul>
     </div>
@@ -100,14 +100,20 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Price</th>
-                <th>Shop</th>
+                <th>Unit Price With Delivery</th>
+                <th>Number</th>
+                <th>Image URL</th>
+                <th>Order</th>
             </tr>
             <c:forEach items="${materialList}" var="item" varStatus="status">
                 <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='edit?id=${item.id}'" style="cursor: pointer">
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>${item.price}</td>
-                    <td>${item.shop.name}</td>
+                    <td>${item.unitPriceWithDelivery}</td>
+                    <td>${item.number}</td>
+                    <td>${item.imageURL}</td>
+                    <td>${item.order}</td>
                 </tr>
             </c:forEach>
         </table>
