@@ -1,9 +1,13 @@
 package com.alena.preparationproject.admin.htmlreader;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -20,7 +24,7 @@ public class DeliveryCostParser {
             case STILNAYA:
                 return DeliveryCostParser::parseStilnayaDelivery;
             case LUXFURNITURA:
-                return document -> 0.0;
+                return DeliveryCostParser::parseLuxfurnituraDelivery;
         }
         return null;
     }
@@ -32,19 +36,30 @@ public class DeliveryCostParser {
         while (tables.hasNext()) {
             Element table = tables.next();
             String attributeClass = table.attributes().get("class");
-            if (attributeClass != null && attributeClass.equals("order_info shipping_method")) {
-                Iterator<Element> pTagsIterator = table.select("p").iterator();
-                while (pTagsIterator.hasNext()) {
-                    Element pTag = pTagsIterator.next();
-                    if (pTag.attributes().get("class").equals("delivery")) {
-                        String deliveryStr = pTag.select("span").text();
-                        Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я.]+([\\d.,]+)$");
-                        Matcher m = pattern.matcher(deliveryStr);
-                        if (m.matches()) {
-                            return Double.parseDouble(m.group(1));
-                        }
-                    }
+            if (attributeClass != null && attributeClass.equals("content_rit")) {
+                Elements pTags = table.select("p");
+                double delivery = parsePandahallDouble(pTags.get(1).text());
+                double discount = 0;
+                if (pTags.size() == 5) {
+                    discount = parsePandahallDouble(pTags.get(2).text());
                 }
+                return delivery - discount;
+            }
+        }
+        return 0;
+    }
+
+    private static double parsePandahallDouble(String number) {
+        Pattern pattern = Pattern.compile("^[a-zA-Zа-яА-Я.]+([\\d.,]+)$");
+        Matcher m = pattern.matcher(number);
+        if (m.matches()) {
+            try {
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+                symbols.setDecimalSeparator('.');
+                symbols.setGroupingSeparator(',');
+                return new DecimalFormat("###,###.##", symbols).parse(m.group(1)).doubleValue();
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
         }
         return 0;
@@ -72,6 +87,28 @@ public class DeliveryCostParser {
                         }
                     }
                 }
+            }
+        }
+
+        return 0;
+    }
+
+    private static double parseLuxfurnituraDelivery(Document doc) {
+        Elements tableElements = doc.select("table");
+        Element purchasesTable = tableElements.stream()
+                .filter(element -> "purchases".equals(element.attributes().get("id")))
+                .findFirst()
+                .orElse(null);
+        if (purchasesTable != null) {
+            Elements trs = purchasesTable.select("tr");
+            Element tr = trs.get(trs.size() - 2);
+            Elements tds = tr.select("td");
+            Element price = tds.stream()
+                    .filter(element -> "price".equals(element.className()) && StringUtils.isNotBlank(element.text()))
+                    .findFirst()
+                    .orElse(null);
+            if (price != null) {
+                return 0;
             }
         }
 
