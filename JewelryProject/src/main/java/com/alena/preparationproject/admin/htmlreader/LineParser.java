@@ -2,12 +2,17 @@ package com.alena.preparationproject.admin.htmlreader;
 
 import com.alena.preparationproject.mvc.model.Material;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LineParser {
+    private static final Logger log = LoggerFactory.getLogger(LineParser.class);
 
     public static Function<Elements, Material> parseLine(Shops shop) {
         switch (shop) {
@@ -127,20 +132,14 @@ public class LineParser {
         String imageURL = tags.get(0).getElementsByAttribute("src").attr("src");
         if (imageURL != null && !imageURL.isEmpty()) {
             String nameStr = tags.get(1).text();
-            int numberInPackage = 1;
-            Pattern pattern = Pattern.compile("^.+(\\d+)(\\sштук|\\sштука|\\sБусин|шт|\\sбусин).+$");
-            Matcher m = pattern.matcher(nameStr);
-            if (m.matches()) {
-                numberInPackage = Integer.parseInt(m.group(1));
-                //Пины с петлёй средняя жёсткость, 30мм, цвет золото. 10 штук
-                //10 Бусин, 6мм, 5328 Light Azore
-            }
+            int numberInPackage = parseNumberInPackageLuxfurnitura(nameStr);
             int packageSize;
-            pattern = Pattern.compile("^×\\p{Z}(\\d+)\\p{Z}[а-яА-Я]+$");
-            m = pattern.matcher(tags.get(3).text());
+            Pattern pattern = Pattern.compile("^×\\p{Z}(\\d+)\\p{Z}[а-яА-Я]+$");
+            Matcher m = pattern.matcher(tags.get(3).text());
             if (m.matches()) {
                 packageSize = Integer.parseInt(m.group(1));
             } else {
+                log.warn(String.format("Could not parse line '%s' for Luxfurnitura shop", tags.get(3).text()));
                 throw new RegexPatternNotCorrectException(pattern.toString(), Shops.LUXFURNITURA.getId(), tags.get(3).text());
             }
             double price = 0;
@@ -149,6 +148,7 @@ public class LineParser {
             if (m.matches()) {
                 price = Double.parseDouble(m.group(1).replace(" ", ""));
             } else {
+                log.warn(String.format("Could not parse line '%s' for Luxfurnitura shop", tags.get(2).text()));
                 throw new RegexPatternNotCorrectException(pattern.toString(), Shops.LUXFURNITURA.getId(), tags.get(2).text());
             }
 
@@ -160,5 +160,31 @@ public class LineParser {
             return material;
         }
         return null;
+    }
+
+    private static int parseNumberInPackageLuxfurnitura(String nameStr) {
+        if (nameStr.toLowerCase().contains("пара")) {
+            return 2;
+        }
+        String part = "(\\sштук|\\sштука|\\sБусин|шт|\\sбусин)";
+        List<String> patterns = Arrays.asList("^(?<num>\\d+)" + part + ".*$", "^.*(\\s|\\()(?<num>\\d+)" + part + ".*$");
+        boolean isMatches = false;
+        for (String patternStr : patterns) {
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher m = pattern.matcher(nameStr);
+            if (m.matches()) {
+                isMatches = true;
+                int result = Integer.parseInt(m.group("num"));
+                if (result > 0) {
+                    return result;
+                } else {
+                    log.warn(String.format("Could not parse line '%s' for Luxfurnitura shop", nameStr));
+                }
+            }
+        }
+        if (!isMatches && nameStr.contains("шт") || nameStr.toLowerCase().contains("бус")) {
+            log.warn(String.format("Could not parse line '%s' for Luxfurnitura shop", nameStr));
+        }
+        return 1;
     }
 }

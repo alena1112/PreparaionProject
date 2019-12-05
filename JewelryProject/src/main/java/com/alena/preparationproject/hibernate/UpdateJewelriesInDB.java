@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -17,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UpdateJewelriesInDB {
+    private static final Logger log = LoggerFactory.getLogger(UpdateJewelriesInDB.class);
 
     public static void main(String[] args) {
 //        updateJewelries();
@@ -34,7 +37,7 @@ public class UpdateJewelriesInDB {
 
     private static Image createImage(String path, Session session) {
         Image image = new Image();
-        image.setPath("http://localhost:9998/resources/w3images/" + path);
+        image.setPath("http://localhost:9999/resources/w3images/" + path);
         session.save(image);
         return image;
     }
@@ -172,12 +175,13 @@ public class UpdateJewelriesInDB {
             ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
             Calculator calculator = (Calculator) context.getBean("calculator");
 
-//            File dirFile = new File("/Users/alena/Desktop/Мои проги/PreparationProject/JewelryProject/src/main/java/com/alena/preparationproject/admin/html");
-            File dirFile = new File("C:/Users/KovalenkoAI/Desktop/Личное/PreparaionProject/JewelryProject/src/main/java/com/alena/preparationproject/admin/html");
+            File dirFile = new File("/Users/alena/Desktop/Мои проги/PreparationProject/JewelryProject/src/main/java/com/alena/preparationproject/admin/html");
+//            File dirFile = new File("C:/Users/KovalenkoAI/Desktop/Личное/PreparaionProject/JewelryProject/src/main/java/com/alena/preparationproject/admin/html");
 
             List<Shop> shops = new ArrayList<>();
 
             for (File dir : dirFile.listFiles()) {
+                log.info(String.format("Starting parse directory %s", dir.getName()));
                 Shops shopId = Shops.getShopById(dir.getName());
                 if (shopId != null) {
 
@@ -190,6 +194,7 @@ public class UpdateJewelriesInDB {
                         shop.setName(shopId.name());
                         shops.add(shop);
                         session.save(shop);
+                        log.info(String.format("Shop %s is created successfully", shop.getName()));
                     }
 
 
@@ -207,7 +212,7 @@ public class UpdateJewelriesInDB {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error while update database", e);
             if (transaction != null) {
                 transaction.rollback();
             }

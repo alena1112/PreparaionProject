@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -14,10 +16,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DeliveryCostParser {
+    private static final Logger log = LoggerFactory.getLogger(DeliveryCostParser.class);
 
     public static Function<Document, Double> parseDelivery(Shops shop) {
+        log.info(String.format("Starting parse delivery price for %s shop", shop.getId()));
         switch (shop) {
             case GREEN_BIRD:
+                log.info("Parsing of delivery price is not developed for Green Bird shop");
                 return document -> 0.0;
             case PANDAHALL:
                 return DeliveryCostParser::parsePandahallDelivery;
@@ -43,9 +48,12 @@ public class DeliveryCostParser {
                 if (pTags.size() == 5) {
                     discount = parsePandahallDouble(pTags.get(2).text());
                 }
-                return delivery - discount;
+                double result = delivery - discount;
+                log.info(String.format("Delivery price for Pandahall shop is %s", result));
+                return result;
             }
         }
+        log.warn("Delivery price for Pandahall shop is not parsed");
         return 0;
     }
 
@@ -59,7 +67,7 @@ public class DeliveryCostParser {
                 symbols.setGroupingSeparator(',');
                 return new DecimalFormat("###,###.##", symbols).parse(m.group(1)).doubleValue();
             } catch (ParseException e) {
-                e.printStackTrace();
+                log.error("Error while parsing delivery price for pandahall shop", e);
             }
         }
         return 0;
@@ -82,14 +90,16 @@ public class DeliveryCostParser {
                             Pattern pattern = Pattern.compile("^([\\d.,]+)\\s[a-zA-Zа-яА-Я.]+");
                             Matcher m = pattern.matcher(deliveryStr);
                             if (m.matches()) {
-                                return Double.parseDouble(m.group(1).replace(",", "."));
+                                double result = Double.parseDouble(m.group(1).replace(",", "."));
+                                log.info(String.format("Delivery price for Stilnaya shop is %s", result));
+                                return result;
                             }
                         }
                     }
                 }
             }
         }
-
+        log.warn("Delivery price for Stilnaya shop is not parsed");
         return 0;
     }
 
@@ -108,10 +118,12 @@ public class DeliveryCostParser {
                     .findFirst()
                     .orElse(null);
             if (priceStr != null) {
-                return Double.parseDouble(priceStr.text().replace(" руб", ""));
+                double result = Double.parseDouble(priceStr.text().replace(" руб", ""));
+                log.info(String.format("Delivery price for Luxfurnitura shop is %s", result));
+                return result;
             }
         }
-
+        log.warn("Delivery price for Luxfurnitura shop is not parsed");
         return 0;
     }
 }

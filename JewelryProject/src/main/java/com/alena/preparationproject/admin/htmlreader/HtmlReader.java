@@ -7,6 +7,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HtmlReader {
+    private static final Logger log = LoggerFactory.getLogger(HtmlReader.class);
 
     private String charsetName;
     private String tableTag;
@@ -89,6 +92,7 @@ public class HtmlReader {
 
     public MaterialOrder parse(File file, Function<Elements, Material> parseLineFnc,
                                Function<Document, Double> parseDeliveryFnc, Shop shop) {
+        log.info(String.format("Starting parse file %s", file.getName()));
         String result = parseDocument(file);
         Document doc = Jsoup.parse(result);
         Elements tableElements = doc.select(tableTag);
@@ -124,6 +128,7 @@ public class HtmlReader {
             }
         }
 
+        log.info(String.format("File %s was successfully parsed", file.getName()));
         return order;
     }
 
@@ -134,7 +139,7 @@ public class HtmlReader {
                 result.append(in.nextLine()).append("\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(String.format("Error while parsing file %s", file.getName()), e);
         }
         return result.toString();
     }
@@ -147,7 +152,7 @@ public class HtmlReader {
             try {
                 return dateFormat.parse(m.group(1));
             } catch (ParseException e) {
-                return null;
+                log.error(String.format("Error while parsing file date %s", fileName), e);
             }
         }
         return null;
