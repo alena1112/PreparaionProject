@@ -17,7 +17,8 @@ public class MaterialDao extends Dao<Material, Long> {
     @Override
     public List<Material> getAll() {
         return executeInsideTransaction(entityManager -> {
-            TypedQuery<Material> query = entityManager.createQuery("SELECT m FROM Material m", Material.class);
+            TypedQuery<Material> query = entityManager.createQuery("SELECT m FROM Material m " +
+                    "order by m.order.shop.name, m.order.purchaseDate", Material.class);
             return query.getResultList();
         });
     }

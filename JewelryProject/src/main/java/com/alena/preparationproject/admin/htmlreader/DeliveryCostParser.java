@@ -103,12 +103,12 @@ public class DeliveryCostParser {
             Elements trs = purchasesTable.select("tr");
             Element tr = trs.get(trs.size() - 2);
             Elements tds = tr.select("td");
-            Element price = tds.stream()
+            Element priceStr = tds.stream()
                     .filter(element -> "price".equals(element.className()) && StringUtils.isNotBlank(element.text()))
                     .findFirst()
                     .orElse(null);
-            if (price != null) {
-                return 0;
+            if (priceStr != null) {
+                return Double.parseDouble(priceStr.text().replace(" руб", ""));
             }
         }
 

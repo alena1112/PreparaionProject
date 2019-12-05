@@ -128,16 +128,16 @@ public class LineParser {
         if (imageURL != null && !imageURL.isEmpty()) {
             String nameStr = tags.get(1).text();
             int numberInPackage = 1;
-//        Pattern pattern = Pattern.compile("^([\\wа-яА-Я-,~:.&\\s]+);\\s[a-zA-Zа-яА-Я\\s]*(\\d+)[\\wа-яА-Я\"',.~\\s\\/\\(\\)]+$");
-//        Matcher m = pattern.matcher(nameStr);
-//        if (m.matches()) {
-//            numberInPackage = Integer.parseInt(m.group(2));
-//        } else {
-//            throw new RegexPatternNotCorrectException(pattern.toString(), Shops.LUXFURNITURA.getId(), nameStr);
-//        }
-            int packageSize = 1;
-            Pattern pattern = Pattern.compile("^×\\p{Z}(\\d+)\\p{Z}[а-яА-Я]+$");
-            Matcher m = pattern.matcher(tags.get(3).text());
+            Pattern pattern = Pattern.compile("^.+(\\d+)(\\sштук|\\sштука|\\sБусин|шт|\\sбусин).+$");
+            Matcher m = pattern.matcher(nameStr);
+            if (m.matches()) {
+                numberInPackage = Integer.parseInt(m.group(1));
+                //Пины с петлёй средняя жёсткость, 30мм, цвет золото. 10 штук
+                //10 Бусин, 6мм, 5328 Light Azore
+            }
+            int packageSize;
+            pattern = Pattern.compile("^×\\p{Z}(\\d+)\\p{Z}[а-яА-Я]+$");
+            m = pattern.matcher(tags.get(3).text());
             if (m.matches()) {
                 packageSize = Integer.parseInt(m.group(1));
             } else {
@@ -156,7 +156,7 @@ public class LineParser {
             material.setName(nameStr);
             material.setImageURL(imageURL);
             material.setNumber(numberInPackage * packageSize);
-            material.setPrice(price / numberInPackage);
+            material.setPrice(price * packageSize);
             return material;
         }
         return null;
