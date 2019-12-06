@@ -13,8 +13,25 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#mainImage')
+                        .attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 
 
     <style>
@@ -36,219 +53,100 @@
 </head>
 
 <body class="bg-light">
-<div class="container">
-    <div class="py-5 text-center">
-        <h2>Administation page</h2>
-        <p class="lead"></p>
-    </div>
-
-    <div class="col-md-8 order-md-1">
-        <h4 class="mb-3">Billing address</h4>
-        <form class="needs-validation" novalidate>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="firstName">First name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                        Valid first name is required.
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="lastName">Last name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                    <div class="invalid-feedback">
-                        Valid last name is required.
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label for="username">Username</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                    </div>
-                    <input type="text" class="form-control" id="username" placeholder="Username" required>
-                    <div class="invalid-feedback" style="width: 100%;">
-                        Your username is required.
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label for="email">Email <span class="text-muted">(Optional)</span></label>
-                <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                <div class="invalid-feedback">
-                    Please enter a valid email address for shipping updates.
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label for="address">Address</label>
-                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
-                <div class="invalid-feedback">
-                    Please enter your shipping address.
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
-            </div>
-
-            <div class="row">
-                <div class="col-md-5 mb-3">
-                    <label for="country">Country</label>
-                    <select class="custom-select d-block w-100" id="country" required>
-                        <option value="">Choose...</option>
-                        <option>United States</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please select a valid country.
-                    </div>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label for="state">State</label>
-                    <select class="custom-select d-block w-100" id="state" required>
-                        <option value="">Choose...</option>
-                        <option>California</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Please provide a valid state.
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="zip">Zip</label>
-                    <input type="text" class="form-control" id="zip" placeholder="" required>
-                    <div class="invalid-feedback">
-                        Zip code required.
-                    </div>
-                </div>
-            </div>
-            <hr class="mb-4">
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="same-address">
-                <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-            </div>
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="save-info">
-                <label class="custom-control-label" for="save-info">Save this information for next time</label>
-            </div>
-            <hr class="mb-4">
-
-            <h4 class="mb-3">Payment</h4>
-
-            <div class="d-block my-3">
-                <div class="custom-control custom-radio">
-                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                    <label class="custom-control-label" for="credit">Credit card</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                    <label class="custom-control-label" for="debit">Debit card</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                    <label class="custom-control-label" for="paypal">PayPal</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="cc-name">Name on card</label>
-                    <input type="text" class="form-control" id="cc-name" placeholder="" required>
-                    <small class="text-muted">Full name as displayed on card</small>
-                    <div class="invalid-feedback">
-                        Name on card is required
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="cc-number">Credit card number</label>
-                    <input type="text" class="form-control" id="cc-number" placeholder="" required>
-                    <div class="invalid-feedback">
-                        Credit card number is required
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 mb-3">
-                    <label for="cc-expiration">Expiration</label>
-                    <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                    <div class="invalid-feedback">
-                        Expiration date required
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="cc-cvv">CVV</label>
-                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                    <div class="invalid-feedback">
-                        Security code required
-                    </div>
-                </div>
-            </div>
-            <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
-        </form>
-    </div>
-
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-        <p class="mb-1">&copy; 2017-2019 Company Name</p>
-        <ul class="list-inline">
-            <li class="list-inline-item"><a href="#">Privacy</a></li>
-            <li class="list-inline-item"><a href="#">Terms</a></li>
-            <li class="list-inline-item"><a href="#">Support</a></li>
-        </ul>
-    </footer>
-</div>
-</body>
-</html>
-
-
-
-
-
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Admin</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
-
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/skeleton/css/normalize.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/skeleton/css/skeleton.css">
-</head>
-<body>
-
 <spring:form method="post" action="/jewelry/save?id=${jewelryItem.id}" modelAttribute="jewelryItem">
     <div class="container">
-        <h2>Administration page</h2>
-        <p>Редактирование украшения</p>
+        <div class="py-2 text-center">
+            <h3>Jewelry Edit</h3>
+            <p class="lead"></p>
+        </div>
 
-        <form>
-            <label>Name</label>
-            <input class="u-full-width" type="text" name="name" path="name" value="${jewelryItem.name}"/>
+        <div>
+            <form class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="mainImage">Main Image</label>
+                    <input type='file' onchange="readURL(this);" />
+                    <img src="https://i.ibb.co/ZL7kbZx/9-C787808-419-E-4-E51-8032-2-E653142-B553.jpg" class="img-thumbnail" alt="img" id="mainImage">
 
-            <label>Price</label>
-            <input class="u-full-width" type="text" name="price" path="price" value="${jewelryItem.price}"/>
+                </div>
 
-            <label>Description</label>
-            <textarea name="description" id="description" path="description"
-                      class="u-full-width">${jewelryItem.description}</textarea>
+                <div class="mb-3">
+                    <div class="mb-3">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="" path="name"
+                               value="${jewelryItem.name}" required>
+                        <div class="invalid-feedback">
+                            Valid name is required.
+                        </div>
+                    </div>
+                </div>
 
-            <label>Type</label>
-            <spring:select path="type" class="u-full-width">
-                <spring:options items="${jewelryTypes}" itemLabel="name"/>
-            </spring:select>
+                <div class="mb-3">
+                    <label for="price">Price</label>
+                    <input type="text" class="form-control" id="price" path="price" value="${jewelryItem.price}"
+                           required>
+                    <div class="invalid-feedback" style="width: 100%;">
+                        Your price is required.
+                    </div>
+                </div>
 
-            <label>Main Image</label>
-            <input class="u-full-width" type="text" name="imageUrl" path="imageUrl" value="${jewelryItem.mainImage}"/>
+                <div class="mb-3">
+                    <label for="description">Description <span class="text-muted">(Optional)</span></label>
+                    <textarea class="form-control" id="description" rows="3" path="description"
+                              required>${jewelryItem.description}</textarea>
+                    <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                    </div>
+                </div>
 
-            <input class="button-primary" type="submit" value="Сохранить"/>
-            <input class="button-primary" type="button" value="Закрыть" onclick="location.href='list'"/>
-        </form>
+                <div class="mb-3">
+                    <label for="type">Type</label>
+                    <spring:select class="custom-select d-block w-100" id="type" path="type">
+                        <option value="">Choose...</option>
+                        <spring:options items="${jewelryTypes}" itemLabel="name"/>
+                    </spring:select>
+                    <div class="invalid-feedback">
+                        Please select a valid type.
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="isHide" path="hide"
+                           value="${jewelryItem.hide}">
+                    <label class="custom-control-label" for="isHide">Hide</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="isSold" path="sold"
+                           value="${jewelryItem.sold}">
+                    <label class="custom-control-label" for="isSold">Sold</label>
+                </div>
+                <hr class="mb-4">
+
+                <div class="mb-3">
+                    <label for="materialDescription">Material Description <span
+                            class="text-muted">(Optional)</span></label>
+                    <textarea class="form-control" id="materialDescription" rows="3"
+                              path="materialDescription" required>${jewelryItem.materialDescription}</textarea>
+                    <div class="invalid-feedback">
+                        Please enter a valid email address for shipping updates.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="weight">Weight <span class="text-muted">(Optional)</span></label>
+                    <textarea class="form-control" id="weight" rows="2" path="weight">${jewelryItem.weight}</textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="size">Size <span class="text-muted">(Optional)</span></label>
+                    <input type="text" class="form-control" id="size" path="size" value="${jewelryItem.size}">
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-primary" type="submit">Сохранить</button>
+                <button class="btn btn-primary" type="button" onclick="location.href='list'">Закрыть</button>
+            </form>
+        </div>
     </div>
 </spring:form>
-
 </body>
-</html>

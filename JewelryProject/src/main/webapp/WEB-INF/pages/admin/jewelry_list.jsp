@@ -62,7 +62,7 @@
     }
 </script>
 
-<body>
+<body class="bg-light">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08"
