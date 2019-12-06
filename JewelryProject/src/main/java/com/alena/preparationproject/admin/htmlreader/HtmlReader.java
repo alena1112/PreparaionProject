@@ -148,7 +148,7 @@ public class HtmlReader {
         Pattern pattern = Pattern.compile("^[a-zA-Z]+_([\\d.]+).html$");
         Matcher m = pattern.matcher(fileName);
         if (m.matches()) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             try {
                 return dateFormat.parse(m.group(1));
             } catch (ParseException e) {

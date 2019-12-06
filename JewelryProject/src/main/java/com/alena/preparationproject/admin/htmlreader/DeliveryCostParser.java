@@ -113,14 +113,19 @@ public class DeliveryCostParser {
             Elements trs = purchasesTable.select("tr");
             Element tr = trs.get(trs.size() - 2);
             Elements tds = tr.select("td");
-            Element priceStr = tds.stream()
-                    .filter(element -> "price".equals(element.className()) && StringUtils.isNotBlank(element.text()))
-                    .findFirst()
-                    .orElse(null);
-            if (priceStr != null) {
-                double result = Double.parseDouble(priceStr.text().replace(" руб", ""));
-                log.info(String.format("Delivery price for Luxfurnitura shop is %s", result));
-                return result;
+            if (tds.stream().anyMatch(element -> "name".equals(element.className()) && element.text().contains("СДЭК"))) {
+                Element priceStr = tds.stream()
+                        .filter(element -> "price".equals(element.className()) && StringUtils.isNotBlank(element.text()))
+                        .findFirst()
+                        .orElse(null);
+                if (priceStr != null) {
+                    double result = Double.parseDouble(priceStr.text().replace(" руб", ""));
+                    log.info(String.format("Delivery price for Luxfurnitura shop is %s", result));
+                    return result;
+                }
+            } else {
+                log.info(String.format("Delivery price for Luxfurnitura shop is %s", 0));
+                return 0;
             }
         }
         log.warn("Delivery price for Luxfurnitura shop is not parsed");
