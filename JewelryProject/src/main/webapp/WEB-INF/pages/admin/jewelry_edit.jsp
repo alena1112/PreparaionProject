@@ -21,18 +21,25 @@
     </script>
     <script>
         window.onload = function () {
-            document.querySelector('.custom-file-input').addEventListener('change',function(e) {
-              var fileName = document.getElementById("customFile").files[0].name;
-              var nextSibling = e.target.nextElementSibling;
-              nextSibling.innerText = fileName
+            document.querySelectorAll('.custom-file-input').forEach(function (item, idx) {
+                item.addEventListener('change', function (e) {
+                    var fileName = document.getElementById("customFile").files[0].name;
+                    var nextSibling = e.target.nextElementSibling;
+                    nextSibling.innerText = fileName
+                })
             });
         }
-        function readURL(input) {
+
+        function readURL(input, i) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    document.getElementById("mainImage").src = e.target.result;
+                    if (i === -1) {
+                        document.getElementById("mainImage").src = e.target.result;
+                    } else {
+                        document.getElementById("image" + i).src = e.target.result;
+                    }
                 };
 
                 reader.readAsDataURL(input.files[0]);
@@ -55,6 +62,27 @@
                 font-size: 3.5rem;
             }
         }
+
+        figure {
+            width: 100%;
+            height: 150px;
+            margin: 0 0 3px;
+        }
+
+        figure img {
+            width: 100%;
+            height: 100%;
+            object-fit: scale-down;
+        }
+
+        .custom-file p {
+            color: #7a7e82;
+            font-size: 12px;
+        }
+
+        .img-div {
+            width: 150px;
+        }
     </style>
 </head>
 
@@ -62,33 +90,42 @@
 <spring:form method="post" action="/jewelry/save?id=${jewelryItem.id}" modelAttribute="jewelryItem">
     <div class="container">
         <div class="py-2 text-center">
-            <h3>Jewelry Edit</h3>
+            <h3>${jewelryItem.name != null ? jewelryItem.name : "Jewelry"} Edit</h3>
             <p class="lead"></p>
         </div>
 
         <div>
             <form class="needs-validation" novalidate>
                 <div class="row">
-                    <div class="col-md-2">
-                      <div class="mb-2">
-                        <img src="${jewelryItem.mainImage.path}" class="img-thumbnail" alt="img" id="mainImage">
-                         <div class="custom-file">
-                              <input type="file" class="custom-file-input" id="customFile" name="filename"
-                                onchange="readURL(this)" multiple accept="image/*,image/jpeg">
-                              <label class="custom-file-label" for="customFile">${jewelryItem.mainImage.name}</label>
-                        </div>
-                      </div>
-                    </div>
-                    <c:forEach items="${jewelryItem.images}" var="image">
-                        <div class="col-md-2">
-                          <div class="mb-2">
-                             <img src="${image.path}" class="img-thumbnail" alt="img" id="image">
-                             <div class="custom-file">
-                                  <input type="file" class="custom-file-input" id="customFile" name="filename"
-                                    onchange="readURL(this)" multiple accept="image/*,image/jpeg">
-                                  <label class="custom-file-label" for="customFile">${image.name}</label>
+                    <div class="col-md-2 img-div">
+                        <div class="mb-2">
+                            <figure>
+                                <img src="${jewelryItem.mainImage.path}" alt="img" id="mainImage">
+                            </figure>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile" name="filename"
+                                       onchange="readURL(this, -1)" multiple accept="image/*,image/jpeg">
+                                <label class="custom-file-label" for="customFile">${jewelryItem.mainImage.name}</label>
+                                <p>Note: main image should be square</p>
                             </div>
-                          </div>
+                        </div>
+                    </div>
+                    <c:forEach var="i" begin="0" end="3" step="1" varStatus="status">
+                        <div class="col-md-2 img-div">
+                            <div class="mb-2">
+                                <figure>
+                                    <img src="${i < jewelryItem.images.size() ? jewelryItem.images.get(i).path :
+                                "http://localhost:9998/resources/w3images/icons-plus.png"}"
+                                         alt="img"
+                                         id="image${i}">
+                                </figure>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" name="filename"
+                                           onchange="readURL(this, ${i})" multiple accept="image/*,image/jpeg">
+                                    <label class="custom-file-label"
+                                           for="customFile">${i < jewelryItem.images.size() ? jewelryItem.images.get(i).name : ""}</label>
+                                </div>
+                            </div>
                         </div>
                     </c:forEach>
                 </div>
