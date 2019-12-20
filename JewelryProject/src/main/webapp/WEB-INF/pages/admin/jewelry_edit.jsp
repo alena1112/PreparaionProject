@@ -17,22 +17,28 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+            crossorigin="anonymous">
+    </script>
     <script>
+        window.onload = function () {
+            document.querySelector('.custom-file-input').addEventListener('change',function(e) {
+              var fileName = document.getElementById("customFile").files[0].name;
+              var nextSibling = e.target.nextElementSibling;
+              nextSibling.innerText = fileName
+            });
+        }
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('#mainImage')
-                        .attr('src', e.target.result);
+                    document.getElementById("mainImage").src = e.target.result;
                 };
 
                 reader.readAsDataURL(input.files[0]);
             }
         }
     </script>
-
 
     <style>
         .bd-placeholder-img {
@@ -62,11 +68,29 @@
 
         <div>
             <form class="needs-validation" novalidate>
-                <div class="mb-3">
-                    <label for="mainImage">Main Image</label>
-                    <input type='file' onchange="readURL(this);" />
-                    <img src="https://i.ibb.co/ZL7kbZx/9-C787808-419-E-4-E51-8032-2-E653142-B553.jpg" class="img-thumbnail" alt="img" id="mainImage">
-
+                <div class="row">
+                    <div class="col-md-2">
+                      <div class="mb-2">
+                        <img src="${jewelryItem.mainImage.path}" class="img-thumbnail" alt="img" id="mainImage">
+                         <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="customFile" name="filename"
+                                onchange="readURL(this)" multiple accept="image/*,image/jpeg">
+                              <label class="custom-file-label" for="customFile">${jewelryItem.mainImage.name}</label>
+                        </div>
+                      </div>
+                    </div>
+                    <c:forEach items="${jewelryItem.images}" var="image">
+                        <div class="col-md-2">
+                          <div class="mb-2">
+                             <img src="${image.path}" class="img-thumbnail" alt="img" id="image">
+                             <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="customFile" name="filename"
+                                    onchange="readURL(this)" multiple accept="image/*,image/jpeg">
+                                  <label class="custom-file-label" for="customFile">${image.name}</label>
+                            </div>
+                          </div>
+                        </div>
+                    </c:forEach>
                 </div>
 
                 <div class="mb-3">

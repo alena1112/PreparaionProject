@@ -20,4 +20,8 @@ public class Image extends IdentifiableEntity {
     public void setPath(String path) {
         this.path = path;
     }
+
+    public String getName() {
+        return path.substring(path.lastIndexOf("/") + 1);
+    }
 }

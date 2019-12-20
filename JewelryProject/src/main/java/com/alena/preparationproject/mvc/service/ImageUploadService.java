@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 public class ImageUploadService {
 
     public String uploadImage() {
-
+        return null;
     }
 }
