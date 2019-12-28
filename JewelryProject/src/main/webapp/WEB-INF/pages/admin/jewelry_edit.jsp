@@ -115,7 +115,7 @@
                             <div class="mb-2">
                                 <figure>
                                     <img src="${i < jewelryItem.images.size() ? jewelryItem.images.get(i).path :
-                                "http://localhost:9998/resources/w3images/icons-plus.png"}"
+                                "http://localhost:9999/resources/w3images/icons-plus.png"}"
                                          alt="img"
                                          id="image${i}">
                                 </figure>
