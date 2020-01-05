@@ -2,26 +2,46 @@ package com.alena.preparationproject.mvc.model;
 
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @Entity
 @Table(name = "image")
 public class Image extends IdentifiableEntity {
-    @Column(name = "path")
-    private String path;
+    @Column(name = "name")
+    private String name;
 
-    public String getPath() {
-        return path;
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "jewelry_id")
+    private Jewelry jewelry;
 
-    public void setPath(String path) {
-        this.path = path;
+    /*
+    * 0 - main image
+    */
+    @Column(name = "index")
+    private Integer index;
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {
-        return path.substring(path.lastIndexOf("/") + 1);
+        return name;
+    }
+
+    public Jewelry getJewelry() {
+        return jewelry;
+    }
+
+    public void setJewelry(Jewelry jewelry) {
+        this.jewelry = jewelry;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 }

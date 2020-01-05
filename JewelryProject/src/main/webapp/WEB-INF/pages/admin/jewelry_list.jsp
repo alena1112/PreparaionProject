@@ -87,6 +87,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="${pageContext.request.contextPath}/admin/shop/list">Shops</a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/settings/list">Settings</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -113,7 +116,7 @@
                 <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='edit?id=${item.id}'" style="cursor: pointer">
                     <td>${item.id}</td>
                     <td>
-                        <img src="${item.mainImage.path}"
+                        <img src="${imageHelper.getMainImageFullPath(item)}"
                              alt="jewelry"
                              style="width:90px; height:90px">
                     </td>

@@ -22,24 +22,25 @@ create table material (
   FOREIGN KEY (material_order_id) REFERENCES material_order(id)
 );
 
-create table image (
-  id SERIAL PRIMARY KEY,
-  path varchar(300)
-);
-
 create table jewelry (
   id SERIAL PRIMARY KEY,
   name varchar(100),
   price decimal,
   description varchar(500),
-  main_image_id int,
-  imageUrl varchar(50),
+  type varchar(50),
   material_description varchar(500),
   size varchar(500),
   weight varchar(500),
   is_sold BOOLEAN not null default false,
-  is_hide BOOLEAN not null default false,
-  FOREIGN KEY (main_image_id) REFERENCES image(id)
+  is_hide BOOLEAN not null default false
+);
+
+create table image (
+  id SERIAL PRIMARY KEY,
+  name varchar(300) UNIQUE,
+  jewelry_id int not null,
+  index int not null,
+  FOREIGN KEY (jewelry_id) REFERENCES jewelry(id)
 );
 
 create table jewelry_material (
@@ -47,13 +48,6 @@ create table jewelry_material (
   material_id int not null,
   FOREIGN KEY (jewelry_id) REFERENCES jewelry(id),
   FOREIGN KEY (material_id) REFERENCES material(id)
-);
-
-create table jewelry_image (
-  jewelry_id int not null,
-  image_id int not null,
-  FOREIGN KEY (jewelry_id) REFERENCES jewelry(id),
-  FOREIGN KEY (image_id) REFERENCES image(id)
 );
 
 create table promotional_code (
@@ -92,4 +86,11 @@ create table order_jewelry (
   jewelry_id int not null,
   FOREIGN KEY (order_id) REFERENCES user_order(id),
   FOREIGN KEY (jewelry_id) REFERENCES jewelry(id)
+);
+
+create table settings (
+  id SERIAL PRIMARY KEY,
+  key varchar(100) not null,
+  value varchar(100) not null,
+  description varchar(300)
 );

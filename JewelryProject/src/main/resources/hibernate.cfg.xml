@@ -32,6 +32,7 @@
         <mapping class="com.alena.preparationproject.mvc.model.PromotionalCode"/>
         <mapping class="com.alena.preparationproject.mvc.model.Order"/>
         <mapping class="com.alena.preparationproject.mvc.model.Image"/>
+        <mapping class="com.alena.preparationproject.mvc.model.Settings"/>
 
     </session-factory>
 </hibernate-configuration>

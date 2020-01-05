@@ -24,14 +24,7 @@ public class Jewelry extends IdentifiableEntity {
     @Column(name = "type")
     private JewelryType type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "main_image_id")
-    private Image mainImage;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "jewelry_image",
-            joinColumns = {@JoinColumn(name = "jewelry_id")},
-            inverseJoinColumns = {@JoinColumn(name = "image_id")})
+    @OneToMany(mappedBy = "jewelry", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Image> images;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -103,12 +96,13 @@ public class Jewelry extends IdentifiableEntity {
         this.images = images;
     }
 
-    public Image getMainImage() {
-        return mainImage;
-    }
-
-    public void setMainImage(Image mainImage) {
-        this.mainImage = mainImage;
+    public Image getImage(int index) {
+        return images != null && images.size() > index ?
+                images.stream()
+                        .filter(image -> image.getIndex() == index)
+                        .findFirst()
+                        .orElse(null) :
+                null;
     }
 
     public String getMaterialDescription() {

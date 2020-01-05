@@ -1,5 +1,6 @@
 package com.alena.preparationproject.mvc.controller.shop;
 
+import com.alena.preparationproject.mvc.controller.base.ImageHelper;
 import com.alena.preparationproject.mvc.model.Jewelry;
 import com.alena.preparationproject.mvc.model.Order;
 import com.alena.preparationproject.mvc.service.JewelryService;
@@ -9,8 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.function.Predicate;
+import javax.servlet.http.HttpServletRequest;
+
+import static com.alena.preparationproject.mvc.controller.base.ControllerHelper.getContextPath;
 
 @Controller
 @RequestMapping("/jewelry")
@@ -22,11 +24,14 @@ public class JewelryController {
     private OrderService orderService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getJewelry(@RequestParam(value = "id") Long id,
-                                    @ModelAttribute("order") Order order) {
+    public ModelAndView getJewelry(HttpServletRequest request,
+                                   @RequestParam(value = "id") Long id,
+                                   @ModelAttribute("order") Order order) {
         ModelAndView modelAndView = new ModelAndView();
         Jewelry jewelry = jewelryService.getJewelry(id);
         modelAndView.addObject("jewelry", jewelry);
+        modelAndView.addObject("imageHelper",
+                new ImageHelper(jewelry, getContextPath(request)));
         modelAndView.addObject("order", order);
         modelAndView.addObject("isContains",
                 order.getJewelries()

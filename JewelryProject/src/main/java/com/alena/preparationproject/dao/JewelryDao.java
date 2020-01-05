@@ -20,8 +20,10 @@ public class JewelryDao extends Dao<Jewelry, Long> {
     @Override
     public List<Jewelry> getAll() {
         return executeInsideTransaction(entityManager -> {
-            TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j", Jewelry.class);
-            return query.getResultList();
+            TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j order by j.id", Jewelry.class);
+            List<Jewelry> resultList = query.getResultList();
+            resultList.forEach(entityManager::detach);//TODO нужно что то другое придумать!
+            return resultList;
         });
     }
 

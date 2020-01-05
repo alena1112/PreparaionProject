@@ -94,47 +94,23 @@
     </div>
 </nav>
 
-<spring:form method="get" action="/jewelry/list" modelAttribute="orderList">
+<spring:form method="get" action="/settings/list" modelAttribute="settingsList">
     <div class="container-fluid">
         <input class="btn btn-primary mb-3" type="button" value="Создать" onclick="location.href='edit'"/>
         <input class="btn btn-primary mb-3" type="button" value="Удалить" onclick="delete_item()"/>
         <table class="table table-bordered" id="mainTable">
             <tr class="table_heading">
                 <th>Id</th>
-                <th>Jewelries</th>
-                <th>Promocode</th>
-                <th>Delivery Type</th>
-                <th>Payment Type</th>
-                <th>Delivery Cost</th>
-                <th>Discount</th>
-                <th>Total Cost</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Patronymic</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>City</th>
-                <th>Address</th>
-                <th>Post Index</th>
+                <th>Key</th>
+                <th>Value</th>
+                <th>Description</th>
             </tr>
-            <c:forEach items="${orderList}" var="item" varStatus="status">
+            <c:forEach items="${settingsList}" var="item" varStatus="status">
                 <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='edit?id=${item.id}'" style="cursor: pointer">
                     <td>${item.id}</td>
-                    <td>${item.formatJewelries}</td>
-                    <td>${item.promocode.code}</td>
-                    <td>${item.deliveryType.name}</td>
-                    <td>${item.paymentType.name}</td>
-                    <td>${item.deliveryCost}</td>
-                    <td>${item.discount}</td>
-                    <td>${item.totalCost}</td>
-                    <td>${item.userData.firstName}</td>
-                    <td>${item.userData.lastName}</td>
-                    <td>${item.userData.patronymic}</td>
-                    <td>${item.userData.phone}</td>
-                    <td>${item.userData.email}</td>
-                    <td>${item.userData.city}</td>
-                    <td>${item.userData.address}</td>
-                    <td>${item.userData.postIndex}</td>
+                    <td>${item.key}</td>
+                    <td>${item.value}</td>
+                    <td>${item.description}</td>
                 </tr>
             </c:forEach>
         </table>

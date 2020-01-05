@@ -33,6 +33,18 @@
         cursor: default;
     }
 
+    .main-img {
+        width: 100%;
+        max-height: 500px;
+        object-fit: scale-down;
+    }
+
+    .small-img {
+        width: 100%;
+        max-height: 140px;
+        object-fit: scale-down;
+        cursor:pointer;
+    }
 </style>
 <body>
 
@@ -79,22 +91,21 @@
 
             <div class="w3-col s7 w3-mobile">
                 <div class="w3-container" id="imagesDiv">
-                    <c:forEach items="${jewelry.images}" var="image">
+                    <c:forEach var="i" begin="1" end="${jewelry.images.size() - 1}" step="1" varStatus="status">
                         <div class="w3-display-container mySlides">
-                            <img src="${image.path}"
-                                 alt="${jewelry.name}"
-                                 style="width:100%">
+                            <img class="main-img" src="${imageHelper.getImageFullPath(i)}"
+                                 alt="${jewelry.name}">
                         </div>
                     </c:forEach>
                 </div>
 
                 <div class="w3-row-padding w3-section">
-                    <c:forEach items="${jewelry.images}" var="image">
-                        <div class="w3-col s3">
-                            <img class="demo w3-opacity w3-hover-opacity-off"
+                    <c:forEach var="i" begin="1" end="${jewelry.images.size() - 1}" step="1" varStatus="status">
+                        <div class="w3-col s3 w3-center">
+                            <img class="small-img demo w3-opacity w3-hover-opacity-off"
                                  alt="${jewelry.name}"
-                                 src="${image.path}"
-                                 style="width:100%;cursor:pointer" onclick="currentDiv(1)">
+                                 src="${imageHelper.getImageFullPath(i)}"
+                                 onclick="currentDiv(${i})">
                         </div>
                     </c:forEach>
                 </div>
@@ -115,8 +126,8 @@
                 <p style="letter-spacing:1px;font-size:12px;margin-top: 0;margin-bottom: 10px" align="justify">
                     МАТЕРИАЛЫ: ${jewelry.materialDescription}</p>
                 <p style="letter-spacing:1px;font-size:12px;margin-top: 0;margin-bottom: 10px" align="justify">РАЗМЕР:
-                        ${jewelry.weight}</p>
-                <p style="letter-spacing:1px;font-size:12px;margin: 0" align="justify">ВЕС: ${jewelry.size}</p>
+                        ${jewelry.size}</p>
+                <p style="letter-spacing:1px;font-size:12px;margin: 0" align="justify">ВЕС: ${jewelry.weight}</p>
             </div>
         </div>
 

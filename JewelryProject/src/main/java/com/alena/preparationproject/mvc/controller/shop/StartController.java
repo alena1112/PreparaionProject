@@ -1,5 +1,6 @@
 package com.alena.preparationproject.mvc.controller.shop;
 
+import com.alena.preparationproject.mvc.controller.base.ImageHelper;
 import com.alena.preparationproject.mvc.model.Jewelry;
 import com.alena.preparationproject.mvc.model.Order;
 import com.alena.preparationproject.mvc.model.enums.JewelryType;
@@ -11,9 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.alena.preparationproject.mvc.controller.base.ControllerHelper.getContextPath;
 
 @Controller
 @SessionAttributes(value = "order")
@@ -28,7 +32,8 @@ public class StartController {
     private static final String MENU_NEW = "new";
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getAllJewelries(@RequestParam(value = "menu") String menu) {
+    public ModelAndView getAllJewelries(HttpServletRequest request,
+                                        @RequestParam(value = "menu") String menu) {
         ModelAndView modelAndView = new ModelAndView();
         List<Jewelry> allJewelries = getJewelries(menu);
         List<List<Jewelry>> list = new ArrayList<>();
@@ -37,6 +42,7 @@ public class StartController {
             list.add(allJewelries.subList(i, end));
         }
         modelAndView.addObject("jewelryList", list);
+        modelAndView.addObject("imageHelper", new ImageHelper(getContextPath(request)));
         modelAndView.setViewName("shop/start");
         return modelAndView;
     }

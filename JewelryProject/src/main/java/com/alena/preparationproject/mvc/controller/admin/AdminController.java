@@ -1,20 +1,17 @@
 package com.alena.preparationproject.mvc.controller.admin;
 
-import com.alena.preparationproject.mvc.model.Jewelry;
-import com.alena.preparationproject.mvc.model.enums.JewelryType;
 import com.alena.preparationproject.mvc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-
 @Controller
+@SessionAttributes(value = "jewelry")
 @RequestMapping("/admin")
 public class AdminController {
-    @Autowired
-    private JewelryService jewelryService;
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -23,14 +20,8 @@ public class AdminController {
     private MaterialService materialService;
     @Autowired
     private ShopService shopService;
-
-    @RequestMapping(value = "/jewelry/list", method = RequestMethod.GET)
-    public ModelAndView getAllJewelries() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("jewelryList", jewelryService.getAllJewelries());
-        modelAndView.setViewName("admin/jewelry_list");
-        return modelAndView;
-    }
+    @Autowired
+    private SettingsService settingsService;
 
     @RequestMapping(value = "/order/list", method = RequestMethod.GET)
     public ModelAndView getAllOrders() {
@@ -64,29 +55,11 @@ public class AdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/jewelry/edit", method = RequestMethod.GET)
-    public ModelAndView editJewelry(@RequestParam(value = "id", required = false) Long id) {
+    @RequestMapping(value = "/settings/list", method = RequestMethod.GET)
+    public ModelAndView getAllSettings() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("jewelryItem", id != null ? jewelryService.getJewelry(id) : new Jewelry());
-        modelAndView.addObject("jewelryTypes", JewelryType.values());
-        modelAndView.setViewName("admin/jewelry_edit");
+        modelAndView.addObject("settingsList", settingsService.getAllSettings());
+        modelAndView.setViewName("admin/settings_list");
         return modelAndView;
-    }
-
-    @RequestMapping(value = "/jewelry/save", method = RequestMethod.POST)
-    public ModelAndView saveJewelry(@RequestParam(value = "id") Long id, @ModelAttribute("jewelryItem") Jewelry jewelry) {
-        if (id == null) {
-            jewelryService.saveNew(jewelry);
-        } else {
-            jewelry.setId(id);
-            jewelryService.save(jewelry);
-        }
-        return new ModelAndView("redirect:/jewelry/list", new HashMap<>());
-    }
-
-    @RequestMapping(value = "/jewelry/delete", method = RequestMethod.DELETE)
-    public @ResponseBody String deleteJewelry(@RequestParam(value = "id") Long id) {
-//        jewelryService.deleteJewelry(id);
-        return "ok";
     }
 }

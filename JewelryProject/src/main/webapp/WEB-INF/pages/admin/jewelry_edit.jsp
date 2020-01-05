@@ -20,30 +20,39 @@
             crossorigin="anonymous">
     </script>
     <script>
-        window.onload = function () {
-            document.querySelectorAll('.custom-file-input').forEach(function (item, idx) {
-                item.addEventListener('change', function (e) {
-                    var fileName = document.getElementById("customFile").files[0].name;
-                    var nextSibling = e.target.nextElementSibling;
-                    nextSibling.innerText = fileName
-                })
-            });
-        }
-
-        function readURL(input, i) {
+        function uploadImage(input, i) {
             if (input.files && input.files[0]) {
-                var reader = new FileReader();
+                var formData = new FormData();
+                formData.append("image", input.files[0]);
+                formData.append("imageOrder", i);
 
-                reader.onload = function (e) {
-                    if (i === -1) {
-                        document.getElementById("mainImage").src = e.target.result;
-                    } else {
-                        document.getElementById("image" + i).src = e.target.result;
+                var request = new XMLHttpRequest();
+                request.responseType = "text";
+                request.onreadystatechange = function () {
+                    if (this.status === 200 && this.responseText !== '') {
+                        var path = this.responseText;
+                        document.getElementById("image" + i).src = path;
+                        document.getElementById("customFileLabel" + i).innerText =
+                            path.substring(path.lastIndexOf('=') + 1, path.length);
                     }
                 };
-
-                reader.readAsDataURL(input.files[0]);
+                request.open("POST", "uploadImage", true);
+                request.send(formData);
             }
+        }
+
+        function deleteImage(i, defaultImg) {
+            var request = new XMLHttpRequest();
+            request.responseType = "text";
+
+            request.onreadystatechange = function () {
+                if (this.status === 200 && this.responseText === 'ok') {
+                    document.getElementById("image" + i).src = defaultImg;
+                    document.getElementById("customFileLabel" + i).innerText = "";
+                }
+            };
+            request.open("POST", "deleteImage?position=" + i, true);
+            request.send();
         }
     </script>
 
@@ -75,7 +84,7 @@
             object-fit: scale-down;
         }
 
-        .custom-file p {
+        .input-group p {
             color: #7a7e82;
             font-size: 12px;
         }
@@ -83,47 +92,43 @@
         .img-div {
             width: 150px;
         }
+
+        .file-label {
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 5px;
+        }
     </style>
 </head>
 
 <body class="bg-light">
-<spring:form method="post" action="/jewelry/save?id=${jewelryItem.id}" modelAttribute="jewelryItem">
+<spring:form method="post" action="/admin/jewelry/save?id=${jewelry.id}" modelAttribute="jewelry">
     <div class="container">
         <div class="py-2 text-center">
-            <h3>${jewelryItem.name != null ? jewelryItem.name : "Jewelry"} Edit</h3>
+            <h3>${jewelry.name != null ? jewelry.name : "Jewelry"} Edit</h3>
             <p class="lead"></p>
         </div>
 
         <div>
             <form class="needs-validation" novalidate>
                 <div class="row">
-                    <div class="col-md-2 img-div">
-                        <div class="mb-2">
-                            <figure>
-                                <img src="${jewelryItem.mainImage.path}" alt="img" id="mainImage">
-                            </figure>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile" name="filename"
-                                       onchange="readURL(this, -1)" multiple accept="image/*,image/jpeg">
-                                <label class="custom-file-label" for="customFile">${jewelryItem.mainImage.name}</label>
-                                <p>Note: main image should be square</p>
-                            </div>
-                        </div>
-                    </div>
-                    <c:forEach var="i" begin="0" end="3" step="1" varStatus="status">
+                    <c:forEach var="i" begin="0" end="4" step="1" varStatus="status">
                         <div class="col-md-2 img-div">
                             <div class="mb-2">
                                 <figure>
-                                    <img src="${i < jewelryItem.images.size() ? jewelryItem.images.get(i).path :
-                                "http://localhost:9999/resources/w3images/icons-plus.png"}"
+                                    <img src="${imageHelper.getImageFullPathOrDefault(i)}"
                                          alt="img"
                                          id="image${i}">
                                 </figure>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFile" name="filename"
-                                           onchange="readURL(this, ${i})" multiple accept="image/*,image/jpeg">
-                                    <label class="custom-file-label"
-                                           for="customFile">${i < jewelryItem.images.size() ? jewelryItem.images.get(i).name : ""}</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile${i}" name="filename"
+                                               onchange="uploadImage(this, ${i})" multiple accept="image/*,image/jpeg">
+                                        <label class="custom-file-label file-label" id="customFileLabel${i}"
+                                               for="customFile${i}">${jewelry.getImage(i) != null ? jewelry.getImage(i).name : ""}</label>
+                                    </div>
+                                    <button class="btn btn-outline-secondary" type="button"
+                                        onclick="deleteImage(${i}, '${imageHelper.getDefaultImage()}')">X</button>
                                 </div>
                             </div>
                         </div>
@@ -133,8 +138,8 @@
                 <div class="mb-3">
                     <div class="mb-3">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="" path="name"
-                               value="${jewelryItem.name}" required>
+                        <spring:input type="text" class="form-control" id="name" placeholder="" path="name"
+                               value="${jewelry.name}" required="required"/>
                         <div class="invalid-feedback">
                             Valid name is required.
                         </div>
@@ -143,8 +148,8 @@
 
                 <div class="mb-3">
                     <label for="price">Price</label>
-                    <input type="text" class="form-control" id="price" path="price" value="${jewelryItem.price}"
-                           required>
+                    <spring:input type="text" class="form-control" id="price" path="price" value="${jewelry.price}"
+                           required="required"/>
                     <div class="invalid-feedback" style="width: 100%;">
                         Your price is required.
                     </div>
@@ -152,8 +157,8 @@
 
                 <div class="mb-3">
                     <label for="description">Description <span class="text-muted">(Optional)</span></label>
-                    <textarea class="form-control" id="description" rows="3" path="description"
-                              required>${jewelryItem.description}</textarea>
+                    <spring:textarea class="form-control" id="description" rows="3"
+                        path="description"/>
                     <div class="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                     </div>
@@ -161,7 +166,7 @@
 
                 <div class="mb-3">
                     <label for="type">Type</label>
-                    <spring:select class="custom-select d-block w-100" id="type" path="type">
+                    <spring:select class="custom-select d-block w-100" id="type" path="type" required="required">
                         <option value="">Choose...</option>
                         <spring:options items="${jewelryTypes}" itemLabel="name"/>
                     </spring:select>
@@ -172,13 +177,13 @@
 
                 <hr class="mb-4">
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="isHide" path="hide"
-                           value="${jewelryItem.hide}">
+                    <spring:checkbox class="custom-control-input" id="isHide" path="hide"
+                           value="${jewelry.hide}"/>
                     <label class="custom-control-label" for="isHide">Hide</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="isSold" path="sold"
-                           value="${jewelryItem.sold}">
+                    <spring:checkbox class="custom-control-input" id="isSold" path="sold"
+                           value="${jewelry.sold}"/>
                     <label class="custom-control-label" for="isSold">Sold</label>
                 </div>
                 <hr class="mb-4">
@@ -186,8 +191,8 @@
                 <div class="mb-3">
                     <label for="materialDescription">Material Description <span
                             class="text-muted">(Optional)</span></label>
-                    <textarea class="form-control" id="materialDescription" rows="3"
-                              path="materialDescription" required>${jewelryItem.materialDescription}</textarea>
+                    <spring:textarea class="form-control" id="materialDescription" rows="3"
+                              path="materialDescription"/>
                     <div class="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                     </div>
@@ -195,12 +200,12 @@
 
                 <div class="mb-3">
                     <label for="weight">Weight <span class="text-muted">(Optional)</span></label>
-                    <textarea class="form-control" id="weight" rows="2" path="weight">${jewelryItem.weight}</textarea>
+                    <spring:textarea class="form-control" id="weight" rows="2" path="weight"/>
                 </div>
 
                 <div class="mb-3">
                     <label for="size">Size <span class="text-muted">(Optional)</span></label>
-                    <input type="text" class="form-control" id="size" path="size" value="${jewelryItem.size}">
+                    <spring:input type="text" class="form-control" id="size" path="size" value="${jewelry.size}"/>
                 </div>
 
                 <hr class="mb-4">

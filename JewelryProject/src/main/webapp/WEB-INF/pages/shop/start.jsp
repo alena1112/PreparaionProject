@@ -77,7 +77,7 @@
                     <div class="w3-quarter">
                         <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}"
                            class="jewelry-item-class">
-                            <img src="${item.mainImage.path}"
+                            <img src="${imageHelper.getMainImageFullPath(item)}"
                                  alt="${item.name}"
                                  style="width:100%">
                         </a>

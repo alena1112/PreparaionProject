@@ -37,4 +37,9 @@
             <param-value>WEB-INF/spring/spring-config.xml</param-value>
         </init-param>
     </servlet>
+
+    <context-param>
+        <param-name>com.alena.preparationproject.images</param-name>
+        <param-value>/work/images</param-value>
+    </context-param>
 </web-app>

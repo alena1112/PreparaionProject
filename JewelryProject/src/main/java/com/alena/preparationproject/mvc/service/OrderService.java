@@ -1,14 +1,12 @@
 package com.alena.preparationproject.mvc.service;
 
 import com.alena.preparationproject.dao.OrderDao;
-import com.alena.preparationproject.mvc.model.Jewelry;
-import com.alena.preparationproject.mvc.model.Order;
-import com.alena.preparationproject.mvc.model.PromotionalCode;
-import com.alena.preparationproject.mvc.model.UserData;
+import com.alena.preparationproject.mvc.model.*;
 import com.alena.preparationproject.mvc.model.enums.DeliveryType;
 import com.alena.preparationproject.mvc.model.enums.PaymentType;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +17,19 @@ import java.util.List;
 public class OrderService {
     private final PromoCodeService promoCodeService;
     private final JewelryService jewelryService;
+    private final SettingsService settingsService;
+
     private final OrderDao orderDao;
 
+    private final String DELIVERY_COST_RUSSIA_POST_OFFICE = "delivery.cost.russiaPostOffice";
+
     @Autowired
-    public OrderService(OrderDao orderDao, PromoCodeService promoCodeService, JewelryService jewelryService) {
+    public OrderService(OrderDao orderDao, PromoCodeService promoCodeService, JewelryService jewelryService,
+                        SettingsService settingsService) {
         this.orderDao = orderDao;
         this.promoCodeService = promoCodeService;
         this.jewelryService = jewelryService;
+        this.settingsService = settingsService;
     }
 
     public Order createDefaultOrder() {
@@ -47,7 +51,7 @@ public class OrderService {
         return orderDao.getAll();
     }
 
-//не должно происходить апдейт в базе по параметрам, украшениям, промокоду
+    //не должно происходить апдейт в базе по параметрам, украшениям, промокоду
     public void saveOrder(Order order) throws CreateOrderException {
         synchronized (jewelryService) {
             synchronized (promoCodeService) {
@@ -176,8 +180,10 @@ public class OrderService {
 
     private double getDeliveryPrice(DeliveryType deliveryType) {
         if (deliveryType == DeliveryType.RUSSIA_POST_OFFICE) {
-            //TODO
-            return 200;
+            Settings settings = settingsService.getSettingsByKey(DELIVERY_COST_RUSSIA_POST_OFFICE);
+            if (settings != null && StringUtils.isNotBlank(settings.getValue())) {
+                return Double.parseDouble(settings.getValue());
+            }
         }
         return 0;
     }

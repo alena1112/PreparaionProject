@@ -246,7 +246,7 @@
                         <tr>
                             <td>
                                 <div class="w3-cell">
-                                    <img src="${jewelry.mainImage.path}"
+                                    <img src="${imageHelper.getMainImageFullPath(jewelry)}"
                                          alt="jewelry"
                                          style="width:90px; height:90px" class="w3-margin-right">
                                 </div>

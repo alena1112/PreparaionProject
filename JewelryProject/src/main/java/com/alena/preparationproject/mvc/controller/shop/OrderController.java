@@ -1,6 +1,8 @@
 package com.alena.preparationproject.mvc.controller.shop;
 
 import com.alena.preparationproject.mvc.FormatHelper;
+import com.alena.preparationproject.mvc.controller.base.ControllerHelper;
+import com.alena.preparationproject.mvc.controller.base.ImageHelper;
 import com.alena.preparationproject.mvc.model.Order;
 import com.alena.preparationproject.mvc.service.CreateOrderException;
 import com.alena.preparationproject.mvc.service.OrderService;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Controller
@@ -20,10 +23,12 @@ public class OrderController {
     private OrderService orderService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getAllJewelries(@ModelAttribute("order") Order order) {
+    public ModelAndView getAllJewelries(HttpServletRequest request,
+                                        @ModelAttribute("order") Order order) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("shop/buy");
         modelAndView.addObject("order", order);
+        modelAndView.addObject("imageHelper", new ImageHelper(ControllerHelper.getContextPath(request)));
         return modelAndView;
     }
 

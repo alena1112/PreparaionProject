@@ -12,6 +12,7 @@
         <class>com.alena.preparationproject.mvc.model.PromotionalCode</class>
         <class>com.alena.preparationproject.mvc.model.Order</class>
         <class>com.alena.preparationproject.mvc.model.Image</class>
+        <class>com.alena.preparationproject.mvc.model.Settings</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 <!--        <properties>-->
