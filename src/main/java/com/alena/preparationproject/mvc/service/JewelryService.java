@@ -23,7 +23,7 @@ public class JewelryService {
     }
 
     public List<Jewelry> getNewUnhiddenJewelries(Date fromDate, int maxCount) {
-        return jewelryDao.getAllUnhidden();
+        return jewelryDao.getAllUnhidden(maxCount);
     }
 
     public List<Jewelry> getUnhiddenJewelries(JewelryType type) {

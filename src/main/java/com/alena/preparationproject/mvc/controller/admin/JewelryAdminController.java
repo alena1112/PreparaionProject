@@ -69,7 +69,7 @@ public class JewelryAdminController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public @ResponseBody String deleteJewelry(@RequestParam(value = "id") Long id) {
-//        jewelryService.deleteJewelry(id);
+        jewelryService.deleteJewelry(id);
         return "ok";
     }
 

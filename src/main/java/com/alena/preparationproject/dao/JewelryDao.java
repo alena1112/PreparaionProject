@@ -20,7 +20,7 @@ public class JewelryDao extends Dao<Jewelry, Long> {
     @Override
     public List<Jewelry> getAll() {
         return executeInsideTransaction(entityManager -> {
-            TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j order by j.id", Jewelry.class);
+            TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j order by j.createdDate desc", Jewelry.class);
             List<Jewelry> resultList = query.getResultList();
             resultList.forEach(entityManager::detach);//TODO нужно что то другое придумать!
             return resultList;
@@ -31,6 +31,15 @@ public class JewelryDao extends Dao<Jewelry, Long> {
         return executeInsideTransaction(entityManager -> {
             TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j where j.isHide = false " +
                     "order by j.isSold", Jewelry.class);
+            return query.getResultList();
+        });
+    }
+
+    public List<Jewelry> getAllUnhidden(int count) {
+        return executeInsideTransaction(entityManager -> {
+            TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j where j.isHide = false " +
+                    "order by j.isSold, j.createdDate", Jewelry.class);
+            query.setMaxResults(count);
             return query.getResultList();
         });
     }

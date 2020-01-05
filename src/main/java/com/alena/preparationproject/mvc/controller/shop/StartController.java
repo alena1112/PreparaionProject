@@ -6,6 +6,7 @@ import com.alena.preparationproject.mvc.model.Order;
 import com.alena.preparationproject.mvc.model.enums.JewelryType;
 import com.alena.preparationproject.mvc.service.JewelryService;
 import com.alena.preparationproject.mvc.service.OrderService;
+import com.alena.preparationproject.mvc.service.SettingsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,8 @@ public class StartController {
     private JewelryService jewelryService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private SettingsService settingsService;
 
     private static final String MENU_ALL = "all";
     private static final String MENU_NEW = "new";
@@ -51,7 +54,8 @@ public class StartController {
         if (StringUtils.isBlank(menu) || MENU_ALL.equals(menu)) {
             return jewelryService.getAllUnhiddenJewelries();
         } else if (MENU_NEW.equals(menu)) {
-            return jewelryService.getNewUnhiddenJewelries(new Date(), 10);
+            return jewelryService.getNewUnhiddenJewelries(new Date(),
+                    Integer.parseInt(settingsService.getSettingsByKey("maxNewJewelryCount").getValue()));
         } else {
             JewelryType jewelryType = JewelryType.fromId(menu);
             if (jewelryType != null) {

@@ -38,6 +38,7 @@ create table preparation_project.jewelry (
   weight varchar(500),
   is_sold tinyint(1) not null default 0,
   is_hide tinyint(1) not null default 0,
+  created_date DATETIME not null default now(),
   PRIMARY KEY (id)
 );
 

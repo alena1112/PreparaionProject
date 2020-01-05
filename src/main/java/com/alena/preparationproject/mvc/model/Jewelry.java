@@ -5,6 +5,7 @@ import com.alena.preparationproject.mvc.model.enums.JewelryType;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -47,6 +48,9 @@ public class Jewelry extends IdentifiableEntity {
 
     @Column(name = "is_hide")
     private Boolean isHide = false;
+
+    @Column(name = "created_date")
+    private Date createdDate = new Date(System.currentTimeMillis());
 
     public String getName() {
         return name;
@@ -143,6 +147,14 @@ public class Jewelry extends IdentifiableEntity {
 
     public void setHide(Boolean hide) {
         isHide = hide;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getFormatPrice() {
