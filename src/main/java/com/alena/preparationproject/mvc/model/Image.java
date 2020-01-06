@@ -18,7 +18,7 @@ public class Image extends IdentifiableEntity {
     /*
     * 0 - main image
     */
-    @Column(name = "index")
+    @Column(name = "img_index")
     private Integer index;
 
     public void setName(String name) {

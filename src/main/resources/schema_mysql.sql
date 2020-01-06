@@ -1,21 +1,19 @@
-create schema preparation_project;
-
-create table preparation_project.shop (
+create table shop (
   id int not null AUTO_INCREMENT,
   name varchar(100),
   PRIMARY KEY (id)
 );
 
-create table preparation_project.material_order (
+create table material_order (
   id int not null AUTO_INCREMENT,
   delivery_price double,
   shop_id int not null,
   purchase_date DATETIME,
   PRIMARY KEY (id),
-  FOREIGN KEY (shop_id) REFERENCES preparation_project.shop(id)
+  FOREIGN KEY (shop_id) REFERENCES shop(id)
 );
 
-create table preparation_project.material (
+create table material (
   id int not null AUTO_INCREMENT,
   name varchar(1000),
   price double,
@@ -24,10 +22,10 @@ create table preparation_project.material (
   image_url varchar(300),
   material_order_id int not null,
   PRIMARY KEY (id),
-  FOREIGN KEY (material_order_id) REFERENCES preparation_project.material_order(id)
+  FOREIGN KEY (material_order_id) REFERENCES material_order(id)
 );
 
-create table preparation_project.jewelry (
+create table jewelry (
   id int not null AUTO_INCREMENT,
   name varchar(100),
   price double,
@@ -42,23 +40,23 @@ create table preparation_project.jewelry (
   PRIMARY KEY (id)
 );
 
-create table preparation_project.image (
+create table image (
   id int not null AUTO_INCREMENT,
-  name varchar(300) UNIQUE,
+  name varchar(100) UNIQUE,
   jewelry_id int not null,
-  index int not null,
+  img_index int not null,
   PRIMARY KEY (id),
-  FOREIGN KEY (jewelry_id) REFERENCES preparation_project.jewelry(id)
+  FOREIGN KEY (jewelry_id) REFERENCES jewelry(id)
 );
 
-create table preparation_project.jewelry_material (
+create table jewelry_material (
   jewelry_id int not null,
   material_id int not null,
-  FOREIGN KEY (jewelry_id) REFERENCES preparation_project.jewelry(id),
-  FOREIGN KEY (material_id) REFERENCES preparation_project.material(id)
+  FOREIGN KEY (jewelry_id) REFERENCES jewelry(id),
+  FOREIGN KEY (material_id) REFERENCES material(id)
 );
 
-create table preparation_project.promotional_code (
+create table promotional_code (
   id int not null AUTO_INCREMENT,
   code varchar(20) not null,
   is_active tinyint(1) not null,
@@ -70,7 +68,7 @@ create table preparation_project.promotional_code (
   PRIMARY KEY (id)
 );
 
-create table preparation_project.user_order (
+create table user_order (
   id int not null AUTO_INCREMENT,
   promocode_id int,
   delivery_type varchar(20) not null,
@@ -88,20 +86,20 @@ create table preparation_project.user_order (
   address varchar(100),
   post_index varchar(50),
   PRIMARY KEY (id),
-  FOREIGN KEY (promocode_id) REFERENCES preparation_project.promotional_code(id)
+  FOREIGN KEY (promocode_id) REFERENCES promotional_code(id)
 );
 
-create table preparation_project.order_jewelry (
+create table order_jewelry (
   order_id int not null,
   jewelry_id int not null,
-  FOREIGN KEY (order_id) REFERENCES preparation_project.user_order(id),
-  FOREIGN KEY (jewelry_id) REFERENCES preparation_project.jewelry(id)
+  FOREIGN KEY (order_id) REFERENCES user_order(id),
+  FOREIGN KEY (jewelry_id) REFERENCES jewelry(id)
 );
 
-create table preparation_project.settings (
+create table settings (
   id int not null,
-  key varchar(100) not null,
-  value varchar(100) not null,
+  s_key varchar(100) not null,
+  s_value varchar(100) not null,
   description varchar(300),
   PRIMARY KEY (id)
 );

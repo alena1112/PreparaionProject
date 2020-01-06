@@ -235,7 +235,7 @@
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:110px">
 
     <p id="emptyOrder" class="w3-text-grey" style="display: none;margin-top: 20px;margin-bottom: 350px;font-size: 12px">Ваша корзина пуста</p>
-    <spring:form method="post" action="/buy/createOrder" modelAttribute="order" id="createOrderForm" novalidate="true">
+    <spring:form method="post" action="${pageContext.request.contextPath}/buy/createOrder" modelAttribute="order" id="createOrderForm" novalidate="true">
         <div class="w3-row-padding w3-center" id="mainDiv">
 
             <h4>Оформление заказа</h4>

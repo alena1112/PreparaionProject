@@ -102,7 +102,7 @@
 </head>
 
 <body class="bg-light">
-<spring:form method="post" action="/admin/jewelry/save?id=${jewelry.id}" modelAttribute="jewelry">
+<spring:form method="post" action="${pageContext.request.contextPath}/admin/jewelry/save?id=${jewelry.id}" modelAttribute="jewelry">
     <div class="container">
         <div class="py-2 text-center">
             <h3>${jewelry.name != null ? jewelry.name : "Jewelry"} Edit</h3>

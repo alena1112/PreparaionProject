@@ -7,10 +7,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "settings")
 public class Settings extends IdentifiableEntity {
-    @Column(name = "key")
+    @Column(name = "s_key")
     private String key;
 
-    @Column(name = "value")
+    @Column(name = "s_value")
     private String value;
 
     @Column(name = "description")

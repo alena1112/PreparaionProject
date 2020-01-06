@@ -85,7 +85,7 @@
 
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:110px">
 
-    <spring:form method="post" action="/jewelry/addInOrder?id=${jewelry.id}" modelAttribute="order" id="addInOrderForm">
+    <spring:form method="post" action="${pageContext.request.contextPath}/jewelry/addInOrder?id=${jewelry.id}" modelAttribute="order" id="addInOrderForm">
 
         <div class="w3-row w3-white w3-padding-16">
 

@@ -38,9 +38,9 @@ create table jewelry (
 
 create table image (
   id SERIAL PRIMARY KEY,
-  name varchar(300) UNIQUE,
+  name varchar(100) UNIQUE,
   jewelry_id int not null,
-  index int not null,
+  img_index int not null,
   FOREIGN KEY (jewelry_id) REFERENCES jewelry(id)
 );
 
@@ -91,7 +91,7 @@ create table order_jewelry (
 
 create table settings (
   id SERIAL PRIMARY KEY,
-  key varchar(100) not null,
-  value varchar(100) not null,
+  s_key varchar(100) not null,
+  s_value varchar(100) not null,
   description varchar(300)
 );
