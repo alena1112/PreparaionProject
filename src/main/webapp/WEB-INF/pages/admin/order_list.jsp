@@ -120,7 +120,11 @@
             <c:forEach items="${orderList}" var="item" varStatus="status">
                 <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='edit?id=${item.id}'" style="cursor: pointer">
                     <td>${item.id}</td>
-                    <td>${item.formatJewelries}</td>
+                    <td>
+                        <c:forEach items="${item.jewelries}" var="jewelry" varStatus="status">
+                            <a href="${pageContext.request.contextPath}/admin/jewelry/edit?id=${jewelry.id}">${jewelry.name}</a>
+                        </c:forEach>
+                    </td>
                     <td>${item.promocode.code}</td>
                     <td>${item.deliveryType.name}</td>
                     <td>${item.paymentType.name}</td>

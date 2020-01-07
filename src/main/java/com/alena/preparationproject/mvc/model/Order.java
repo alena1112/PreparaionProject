@@ -136,8 +136,4 @@ public class Order extends IdentifiableEntity {
                 costWithoutDiscount,
                 FormatHelper.Currency.RUB);
     }
-
-    public String getFormatJewelries() {
-        return FormatHelper.getFormatListJewelries(jewelries);
-    }
 }

@@ -33,14 +33,4 @@ public class FormatHelper {
         sb.append(currency == Currency.RUB ? " \u20BD" : "");
         return sb.toString();
     }
-
-    public static String getFormatListJewelries(List<Jewelry> jewelries) {
-        StringBuilder sb = new StringBuilder();
-        jewelries.forEach(jewelry -> {
-            sb.append(String.format("<a href=\"#\">%s</a>", jewelry.getName()));
-            sb.append(", ");
-        });
-        sb.delete(sb.length() - 2, sb.length() - 1);
-        return sb.toString();
-    }
 }
