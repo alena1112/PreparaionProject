@@ -39,7 +39,7 @@ public class ImageFileService {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception while saving new image", e);
         } finally {
             if (os != null) {
                 try {

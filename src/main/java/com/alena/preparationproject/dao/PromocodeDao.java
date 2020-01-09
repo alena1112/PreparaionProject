@@ -11,8 +11,10 @@ import java.util.Optional;
 public class PromocodeDao extends Dao<PromotionalCode, Long> {
 
     @Override
-    public Optional<PromotionalCode> get(Long aLong) {
-        return Optional.empty();
+    public Optional<PromotionalCode> get(Long id) {
+        return Optional.ofNullable(executeInsideTransaction(entityManager -> {
+            return entityManager.find(PromotionalCode.class, id);
+        }));
     }
 
     public PromotionalCode getByCode(String code) {
@@ -36,16 +38,24 @@ public class PromocodeDao extends Dao<PromotionalCode, Long> {
 
     @Override
     public void save(PromotionalCode promotionalCode) {
-
+        executeInsideTransaction(entityManager -> {
+            entityManager.persist(promotionalCode);
+        });
     }
 
     @Override
     public void update(PromotionalCode promotionalCode) {
-
+        executeInsideTransaction(entityManager -> {
+            entityManager.merge(promotionalCode);
+        });
     }
 
     @Override
-    public void delete(Long aLong) {
-
+    public void delete(Long id) {
+        executeInsideTransaction(entityManager -> {
+                    PromotionalCode promotionalCode = entityManager.find(PromotionalCode.class, id);
+                    entityManager.remove(promotionalCode);
+                }
+        );
     }
 }

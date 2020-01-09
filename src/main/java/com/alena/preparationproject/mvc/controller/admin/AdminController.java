@@ -1,6 +1,9 @@
 package com.alena.preparationproject.mvc.controller.admin;
 
-import com.alena.preparationproject.mvc.service.*;
+import com.alena.preparationproject.mvc.service.MaterialService;
+import com.alena.preparationproject.mvc.service.OrderService;
+import com.alena.preparationproject.mvc.service.SettingsService;
+import com.alena.preparationproject.mvc.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +18,6 @@ public class AdminController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private PromoCodeService promoCodeService;
-    @Autowired
     private MaterialService materialService;
     @Autowired
     private ShopService shopService;
@@ -28,14 +29,6 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("orderList", orderService.getAllOrders());
         modelAndView.setViewName("admin/order_list");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/promocode/list", method = RequestMethod.GET)
-    public ModelAndView getAllPromocodes() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("promocodeList", promoCodeService.getAllPromocodes());
-        modelAndView.setViewName("admin/promocode_list");
         return modelAndView;
     }
 

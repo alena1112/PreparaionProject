@@ -55,7 +55,7 @@ public class StartController {
             return jewelryService.getAllUnhiddenJewelries();
         } else if (MENU_NEW.equals(menu)) {
             return jewelryService.getNewUnhiddenJewelries(new Date(),
-                    Integer.parseInt(settingsService.getSettingsByKey("maxNewJewelryCount").getValue()));
+                    Integer.parseInt(settingsService.getSettingsByKey("maxNewJewelryCount", "3")));
         } else {
             JewelryType jewelryType = JewelryType.fromId(menu);
             if (jewelryType != null) {

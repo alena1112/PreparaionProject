@@ -180,10 +180,8 @@ public class OrderService {
 
     private double getDeliveryPrice(DeliveryType deliveryType) {
         if (deliveryType == DeliveryType.RUSSIA_POST_OFFICE) {
-            Settings settings = settingsService.getSettingsByKey(DELIVERY_COST_RUSSIA_POST_OFFICE);
-            if (settings != null && StringUtils.isNotBlank(settings.getValue())) {
-                return Double.parseDouble(settings.getValue());
-            }
+            String value = settingsService.getSettingsByKey(DELIVERY_COST_RUSSIA_POST_OFFICE, "50");
+            return Double.parseDouble(value);
         }
         return 0;
     }

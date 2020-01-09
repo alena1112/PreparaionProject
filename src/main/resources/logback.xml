@@ -1,6 +1,7 @@
 <configuration>
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${CATALINA_HOME}/logs/jewelry_shop.log</file>
+<!--        <file>/var/lib/tomcat7/logs/jewelry_shop.log</file>-->
+        <file>logs/jewelry_shop.log</file>
         <encoder>
             <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - %-5.-5level | %-25.-25thread | %-36.-36logger{36} | %msg%n</Pattern>
         </encoder>

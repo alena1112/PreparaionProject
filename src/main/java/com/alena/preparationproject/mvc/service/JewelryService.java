@@ -35,11 +35,11 @@ public class JewelryService {
                 .orElse(null);
     }
 
-    public void save(Jewelry jewelry) {
+    public void update(Jewelry jewelry) {
         jewelryDao.update(jewelry);
     }
 
-    public void saveNew(Jewelry jewelry) {
+    public void save(Jewelry jewelry) {
         jewelryDao.save(jewelry);
     }
 

@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-<!--    localhost:9999/jewelry-system/jewelry/list-->
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
@@ -40,6 +39,7 @@
 
     <context-param>
         <param-name>com.alena.preparationproject.images</param-name>
+<!--        <param-value>/var/lib/tomcat7/images</param-value>-->
         <param-value>/work/images</param-value>
     </context-param>
 </web-app>

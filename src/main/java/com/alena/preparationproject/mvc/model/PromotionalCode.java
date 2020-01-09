@@ -14,7 +14,7 @@ public class PromotionalCode extends IdentifiableEntity {
     private String code;
 
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "promocode_type")
@@ -31,6 +31,9 @@ public class PromotionalCode extends IdentifiableEntity {
 
     @Column(name = "expiration_date")
     private Date expirationDate;
+
+    @Column(name = "max_jewelries")
+    private Integer maxJewelries;
 
     public String getCode() {
         return code;
@@ -86,5 +89,13 @@ public class PromotionalCode extends IdentifiableEntity {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public Integer getMaxJewelries() {
+        return maxJewelries;
+    }
+
+    public void setMaxJewelries(Integer maxJewelries) {
+        this.maxJewelries = maxJewelries;
     }
 }

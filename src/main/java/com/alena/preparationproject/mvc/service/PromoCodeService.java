@@ -16,8 +16,24 @@ public class PromoCodeService {
         return promocodeDao.getByCode(code);
     }
 
+    public PromotionalCode getPromotionalCodeById(Long id) {
+        return promocodeDao.get(id).orElse(null);
+    }
+
     public List<PromotionalCode> getAllPromocodes() {
         return promocodeDao.getAll();
+    }
+
+    public void save(PromotionalCode promotionalCode) {
+        promocodeDao.save(promotionalCode);
+    }
+
+    public void update(PromotionalCode promotionalCode) {
+        promocodeDao.update(promotionalCode);
+    }
+
+    public void delete(PromotionalCode promotionalCode) {
+        promocodeDao.delete(promotionalCode.getId());
     }
 
     public boolean isValidPromoCode(PromotionalCode promocode) {
@@ -66,5 +82,9 @@ public class PromoCodeService {
             }
         }
         return 0;
+    }
+
+    public void deletePromocode(Long id) {
+        promocodeDao.delete(id);
     }
 }

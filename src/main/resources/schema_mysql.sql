@@ -65,6 +65,7 @@ create table promotional_code (
   max_uses_number int,
   current_uses_number int not null default 0,
   expiration_date DATETIME,
+  max_jewelries int,
   PRIMARY KEY (id)
 );
 

@@ -101,22 +101,26 @@
         <table class="table table-bordered" id="mainTable">
             <tr class="table_heading">
                 <th>Id</th>
+                <th>Active</th>
                 <th>Code</th>
                 <th>Type</th>
                 <th>Value</th>
                 <th>Max Uses Number</th>
                 <th>Current Uses Number</th>
                 <th>Expiration Date</th>
+                <th>Max Jewelries</th>
             </tr>
             <c:forEach items="${promocodeList}" var="item" varStatus="status">
                 <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='edit?id=${item.id}'" style="cursor: pointer">
                     <td>${item.id}</td>
+                    <td>${item.active}</td>
                     <td>${item.code}</td>
                     <td>${item.promoCodeType.name}</td>
                     <td>${item.value}</td>
                     <td>${item.maxUsesNumber}</td>
                     <td>${item.currentUsesNumber}</td>
                     <td>${item.expirationDate}</td>
+                    <td>${item.maxJewelries}</td>
                 </tr>
             </c:forEach>
         </table>

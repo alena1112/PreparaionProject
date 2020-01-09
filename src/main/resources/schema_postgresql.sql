@@ -59,7 +59,8 @@ create table promotional_code (
   value decimal not null,
   max_uses_number int,
   current_uses_number int not null default 0,
-  expiration_date timestamp
+  expiration_date timestamp,
+  max_jewelries int
 );
 
 create table user_order (
