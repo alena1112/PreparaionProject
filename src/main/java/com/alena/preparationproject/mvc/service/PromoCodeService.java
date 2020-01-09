@@ -95,7 +95,7 @@ public class PromoCodeService {
         } else {
             allJewelriesPrice = jewelries.stream()
                     .sorted((o1, o2) -> {
-                        if (o1.getPrice() < o2.getPrice()) {
+                        if (o1.getPrice() > o2.getPrice()) {
                             return 1;
                         } else if (Math.round(o1.getPrice() - o2.getPrice()) == 0) {
                             return 0;
