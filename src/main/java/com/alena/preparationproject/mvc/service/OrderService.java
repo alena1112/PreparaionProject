@@ -77,7 +77,6 @@ public class OrderService {
                 throw new CreateOrderException(CreateOrderException.ExceptionType.JEWELRY_PRICE_CHANGE, orderJewelry);
             }
         }
-        double allJewelriesPrice = getAllJewelriesPrice(order.getJewelries());
         if (order.getPromocode() != null) {
             PromotionalCode promotionalCode = promoCodeService.getPromotionalCode(order.getPromocode().getCode());
             if (promotionalCode == null) {
@@ -86,7 +85,7 @@ public class OrderService {
             if (!promoCodeService.isValidPromoCode(promotionalCode)) {
                 throw new CreateOrderException(CreateOrderException.ExceptionType.PROMOCODE_IS_NOT_VALID);
             }
-            if (Math.round(order.getDiscount()) != Math.round(promoCodeService.getDiscount(allJewelriesPrice, promotionalCode))) {
+            if (Math.round(order.getDiscount()) != Math.round(promoCodeService.getDiscount(order.getJewelries(), promotionalCode))) {
                 throw new CreateOrderException(CreateOrderException.ExceptionType.PROMOCODE_IS_CHANGED);
             }
         }
@@ -117,7 +116,7 @@ public class OrderService {
         }
 
         double allJewelriesPrice = getAllJewelriesPrice(order.getJewelries());
-        order.setDiscount(promoCodeService.getDiscount(allJewelriesPrice, order.getPromocode()));
+        order.setDiscount(promoCodeService.getDiscount(order.getJewelries(), order.getPromocode()));
         order.setTotalCost(getTotalPrice(
                 allJewelriesPrice,
                 order.getDiscount(),
@@ -141,7 +140,7 @@ public class OrderService {
         if (promotionalCode != null && promoCodeService.isValidPromoCode(promotionalCode)) {
             order.setPromocode(promotionalCode);
             double allJewelriesPrice = getAllJewelriesPrice(order.getJewelries());
-            order.setDiscount(promoCodeService.getDiscount(allJewelriesPrice, promotionalCode));
+            order.setDiscount(promoCodeService.getDiscount(order.getJewelries(), promotionalCode));
             order.setTotalCost(getTotalPrice(
                     allJewelriesPrice,
                     order.getDiscount(),
