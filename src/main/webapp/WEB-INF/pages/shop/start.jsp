@@ -3,11 +3,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
+
 <title>Украшения ручной работы - купить дизайнерские украшения в интернет-магазине Graceful Jewelry</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
     body, h1, h2, h3, h4, h5, h6 {
         font-family: 'Roboto', sans-serif;
@@ -28,19 +32,13 @@
         text-decoration: underline;
     }
 
-    .head-size span {
+    .head-size span { /*изменения размера шрифта заголовка при изменении размера экрана*/
         font-size: 30px;
     }
 
-    @media screen and (min-width: 330px) and (max-width: 450px) {
+    @media screen and (min-width: 0px) and (max-width: 992px) {
         .head-size span {
             font-size: 23px;
-        }
-    }
-
-    @media screen and (min-width: 0px) and (max-width: 329px) {
-        .head-size span {
-            font-size: 17px;
         }
     }
 
@@ -48,23 +46,11 @@
         font-size: 11px;
         letter-spacing: 1px
     }
-
-    /*@media screen and (min-width: 330px) and (max-width: 450px) {*/
-    /*.menu-size a {*/
-    /*font-size: 7px;*/
-    /*}*/
-    /*}*/
-
-    /*@media screen and (min-width: 0px) and (max-width: 329px) {*/
-    /*.menu-size a {*/
-    /*font-size: 5px;*/
-    /*}*/
-    /*}*/
 </style>
+
 <script>
-    // Used to toggle the menu on small screens when clicking on the menu button
-    function myFunction() {
-        var x = document.getElementById("navDemo");
+    function openSmallMenu() {
+        var x = document.getElementById("smallMenu");
         if (x.className.indexOf("w3-show") == -1) {
             x.className += " w3-show";
         } else {
@@ -72,46 +58,45 @@
         }
     }
 </script>
-<body>
 
-<!-- Top menu -->
-<div class="w3-top w3-border-bottom" style="min-height: 110px; max-height: 130px">
+<body>
+<div class="w3-top w3-border-bottom">
     <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-        <div class="w3-row w3-padding-16" style="margin-left:16px;margin-right:16px">
+        <div class="w3-row w3-padding-16">
             <div class="w3-col s2">
-                <span class="w3-hide-small" style="color: white">s4</span>
-                <a class="w3-hide-medium w3-hide-large"
-                   href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i
-                        class="fa fa-bars"></i></a>
-                <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top"
-                     style="margin-top:76px;font-size:10px;width:auto;">
+                <span class="w3-hide-medium w3-hide-small" style="color: white">s4</span>
+                <a class="w3-hide-large" style="margin-left:16px;" href="javascript:void(0)" onclick="openSmallMenu()">
+                   <i class="fa fa-bars"></i>
+                </a>
+                <div id="smallMenu" class="w3-bar-block w3-white w3-hide w3-hide-large w3-top"
+                     style="margin-top:69px;font-size:10px;width:100%;height:100%">
                     <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
-                       onclick="myFunction()">НОВИНКИ</a>
+                       onclick="openSmallMenu()">НОВИНКИ</a>
                     <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
-                       onclick="myFunction()">ВСЕ УКРАШЕНИЯ</a>
+                       onclick="openSmallMenu()">ВСЕ УКРАШЕНИЯ</a>
                     <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item w3-button"
-                       onclick="myFunction()">БРАСЛЕТЫ</a>
+                       onclick="openSmallMenu()">БРАСЛЕТЫ</a>
                     <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item w3-button"
-                       onclick="myFunction()">СЕРЬГИ</a>
+                       onclick="openSmallMenu()">СЕРЬГИ</a>
                     <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
-                       onclick="myFunction()">КОЛЬЕ</a>
+                       onclick="openSmallMenu()">КОЛЬЕ</a>
                 </div>
             </div>
 
-            <div class="w3-col s8 w3-center head-size" style="font-weight:600;letter-spacing:1px">
+            <div class="w3-col s8 w3-center head-size" style="font-weight:600;letter-spacing:1px;white-space:nowrap">
                 <span>Graceful Jewelry</span>
             </div>
 
             <div class="w3-col s2">
-                <div class="w3-right" onclick="location.href='buy'">
+                <div class="w3-right" onclick="location.href='buy'" style="margin-right:16px;white-space:nowrap">
                     <i class="fa fa-shopping-cart w3-xlarge" style="cursor:pointer"></i>
                     <span style="font-size:14px;font-weight:400;vertical-align:middle">${order.jewelries.size()}</span>
                 </div>
             </div>
         </div>
-
     </div>
-    <div class="w3-bar w3-white menu-size w3-hide-small" style="max-width:1200px;margin:auto">
+
+    <div class="w3-bar w3-white menu-size w3-hide-medium w3-hide-small" style="max-width:1200px;margin:auto">
         <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
            style="width:20%">НОВИНКИ</a>
         <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
@@ -123,11 +108,15 @@
         <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
            style="width:20%">КОЛЬЕ</a>
     </div>
-
 </div>
 
-<!-- !PAGE CONTENT! -->
-<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:110px">
+<div class="w3-main w3-content w3-padding" style="max-width:1200px">
+
+    <!-- для компенсации размера шапки -->
+    <div class="w3-hide-medium w3-hide-small" style="margin-top:110px">
+    </div>
+    <div class="w3-hide-large" style="margin-top:80px">
+    </div>
 
     <p id="emptyList" class="w3-text-grey"
        style="display: ${jewelryList.size() == 0 ? 'display' : 'none'};margin-top: 20px;margin-bottom: 350px;font-size: 12px">
@@ -176,9 +165,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- End page content -->
 </div>
-
 </body>
 </html>
