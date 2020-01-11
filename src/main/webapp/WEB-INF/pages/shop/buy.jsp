@@ -1,13 +1,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="head.jsp" %>
+
 <!DOCTYPE html>
+
 <html>
-<title>Украшения ручной работы - купить дизайнерские украшения в интернет-магазине Graceful Jewelry</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script>
     function addEvent(field, fieldError, createOrderError) {
         field.addEventListener("input", function (event) {
@@ -24,8 +22,7 @@
         createOrderError.innerHTML = "Проверьте правильность заполнения полей ниже";
         createOrderError.className = "messageError active";
     }
-</script>
-<script>
+
     window.onload = function () {
         var length = document.getElementById('jewelriesTable').rows.length;
         if (length === 0) {
@@ -129,6 +126,7 @@
         }, false);
     }
 </script>
+
 <style>
     body, h1, h2, h3, h4, h5, h6 {
         font-family: 'Roboto', sans-serif;
@@ -193,46 +191,28 @@
     .messageError.active {
         padding: 0.3em;
     }
+
+    .img-size img {
+        width:90px;
+        height:90px
+    }
+
+    @media screen and (min-width: 0px) and (max-width: 992px) {
+        .img-size img {
+            width:45px;
+            height:45px
+        }
+    }
 </style>
 <body>
 
-<!-- Top menu -->
-<div class="w3-top w3-border-bottom" style="min-height: 110px; max-height: 130px">
-    <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-        <div class="w3-row w3-padding-16" style="margin-left:16px;margin-right:16px">
-            <div class="w3-col s2">
-                <span style="color: white">s4</span>
-            </div>
+<div class="w3-main w3-content w3-padding" style="max-width:1200px">
 
-            <div class="w3-col s8 w3-center" style="font-size:30px;font-weight: 600;letter-spacing:1px">
-                <span>Graceful Jewelry</span>
-            </div>
-
-            <div class="w3-col s2">
-                <div class="w3-right" onclick="location.href='buy'">
-                    <i class="fa fa-shopping-cart w3-xlarge" style="cursor:pointer"></i>
-                    <span style="font-size:14px;font-weight:400;vertical-align:middle">${order.jewelries.size()}</span>
-                </div>
-            </div>
-        </div>
-
+    <!-- для компенсации размера шапки -->
+    <div class="w3-hide-medium w3-hide-small" style="margin-top:110px">
     </div>
-    <div class="w3-bar w3-white w3-mobile" style="max-width:1200px;margin:auto">
-        <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
-           style="font-size:11px;letter-spacing:1px;width:20%">НОВИНКИ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
-           style="font-size:11px;letter-spacing:1px;width:20%">ВСЕ УКРАШЕНИЯ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item w3-button"
-           style="font-size:11px;letter-spacing:1px;width:20%">БРАСЛЕТЫ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item w3-button"
-           style="font-size:11px;letter-spacing:1px;width:20%">СЕРЬГИ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
-           style="font-size:11px;letter-spacing:1px;width:20%">КОЛЬЕ</a>
+    <div class="w3-hide-large" style="margin-top:70px">
     </div>
-</div>
-
-<!-- !PAGE CONTENT! -->
-<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:110px">
 
     <p id="emptyOrder" class="w3-text-grey" style="display: none;margin-top: 20px;margin-bottom: 350px;font-size: 12px">Ваша корзина пуста</p>
     <spring:form method="post" action="${pageContext.request.contextPath}/buy/createOrder" modelAttribute="order" id="createOrderForm" novalidate="true">
@@ -245,10 +225,10 @@
                     <c:forEach items="${order.jewelries}" var="jewelry">
                         <tr>
                             <td>
-                                <div class="w3-cell">
+                                <div class="w3-cell img-size">
                                     <img src="${imageHelper.getMainImageFullPath(jewelry)}"
                                          alt="jewelry"
-                                         style="width:90px; height:90px" class="w3-margin-right">
+                                         class="w3-margin-right">
                                 </div>
                                 <div class="w3-cell w3-cell-middle">
                                     <a href="${pageContext.request.contextPath}/jewelry?id=${jewelry.id}" class="jewelry-item-class"><p
@@ -256,7 +236,7 @@
                                     <p style="margin:0;font-size:12px">${jewelry.description}</p>
                                 </div>
                             </td>
-                            <td style="text-align:right;font-size:18px;width:80px">
+                            <td style="text-align:right;font-size:18px;width:80px;white-space:nowrap">
                                 <p>${jewelry.formatPrice}</p>
                                 <button type="button" style="border:none;background-color:white;cursor:pointer;"
                                         onclick="deleteItem(this, ${jewelry.id})">
@@ -415,7 +395,6 @@
         </div>
     </spring:form>
 
-
     <hr>
 
     <footer class="w3-padding-16 w3-small w3-center" id="footer">
@@ -438,8 +417,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- End page content -->
 </div>
 
 <script type="text/javascript">
@@ -539,6 +516,5 @@
         document.getElementById('emptyOrder').style.display = 'block';
     }
 </script>
-
 </body>
 </html>

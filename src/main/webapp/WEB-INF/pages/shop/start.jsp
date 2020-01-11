@@ -1,16 +1,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="head.jsp" %>
 <!DOCTYPE html>
 <html>
-
-<title>Украшения ручной работы - купить дизайнерские украшения в интернет-магазине Graceful Jewelry</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
     body, h1, h2, h3, h4, h5, h6 {
@@ -31,95 +24,19 @@
     a.jewelry-item-class:hover { /*подчеркивание текста при наведении мышки*/
         text-decoration: underline;
     }
-
-    .head-size span { /*изменения размера шрифта заголовка при изменении размера экрана*/
-        font-size: 30px;
-    }
-
-    @media screen and (min-width: 0px) and (max-width: 992px) {
-        .head-size span {
-            font-size: 23px;
-        }
-    }
-
-    .menu-size a {
-        font-size: 11px;
-        letter-spacing: 1px
-    }
 </style>
 
-<script>
-    function openSmallMenu() {
-        var x = document.getElementById("smallMenu");
-        if (x.className.indexOf("w3-show") == -1) {
-            x.className += " w3-show";
-        } else {
-            x.className = x.className.replace(" w3-show", "");
-        }
-    }
-</script>
-
 <body>
-<div class="w3-top w3-border-bottom">
-    <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
-        <div class="w3-row w3-padding-16">
-            <div class="w3-col s2">
-                <span class="w3-hide-medium w3-hide-small" style="color: white">s4</span>
-                <a class="w3-hide-large" style="margin-left:16px;" href="javascript:void(0)" onclick="openSmallMenu()">
-                   <i class="fa fa-bars"></i>
-                </a>
-                <div id="smallMenu" class="w3-bar-block w3-white w3-hide w3-hide-large w3-top"
-                     style="margin-top:69px;font-size:10px;width:100%;height:100%">
-                    <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
-                       onclick="openSmallMenu()">НОВИНКИ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
-                       onclick="openSmallMenu()">ВСЕ УКРАШЕНИЯ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item w3-button"
-                       onclick="openSmallMenu()">БРАСЛЕТЫ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item w3-button"
-                       onclick="openSmallMenu()">СЕРЬГИ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
-                       onclick="openSmallMenu()">КОЛЬЕ</a>
-                </div>
-            </div>
-
-            <div class="w3-col s8 w3-center head-size" style="font-weight:600;letter-spacing:1px;white-space:nowrap">
-                <span>Graceful Jewelry</span>
-            </div>
-
-            <div class="w3-col s2">
-                <div class="w3-right" onclick="location.href='buy'" style="margin-right:16px;white-space:nowrap">
-                    <i class="fa fa-shopping-cart w3-xlarge" style="cursor:pointer"></i>
-                    <span style="font-size:14px;font-weight:400;vertical-align:middle">${order.jewelries.size()}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="w3-bar w3-white menu-size w3-hide-medium w3-hide-small" style="max-width:1200px;margin:auto">
-        <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
-           style="width:20%">НОВИНКИ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
-           style="width:20%">ВСЕ УКРАШЕНИЯ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item w3-button"
-           style="width:20%">БРАСЛЕТЫ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item w3-button"
-           style="width:20%">СЕРЬГИ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
-           style="width:20%">КОЛЬЕ</a>
-    </div>
-</div>
-
 <div class="w3-main w3-content w3-padding" style="max-width:1200px">
 
     <!-- для компенсации размера шапки -->
     <div class="w3-hide-medium w3-hide-small" style="margin-top:110px">
     </div>
-    <div class="w3-hide-large" style="margin-top:80px">
+    <div class="w3-hide-large" style="margin-top:70px">
     </div>
 
     <p id="emptyList" class="w3-text-grey"
-       style="display: ${jewelryList.size() == 0 ? 'display' : 'none'};margin-top: 20px;margin-bottom: 350px;font-size: 12px">
+       style="display: ${jewelryList.size() == 0 ? 'display' : 'none'};margin-top:20px;margin-bottom:350px;font-size:12px">
         В данном разделе украшения пока отсутствуют</p>
     <spring:form method="get" action="/start?type=all" modelAttribute="jewelryList">
         <c:forEach items="${jewelryList}" var="list">
