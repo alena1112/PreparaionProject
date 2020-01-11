@@ -22,8 +22,9 @@
 </head>
 <style>
     .selected {
-        background-color: rgba(0,0,0,.075);
+        background-color: rgba(0, 0, 0, .075);
     }
+
     .table_heading {
         background-color: #7a7e82;
         color: white
@@ -113,7 +114,8 @@
                 <th>Is Sold</th>
             </tr>
             <c:forEach items="${jewelryList}" var="item" varStatus="status">
-                <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='edit?id=${item.id}'" style="cursor: pointer">
+                <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='edit?id=${item.id}'"
+                    style="cursor: pointer">
                     <td>${item.id}</td>
                     <td>
                         <img src="${imageHelper.getMainImageFullPath(item)}"

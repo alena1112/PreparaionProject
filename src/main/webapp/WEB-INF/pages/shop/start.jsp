@@ -27,7 +27,51 @@
     a.jewelry-item-class:hover { /*подчеркивание текста при наведении мышки*/
         text-decoration: underline;
     }
+
+    .head-size span {
+        font-size: 30px;
+    }
+
+    @media screen and (min-width: 330px) and (max-width: 450px) {
+        .head-size span {
+            font-size: 23px;
+        }
+    }
+
+    @media screen and (min-width: 0px) and (max-width: 329px) {
+        .head-size span {
+            font-size: 17px;
+        }
+    }
+
+    .menu-size a {
+        font-size: 11px;
+        letter-spacing: 1px
+    }
+
+    /*@media screen and (min-width: 330px) and (max-width: 450px) {*/
+    /*.menu-size a {*/
+    /*font-size: 7px;*/
+    /*}*/
+    /*}*/
+
+    /*@media screen and (min-width: 0px) and (max-width: 329px) {*/
+    /*.menu-size a {*/
+    /*font-size: 5px;*/
+    /*}*/
+    /*}*/
 </style>
+<script>
+    // Used to toggle the menu on small screens when clicking on the menu button
+    function myFunction() {
+        var x = document.getElementById("navDemo");
+        if (x.className.indexOf("w3-show") == -1) {
+            x.className += " w3-show";
+        } else {
+            x.className = x.className.replace(" w3-show", "");
+        }
+    }
+</script>
 <body>
 
 <!-- Top menu -->
@@ -35,10 +79,26 @@
     <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
         <div class="w3-row w3-padding-16" style="margin-left:16px;margin-right:16px">
             <div class="w3-col s2">
-                <span style="color: white">s4</span>
+                <span class="w3-hide-small" style="color: white">s4</span>
+                <a class="w3-hide-medium w3-hide-large"
+                   href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i
+                        class="fa fa-bars"></i></a>
+                <div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top"
+                     style="margin-top:76px;font-size:10px;width:auto;">
+                    <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
+                       onclick="myFunction()">НОВИНКИ</a>
+                    <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
+                       onclick="myFunction()">ВСЕ УКРАШЕНИЯ</a>
+                    <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item w3-button"
+                       onclick="myFunction()">БРАСЛЕТЫ</a>
+                    <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item w3-button"
+                       onclick="myFunction()">СЕРЬГИ</a>
+                    <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
+                       onclick="myFunction()">КОЛЬЕ</a>
+                </div>
             </div>
 
-            <div class="w3-col s8 w3-center" style="font-size:30px;font-weight: 600;letter-spacing:1px">
+            <div class="w3-col s8 w3-center head-size" style="font-weight:600;letter-spacing:1px">
                 <span>Graceful Jewelry</span>
             </div>
 
@@ -51,24 +111,26 @@
         </div>
 
     </div>
-    <div class="w3-bar w3-white w3-mobile" style="max-width:1200px;margin:auto">
+    <div class="w3-bar w3-white menu-size w3-hide-small" style="max-width:1200px;margin:auto">
         <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
-           style="font-size:11px;letter-spacing:1px;width:20%">НОВИНКИ</a>
+           style="width:20%">НОВИНКИ</a>
         <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
-           style="font-size:11px;letter-spacing:1px;width:20%">ВСЕ УКРАШЕНИЯ</a>
+           style="width:20%">ВСЕ УКРАШЕНИЯ</a>
         <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item w3-button"
-           style="font-size:11px;letter-spacing:1px;width:20%">БРАСЛЕТЫ</a>
+           style="width:20%">БРАСЛЕТЫ</a>
         <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item w3-button"
-           style="font-size:11px;letter-spacing:1px;width:20%">СЕРЬГИ</a>
+           style="width:20%">СЕРЬГИ</a>
         <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
-           style="font-size:11px;letter-spacing:1px;width:20%">КОЛЬЕ</a>
+           style="width:20%">КОЛЬЕ</a>
     </div>
+
 </div>
 
 <!-- !PAGE CONTENT! -->
 <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:110px">
 
-    <p id="emptyList" class="w3-text-grey" style="display: ${jewelryList.size() == 0 ? 'display' : 'none'};margin-top: 20px;margin-bottom: 350px;font-size: 12px">
+    <p id="emptyList" class="w3-text-grey"
+       style="display: ${jewelryList.size() == 0 ? 'display' : 'none'};margin-top: 20px;margin-bottom: 350px;font-size: 12px">
         В данном разделе украшения пока отсутствуют</p>
     <spring:form method="get" action="/start?type=all" modelAttribute="jewelryList">
         <c:forEach items="${jewelryList}" var="list">
@@ -110,7 +172,6 @@
 
             <div class="w3-col s4 w3-right-align">
                 <i class="fa fa-instagram w3-hover-opacity w3-large" style="margin-right:8px!important"></i>
-                <i class="fa fa-whatsapp w3-hover-opacity w3-large" style="margin-right:8px!important"></i>
                 <i class="fa fa-envelope-o w3-hover-opacity w3-large"></i>
             </div>
         </div>

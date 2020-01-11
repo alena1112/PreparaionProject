@@ -88,7 +88,7 @@ public class PromoCodeService {
 
     private double getAllJewelriesPrice(List<Jewelry> jewelries, Integer maxPromoJewelries) {
         double allJewelriesPrice;
-        if (maxPromoJewelries == null || maxPromoJewelries >= jewelries.size()) {
+        if (maxPromoJewelries == null || maxPromoJewelries == 0 || maxPromoJewelries >= jewelries.size()) {
             allJewelriesPrice = jewelries.stream()
                     .mapToDouble(Jewelry::getPrice)
                     .sum();

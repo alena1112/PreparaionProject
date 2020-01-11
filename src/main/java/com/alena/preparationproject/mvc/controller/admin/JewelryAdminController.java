@@ -30,11 +30,6 @@ public class JewelryAdminController {
     @Autowired
     private ImageService imageService;
 
-    @ModelAttribute("jewelry")
-    public Jewelry createJewelry() {
-        return new Jewelry();
-    }
-
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView getAllJewelries(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();

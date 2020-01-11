@@ -27,7 +27,8 @@
 </head>
 
 <body class="bg-light">
-<spring:form method="post" action="${pageContext.request.contextPath}/admin/promocode/save?id=${promocode.id}" modelAttribute="promocode">
+<spring:form method="post" action="${pageContext.request.contextPath}/admin/promocode/save?id=${promocode.id}"
+             modelAttribute="promocode">
     <div class="container">
         <div class="py-2 text-center">
             <h3>Promocode Edit</h3>
@@ -38,9 +39,9 @@
             <form class="needs-validation" novalidate>
                 <div class="mb-3">
                     <div class="mb-3">
-                        <label for="name">Code</label>
+                        <label for="code">Code</label>
                         <spring:input type="text" class="form-control" id="code" placeholder="" path="code"
-                               value="${promocode.code}" required="required"/>
+                                      value="${promocode.code}" required="required"/>
                         <div class="invalid-feedback">
                             Valid code is required.
                         </div>
@@ -50,7 +51,7 @@
                 <div class="mb-3">
                     <label for="value">Value</label>
                     <spring:input type="text" class="form-control" id="value" path="value" value="${promocode.value}"
-                           required="required"/>
+                                  required="required"/>
                     <div class="invalid-feedback" style="width: 100%;">
                         Your value is required.
                     </div>
@@ -59,14 +60,15 @@
                 <hr class="mb-4">
                 <div class="custom-control custom-checkbox">
                     <spring:checkbox class="custom-control-input" id="isActive" path="active"
-                           value="${promocode.active}"/>
+                                     value="${promocode.active}"/>
                     <label class="custom-control-label" for="isActive">Active</label>
                 </div>
                 <hr class="mb-4">
 
                 <div class="mb-3">
                     <label for="promoCodeType">Type</label>
-                    <spring:select class="custom-select d-block w-100" id="promoCodeType" path="promoCodeType" required="required">
+                    <spring:select class="custom-select d-block w-100" id="promoCodeType" path="promoCodeType"
+                                   required="required">
                         <option value="">Choose...</option>
                         <spring:options items="${promocodeTypes}" itemLabel="name"/>
                     </spring:select>
@@ -78,27 +80,25 @@
                 <div class="mb-3">
                     <label for="maxUsesNumber">Max Uses Number</label>
                     <spring:input type="text" class="form-control" id="maxUsesNumber" path="maxUsesNumber"
-                        value="${promocode.maxUsesNumber}"/>
+                                  value="${promocode.maxUsesNumber}"/>
                 </div>
 
                 <div class="mb-3">
                     <label for="currentUsesNumber">Current Uses Number</label>
                     <spring:input type="text" class="form-control" id="currentUsesNumber" path="currentUsesNumber"
-                        value="${promocode.currentUsesNumber}"/>
+                                  value="${promocode.currentUsesNumber}"/>
                 </div>
 
-                <!--
                 <div class="mb-3">
                     <label for="expirationDate">Expiration Date</label>
-                    <spring:input type="text" class="form-control" id="expirationDate" path="expirationDate"
+                    <spring:input type="date" class="form-control" id="expirationDate" path="expirationDate"
                         value="${promocode.expirationDate}"/>
                 </div>
-                -->
 
                 <div class="mb-3">
                     <label for="maxJewelries">Max Jewelries</label>
                     <spring:input type="text" class="form-control" id="maxJewelries" path="maxJewelries"
-                        value="${promocode.maxJewelries}"/>
+                                  value="${promocode.maxJewelries}"/>
                 </div>
 
                 <hr class="mb-4">

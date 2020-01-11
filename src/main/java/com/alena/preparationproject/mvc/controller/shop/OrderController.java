@@ -4,6 +4,8 @@ import com.alena.preparationproject.mvc.FormatHelper;
 import com.alena.preparationproject.mvc.controller.base.ControllerHelper;
 import com.alena.preparationproject.mvc.controller.base.ImageHelper;
 import com.alena.preparationproject.mvc.model.Order;
+import com.alena.preparationproject.mvc.model.PromotionalCode;
+import com.alena.preparationproject.mvc.model.enums.PromoCodeType;
 import com.alena.preparationproject.mvc.service.CreateOrderException;
 import com.alena.preparationproject.mvc.service.OrderService;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -68,24 +70,27 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/deleteItem", method = RequestMethod.GET)
-    public @ResponseBody String deleteItem(@ModelAttribute("order") Order order,
-                                           @RequestParam("itemId") Long jewelryId) throws IOException {
+    public @ResponseBody
+    String deleteItem(@ModelAttribute("order") Order order,
+                      @RequestParam("itemId") Long jewelryId) throws IOException {
         orderService.updateOrderAfterDeleteJewelry(order, jewelryId);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(createResponseMessage(order));
     }
 
     @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET)
-    public @ResponseBody String checkPromoCode(@ModelAttribute("order") Order order,
-                                               @RequestParam("code") String code) throws IOException {
+    public @ResponseBody
+    String checkPromoCode(@ModelAttribute("order") Order order,
+                          @RequestParam("code") String code) throws IOException {
         orderService.updateOrderAfterAddPromoCode(order, code);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(createResponseMessage(order));
     }
 
     @RequestMapping(value = "/checkDelivery", method = RequestMethod.GET)
-    public @ResponseBody String checkDelivery(@ModelAttribute("order") Order order,
-                                              @RequestParam("type") String type) throws IOException {
+    public @ResponseBody
+    String checkDelivery(@ModelAttribute("order") Order order,
+                         @RequestParam("type") String type) throws IOException {
         orderService.updateOrderAfterChangeDeliveryType(order, type);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(createResponseMessage(order));
@@ -98,7 +103,13 @@ public class OrderController {
 
     private ResponseMessage createResponseMessage(Order order) {
         ResponseMessage responseMessage = new ResponseMessage();
-        responseMessage.setValidPromocode(order.getPromocode() != null);
+        PromotionalCode promocode = order.getPromocode();
+        responseMessage.setValidPromocode(promocode != null);
+        if (promocode != null && promocode.getPromoCodeType() == PromoCodeType.PERCENT
+                && promocode.getMaxJewelries() != null && promocode.getMaxJewelries() != 0 &&
+                order.getJewelries().size() > promocode.getMaxJewelries()) {
+            responseMessage.setPromocodeLimit(promocode.getMaxJewelries().toString());
+        }
         responseMessage.setFormatPromocode(FormatHelper.getPriceFormat(order.getDiscount()));
         responseMessage.setFormatDeliveryPrice(FormatHelper.getPriceFormat(order.getDeliveryCost()));
         responseMessage.setFormatTotalCost(FormatHelper.getPriceFormat(order.getTotalCost()));

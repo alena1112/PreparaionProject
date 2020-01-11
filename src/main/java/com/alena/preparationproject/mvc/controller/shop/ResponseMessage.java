@@ -2,6 +2,7 @@ package com.alena.preparationproject.mvc.controller.shop;
 
 public class ResponseMessage {
     private Boolean isValidPromocode;
+    private String promocodeLimit;
     private String formatPromocode;
     private String formatTotalCost;
     private String formatCostWithoutDiscount;
@@ -13,6 +14,14 @@ public class ResponseMessage {
 
     public void setValidPromocode(Boolean validPromocode) {
         isValidPromocode = validPromocode;
+    }
+
+    public String getPromocodeLimit() {
+        return promocodeLimit;
+    }
+
+    public void setPromocodeLimit(String promocodeLimit) {
+        this.promocodeLimit = promocodeLimit;
     }
 
     public String getFormatPromocode() {

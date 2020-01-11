@@ -434,7 +434,6 @@
 
             <div class="w3-col s4 w3-right-align">
                 <i class="fa fa-instagram w3-hover-opacity w3-large" style="margin-right:8px!important"></i>
-                <i class="fa fa-whatsapp w3-hover-opacity w3-large" style="margin-right:8px!important"></i>
                 <i class="fa fa-envelope-o w3-hover-opacity w3-large"></i>
             </div>
         </div>
@@ -483,7 +482,11 @@
                 if (this.status === 200 && this.responseText !== '') {
                     var responseMessage = JSON.parse(this.responseText);
                     if (responseMessage.validPromocode === true) {
-                        promocodeError.innerHTML = "Промокод успешно применен";
+                        var msg = "Промокод успешно применен";
+                        if (responseMessage.promocodeLimit !== null) {
+                            msg += ". Действует на " + responseMessage.promocodeLimit + " позицию(и)";
+                        }
+                        promocodeError.innerHTML = msg;
                     } else {
                         promocodeError.innerHTML = "Промокод не был найден или не активен";
                     }

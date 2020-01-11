@@ -2,6 +2,7 @@ package com.alena.preparationproject.mvc.model;
 
 import com.alena.preparationproject.mvc.model.enums.PromoCodeType;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -29,6 +30,7 @@ public class PromotionalCode extends IdentifiableEntity {
     @Column(name = "current_uses_number")
     private Integer currentUsesNumber = 0;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "expiration_date")
     private Date expirationDate;
 
