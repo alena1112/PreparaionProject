@@ -33,15 +33,68 @@
         font-size: 11px;
         letter-spacing: 1px
     }
+
+    .menu-button {
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .menu-button:hover {
+        color: #ff7180;
+    }
+
+    .menu-selected {
+        color: #ff7180;
+    }
 </style>
 
 <script>
+    document.addEventListener("DOMContentLoaded", loadMenu);
+
+    function loadMenu () {
+        var url = new URL(window.location.href);
+        var menuParam = url.searchParams.get("menu");
+        if (menuParam !== null) {
+            var bigMenu = document.getElementById('bigMenu');
+            [].filter.call(bigMenu.getElementsByTagName("a"), function (item) {
+                if (item.id === menuParam) {
+                    addClass(item, "menu-selected");
+                } else {
+                    removeClass(item, "menu-selected");
+                }
+            });
+            var smallMenu = document.getElementById('smallMenu');
+            [].filter.call(smallMenu.getElementsByTagName("a"), function (item) {
+                if (item.id === menuParam) {
+                    addClass(item, "menu-selected");
+                } else {
+                    removeClass(item, "menu-selected");
+                }
+            });
+        }
+    }
+
     function openSmallMenu() {
         var x = document.getElementById("smallMenu");
         if (x.className.indexOf("w3-show") == -1) {
             x.className += " w3-show";
         } else {
             x.className = x.className.replace(" w3-show", "");
+        }
+    }
+
+    function addClass(element, className) {
+        if (element.className.indexOf(className) == -1) {
+            element.className += " " + className;
+        }
+    }
+
+    function removeClass(element, className) {
+        if (element.className.indexOf(className) != -1) {
+            element.className = x.className.replace(" " + className, "");
         }
     }
 </script>
@@ -57,16 +110,16 @@
                 </a>
                 <div id="smallMenu" class="w3-bar-block w3-white w3-hide w3-hide-large w3-top"
                      style="margin-top:69px;font-size:10px;width:100%;height:100%">
-                    <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
-                       onclick="openSmallMenu()">НОВИНКИ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
-                       onclick="openSmallMenu()">ВСЕ УКРАШЕНИЯ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item w3-button"
-                       onclick="openSmallMenu()">БРАСЛЕТЫ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item w3-button"
-                       onclick="openSmallMenu()">СЕРЬГИ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
-                       onclick="openSmallMenu()">КОЛЬЕ</a>
+                    <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item menu-button"
+                       onclick="openSmallMenu()" id="new">НОВИНКИ</a>
+                    <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item menu-button"
+                       onclick="openSmallMenu()" id="all">ВСЕ УКРАШЕНИЯ</a>
+                    <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item menu-button"
+                       onclick="openSmallMenu()" id="bracelet">БРАСЛЕТЫ</a>
+                    <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item menu-button"
+                       onclick="openSmallMenu()" id="earrings">СЕРЬГИ</a>
+                    <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item menu-button"
+                       onclick="openSmallMenu()" id="necklace">КОЛЬЕ</a>
                 </div>
             </div>
 
@@ -83,17 +136,17 @@
         </div>
     </div>
 
-    <div class="w3-bar w3-white menu-size w3-hide-medium w3-hide-small" style="max-width:1200px;margin:auto">
-        <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item w3-button"
-           style="width:20%">НОВИНКИ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item w3-button"
-           style="width:20%">ВСЕ УКРАШЕНИЯ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item w3-button"
-           style="width:20%">БРАСЛЕТЫ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item w3-button"
-           style="width:20%">СЕРЬГИ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item w3-button"
-           style="width:20%">КОЛЬЕ</a>
+    <div id="bigMenu" class="w3-bar w3-hide-medium w3-hide-small" style="max-width:1200px;margin:auto">
+        <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item menu-button"
+           style="width:20%" id="new">НОВИНКИ</a>
+        <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item menu-button"
+           style="width:20%" id="all">ВСЕ УКРАШЕНИЯ</a>
+        <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item menu-button"
+           style="width:20%" id="bracelet">БРАСЛЕТЫ</a>
+        <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item menu-button"
+           style="width:20%" id="earrings">СЕРЬГИ</a>
+        <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item menu-button"
+           style="width:20%" id="necklace">КОЛЬЕ</a>
     </div>
 </div>
 </body>
