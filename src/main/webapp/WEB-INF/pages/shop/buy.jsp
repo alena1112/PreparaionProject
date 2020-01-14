@@ -209,16 +209,16 @@
 <div class="w3-main w3-content w3-padding" style="max-width:1200px">
 
     <!-- для компенсации размера шапки -->
-    <div class="w3-hide-medium w3-hide-small" style="margin-top:110px">
+    <div class="w3-hide-medium w3-hide-small" style="margin-top:120px">
     </div>
-    <div class="w3-hide-large" style="margin-top:70px">
+    <div class="w3-hide-large" style="margin-top:80px">
     </div>
 
     <p id="emptyOrder" class="w3-text-grey" style="display: none;margin-top: 20px;margin-bottom: 350px;font-size: 12px">Ваша корзина пуста</p>
     <spring:form method="post" action="${pageContext.request.contextPath}/buy/createOrder" modelAttribute="order" id="createOrderForm" novalidate="true">
         <div class="w3-row-padding w3-center" id="mainDiv">
 
-            <h4>Оформление заказа</h4>
+            <h4 style="margin:0px 0px">Оформление заказа</h4>
 
             <div class="w3-container">
                 <table id="jewelriesTable" class="w3-table w3-bordered">

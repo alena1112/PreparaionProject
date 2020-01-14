@@ -29,7 +29,7 @@
     <div class="w3-hide-large" style="margin-top:70px">
     </div>
 
-    <p id="infoMsg" class="w3-text-grey" style="margin-top: 20px;margin-bottom: 350px;font-size: 12px"></p>
+    <p id="infoMsg" class="w3-text-grey" style="margin-top:20px;margin-bottom:350px;font-size: 12px"></p>
 
     <hr>
 
