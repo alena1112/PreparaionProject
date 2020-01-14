@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.alena.preparationproject.mvc.controller.base.ControllerHelper.getContextPath;
+import static com.alena.preparationproject.mvc.service.SettingKeys.MAX_NEW_JEWELRY_COUNT;
 
 @Controller
 @SessionAttributes(value = "order")
@@ -55,7 +56,7 @@ public class StartController {
             return jewelryService.getAllUnhiddenJewelries();
         } else if (MENU_NEW.equals(menu)) {
             return jewelryService.getNewUnhiddenJewelries(new Date(),
-                    Integer.parseInt(settingsService.getSettingsByKey("maxNewJewelryCount", "3")));
+                    Integer.parseInt(settingsService.getSettingByKey(MAX_NEW_JEWELRY_COUNT, "3")));
         } else {
             JewelryType jewelryType = JewelryType.fromId(menu);
             if (jewelryType != null) {

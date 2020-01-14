@@ -13,6 +13,7 @@
         <class>com.alena.preparationproject.mvc.model.Order</class>
         <class>com.alena.preparationproject.mvc.model.Image</class>
         <class>com.alena.preparationproject.mvc.model.Settings</class>
+        <class>com.alena.preparationproject.mvc.model.EmailMessage</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 <!--        <properties>-->

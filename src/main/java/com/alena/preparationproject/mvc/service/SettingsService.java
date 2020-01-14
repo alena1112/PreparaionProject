@@ -17,15 +17,20 @@ public class SettingsService {
     @Autowired
     private SettingsDao settingsDao;
 
-    public String getSettingsByKey(String key, String defaultValue) {
+    public String getSettingByKey(String key, String defaultValue) {
+        String settingValue = getSettingByKey(key);
+        return StringUtils.isNotBlank(settingValue) ? settingValue : defaultValue;
+    }
+
+    public String getSettingByKey(String key) {
         Settings settings = settingsDao.get(key)
                 .orElse(null);
         if (settings == null) {
             log.warn(String.format("Did not find setting with key %s", key));
-            return defaultValue;
+            return null;
         } else {
             log.info(String.format("Found setting %s, value is %s", key, settings.getValue()));
-            return StringUtils.isNotBlank(settings.getValue()) ? settings.getValue() : defaultValue;
+            return settings.getValue();
         }
     }
 

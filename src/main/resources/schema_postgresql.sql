@@ -96,3 +96,9 @@ create table settings (
   s_value varchar(100) not null,
   description varchar(300)
 );
+
+create table email_message (
+  id SERIAL PRIMARY KEY,
+  message varchar(1000) not null,
+  type varchar(10) not null
+);

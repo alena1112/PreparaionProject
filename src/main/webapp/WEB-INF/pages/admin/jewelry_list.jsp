@@ -91,6 +91,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="${pageContext.request.contextPath}/admin/settings/list">Settings</a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/emails/list">Email Messages</a>
+            </li>
         </ul>
     </div>
 </nav>

@@ -6,12 +6,13 @@ import com.alena.preparationproject.mvc.model.enums.DeliveryType;
 import com.alena.preparationproject.mvc.model.enums.PaymentType;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.alena.preparationproject.mvc.service.SettingKeys.DELIVERY_COST_RUSSIA_POST_OFFICE;
 
 @Service
 public class OrderService {
@@ -20,8 +21,6 @@ public class OrderService {
     private final SettingsService settingsService;
 
     private final OrderDao orderDao;
-
-    private final String DELIVERY_COST_RUSSIA_POST_OFFICE = "delivery.cost.russiaPostOffice";
 
     @Autowired
     public OrderService(OrderDao orderDao, PromoCodeService promoCodeService, JewelryService jewelryService,
@@ -179,7 +178,7 @@ public class OrderService {
 
     private double getDeliveryPrice(DeliveryType deliveryType) {
         if (deliveryType == DeliveryType.RUSSIA_POST_OFFICE) {
-            String value = settingsService.getSettingsByKey(DELIVERY_COST_RUSSIA_POST_OFFICE, "50");
+            String value = settingsService.getSettingByKey(DELIVERY_COST_RUSSIA_POST_OFFICE, "50");
             return Double.parseDouble(value);
         }
         return 0;

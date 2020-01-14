@@ -98,9 +98,16 @@ create table order_jewelry (
 );
 
 create table settings (
-  id int not null,
+  id int not null AUTO_INCREMENT,
   s_key varchar(100) not null,
   s_value varchar(100) not null,
   description varchar(300),
+  PRIMARY KEY (id)
+);
+
+create table email_message (
+  id int not null AUTO_INCREMENT,
+  message varchar(1000) not null,
+  type varchar(10) not null,
   PRIMARY KEY (id)
 );

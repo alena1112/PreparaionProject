@@ -136,7 +136,7 @@
         </div>
     </div>
 
-    <div id="bigMenu" class="w3-bar w3-hide-medium w3-hide-small" style="max-width:1200px;margin:auto">
+    <div id="bigMenu" class="w3-bar w3-white w3-hide-medium w3-hide-small" style="max-width:1200px;margin:auto">
         <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item menu-button"
            style="width:20%" id="new">НОВИНКИ</a>
         <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item menu-button"
