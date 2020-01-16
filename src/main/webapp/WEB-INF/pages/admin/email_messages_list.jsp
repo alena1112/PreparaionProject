@@ -158,13 +158,6 @@
                                 <label for="recipient-name" class="col-form-label">Email:</label>
                                 <input type="text" class="form-control" id="recipient-name">
                             </div>
-                            <select class="custom-select d-block w-100" id="type" required="required">
-                                <option value="">Choose...</option>
-                                <spring:options items="${toTypes}" itemLabel="name"/>
-                            </select>
-                            <div class="invalid-feedback">
-                                Please select a valid type.
-                            </div>
                             <div class="form-group">
                                 <label for="message-text" class="col-form-label">Order:</label>
                                 <textarea class="form-control" id="message-text"></textarea>

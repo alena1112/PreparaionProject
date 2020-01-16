@@ -53,15 +53,6 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="description">Message</label>
-                    <spring:textarea class="form-control" id="description" rows="5"
-                                     path="message"/>
-                    <div class="invalid-feedback">
-                        Please enter a valid message.
-                    </div>
-                </div>
-
                 <hr class="mb-4">
                 <button class="btn btn-primary" type="submit">Сохранить</button>
                 <button class="btn btn-primary" type="button" onclick="location.href='list'">Закрыть</button>
