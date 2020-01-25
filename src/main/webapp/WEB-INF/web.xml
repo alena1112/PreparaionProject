@@ -39,7 +39,7 @@
 
     <context-param>
         <param-name>com.alena.preparationproject.images</param-name>
-<!--        <param-value>/var/lib/tomcat7/images</param-value>-->
-        <param-value>/work/images</param-value>
+        <param-value>/var/lib/tomcat7/images</param-value>
+<!--        <param-value>/work/images</param-value>-->
     </context-param>
 </web-app>

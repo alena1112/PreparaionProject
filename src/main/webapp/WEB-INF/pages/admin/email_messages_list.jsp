@@ -121,8 +121,8 @@
 
 <spring:form method="get" action="/emails/list" modelAttribute="emailsList">
     <div class="container-fluid">
-        <input class="btn btn-primary mb-3" type="button" value="Создать" onclick="location.href='edit'"/>
-        <input class="btn btn-primary mb-3" type="button" value="Удалить" onclick="delete_item()"/>
+        <button class="btn btn-primary mb-3 active" onclick="location.href='admin/emails/edit'">Создать</button>
+        <button class="btn btn-secondary mb-3 active" onclick="delete_item()">Удалить</button>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                 style="margin-bottom: 16px"
                 data-whatever="@mdo">Отправить</button>

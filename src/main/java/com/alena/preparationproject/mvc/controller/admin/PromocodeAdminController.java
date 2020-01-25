@@ -48,7 +48,7 @@ public class PromocodeAdminController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public @ResponseBody String deleteJewelry(@RequestParam(value = "id") Long id) {
-        promoCodeService.deletePromocode(id);
+        promoCodeService.delete(id);
         return "ok";
     }
 }

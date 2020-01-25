@@ -52,13 +52,25 @@ public class OrderService {
 
     //не должно происходить апдейт в базе по параметрам, украшениям, промокоду
     public void saveOrder(Order order) throws CreateOrderException {
-        synchronized (jewelryService) {
-            synchronized (promoCodeService) {
-                validateOrder(order);
+        if (jewelryService.hashCode() > jewelryService.hashCode()) {
+            synchronized (jewelryService) {
+                synchronized (promoCodeService) {//applyPromotionCode может быть вызван другим потоком не в synch блоке
+                    validateOrder(order);
 
-                promoCodeService.applyPromotionCode(order.getPromocode());
-                jewelryService.sellJewelries(order.getJewelries());
-                orderDao.save(order);
+                    promoCodeService.applyPromotionCode(order.getPromocode());
+                    jewelryService.sellJewelries(order.getJewelries());
+                    orderDao.save(order);
+                }
+            }
+        } else {
+            synchronized (promoCodeService) {
+                synchronized (jewelryService) {
+                    validateOrder(order);
+
+                    promoCodeService.applyPromotionCode(order.getPromocode());
+                    jewelryService.sellJewelries(order.getJewelries());
+                    orderDao.save(order);
+                }
             }
         }
     }

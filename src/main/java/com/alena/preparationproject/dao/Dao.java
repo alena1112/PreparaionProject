@@ -1,6 +1,8 @@
 package com.alena.preparationproject.dao;
 
 import com.alena.preparationproject.mvc.model.IdentifiableEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,6 +14,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class Dao<T extends IdentifiableEntity, ID> {
+    private static final Logger log = LoggerFactory.getLogger(Dao.class);
+
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
@@ -59,6 +63,7 @@ public abstract class Dao<T extends IdentifiableEntity, ID> {
             tx.commit();
             return result;
         } catch (RuntimeException e) {
+            log.error("Exception while transaction is commit", e);
             tx.rollback();
             throw e;
         }

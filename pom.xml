@@ -35,6 +35,16 @@
                     <scanIntervalSeconds>0</scanIntervalSeconds>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <url>http://kozyafka1112.fvds.ru:8080/manager/text</url>
+                    <username>admin</username>
+                    <password>Dkwie!djecndj3jdj</password>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

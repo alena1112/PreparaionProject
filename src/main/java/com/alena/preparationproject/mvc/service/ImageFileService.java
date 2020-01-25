@@ -58,7 +58,6 @@ public class ImageFileService {
             File file = loadFile(imageName);
 
             if (file != null) {
-                log.info(String.format("Image %s loaded successfully", imageName));
                 in = new FileInputStream(file);
                 return IOUtils.toByteArray(in);
             }

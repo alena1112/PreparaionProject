@@ -29,12 +29,12 @@ public class PromoCodeService {
         promocodeDao.save(promotionalCode);
     }
 
-    public void update(PromotionalCode promotionalCode) {
+    public synchronized void update(PromotionalCode promotionalCode) {
         promocodeDao.update(promotionalCode);
     }
 
-    public void delete(PromotionalCode promotionalCode) {
-        promocodeDao.delete(promotionalCode.getId());
+    public synchronized void delete(Long id) {
+        promocodeDao.delete(id);
     }
 
     public boolean isValidPromoCode(PromotionalCode promocode) {
@@ -52,7 +52,7 @@ public class PromoCodeService {
         return true;
     }
 
-    public boolean applyPromotionCode(PromotionalCode promotionalCode) {
+    public synchronized boolean applyPromotionCode(PromotionalCode promotionalCode) {
         if (promotionalCode != null) {
             promotionalCode.setCurrentUsesNumber(promotionalCode.getCurrentUsesNumber() + 1);
             if (promotionalCode.getMaxUsesNumber() != null &&
@@ -86,7 +86,7 @@ public class PromoCodeService {
         return 0;
     }
 
-    private double getAllJewelriesPrice(List<Jewelry> jewelries, Integer maxPromoJewelries) {
+    private static double getAllJewelriesPrice(List<Jewelry> jewelries, Integer maxPromoJewelries) {
         double allJewelriesPrice;
         if (maxPromoJewelries == null || maxPromoJewelries == 0 || maxPromoJewelries >= jewelries.size()) {
             allJewelriesPrice = jewelries.stream()
@@ -108,9 +108,5 @@ public class PromoCodeService {
                     .sum();
         }
         return allJewelriesPrice;
-    }
-
-    public void deletePromocode(Long id) {
-        promocodeDao.delete(id);
     }
 }
