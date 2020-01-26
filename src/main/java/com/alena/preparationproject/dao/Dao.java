@@ -62,10 +62,14 @@ public abstract class Dao<T extends IdentifiableEntity, ID> {
             R result = action.apply(entityManager);
             tx.commit();
             return result;
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             log.error("Exception while transaction is commit", e);
-            tx.rollback();
-            throw e;
+            try {
+                tx.rollback();
+            } catch (Exception ex) {
+                log.error("Exception while transaction is rollback", ex);
+            }
+            return null;
         }
     }
 

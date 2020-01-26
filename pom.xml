@@ -4,13 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <groupId>com.alena.jewelryproject</groupId>
-    <artifactId>JewelryProject</artifactId>
+    <artifactId>shop</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <modelVersion>4.0.0</modelVersion>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -206,4 +212,21 @@
             <version>1.4.7</version>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
 </project>

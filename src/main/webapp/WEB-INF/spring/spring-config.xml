@@ -17,17 +17,9 @@
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
     <context:annotation-config/>
-    <!--<bean name="JavaConfigBeans" class="com.alena.preparationproject.spring.JavaConfigBeans"/>-->
+    <bean name="JavaConfigBeans" class="com.alena.preparationproject.spring.JavaConfigBeans"/>
 
-    <bean id="resolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/pages/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
 
-    <!--для hibernate-->
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="PersistenceUnit"/>
-    </bean>
 
     <!--для загрузки картинок на сервер-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

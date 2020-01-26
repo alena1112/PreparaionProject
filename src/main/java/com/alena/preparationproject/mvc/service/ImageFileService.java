@@ -5,11 +5,10 @@ import org.apache.commons.io.IOUtils;
 import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletContext;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
@@ -18,13 +17,11 @@ public class ImageFileService {
     private static final Logger log = LoggerFactory.getLogger(ImageFileService.class);
     private final int IMAGE_QUALITY = 3;
 
-    @Autowired
-    private ServletContext servletContext;
+    @Value("${images.path}") String imagesPath;
 
     public boolean uploadImage(String imageName, byte[] bytes) {
         FileOutputStream os = null;
         try {
-            String imagesPath = getImagePath();
             String path = imagesPath + "/" + imageName;
             File image = new File(path);
             if (!image.exists()) {
@@ -85,13 +82,9 @@ public class ImageFileService {
         }
     }
 
-    public String getImagePath() {
-        return servletContext.getInitParameter("com.alena.preparationproject.images");
-    }
-
     private File loadFile(String name) {
         try {
-            String path = getImagePath() + "/" + name;
+            String path = imagesPath + "/" + name;
             File file = new File(path);
 
             if (file.exists()) {
