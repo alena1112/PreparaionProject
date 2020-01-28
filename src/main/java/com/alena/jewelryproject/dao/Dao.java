@@ -1,6 +1,7 @@
 package com.alena.jewelryproject.dao;
 
 import com.alena.jewelryproject.mvc.model.IdentifiableEntity;
+import org.hibernate.exception.JDBCConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,29 +38,28 @@ public abstract class Dao<T extends IdentifiableEntity, ID> {
         return entityManager;
     }
 
-    protected void executeInsideTransaction(Consumer<EntityManager> action) {
-        EntityManager entityManager = getEntityManager();
-        EntityTransaction tx = entityManager.getTransaction();
-        try {
-            if (!tx.isActive()) {
-                tx.begin();
+    protected <R> Optional<R> executeInsideTransaction(Function<EntityManager, Optional<R>> action) {
+        int attempt = 1;
+        while (attempt != 4) {
+            try {
+                Optional<R> result = execute(action);
+                return result;
+            } catch (JDBCConnectionException e) {
+                log.error(String.format("Error while executing transaction. Attempt %s", attempt));
+                attempt++;
             }
-            action.accept(entityManager);
-            tx.commit();
-        } catch (RuntimeException e) {
-            tx.rollback();
-            throw e;
         }
+        return Optional.empty();
     }
 
-    protected <R> R executeInsideTransaction(Function<EntityManager, R> action) {
+    private <R> Optional<R> execute(Function<EntityManager, Optional<R>> action) throws JDBCConnectionException {
         EntityManager entityManager = getEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         try {
             if (!tx.isActive()) {
                 tx.begin();
             }
-            R result = action.apply(entityManager);
+            Optional<R> result = action.apply(entityManager);
             tx.commit();
             return result;
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public abstract class Dao<T extends IdentifiableEntity, ID> {
             } catch (Exception ex) {
                 log.error("Exception while transaction is rollback", ex);
             }
-            return null;
+            return Optional.empty();
         }
     }
 

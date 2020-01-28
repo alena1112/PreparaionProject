@@ -28,8 +28,8 @@ public class SettingsDao extends Dao<Settings, Long> {
     public List<Settings> getAll() {
         return executeInsideTransaction(entityManager -> {
             TypedQuery<Settings> query = entityManager.createQuery("SELECT s FROM Settings s", Settings.class);
-            return query.getResultList();
-        });
+            return Optional.ofNullable(query.getResultList());
+        }).orElse(null);
     }
 
     @Override

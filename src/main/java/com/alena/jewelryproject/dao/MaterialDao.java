@@ -4,6 +4,7 @@ import com.alena.jewelryproject.mvc.model.Material;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +20,8 @@ public class MaterialDao extends Dao<Material, Long> {
         return executeInsideTransaction(entityManager -> {
             TypedQuery<Material> query = entityManager.createQuery("SELECT m FROM Material m " +
                     "order by m.order.shop.name, m.order.purchaseDate", Material.class);
-            return query.getResultList();
-        });
+            return Optional.ofNullable(query.getResultList());
+        }).orElse(new ArrayList<>());
     }
 
     @Override

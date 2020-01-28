@@ -11,23 +11,23 @@ import java.util.Optional;
 public class EmailMessagesDao extends Dao<EmailMessage, Long> {
     @Override
     public Optional<EmailMessage> get(Long id) {
-        return Optional.ofNullable(executeInsideTransaction(entityManager -> {
-            return entityManager.find(EmailMessage.class, id);
-        }));
+        return executeInsideTransaction(entityManager ->
+                Optional.ofNullable(entityManager.find(EmailMessage.class, id)));
     }
 
     @Override
     public List<EmailMessage> getAll() {
         return executeInsideTransaction(entityManager -> {
             TypedQuery<EmailMessage> query = entityManager.createQuery("SELECT e FROM EmailMessage e", EmailMessage.class);
-            return query.getResultList();
-        });
+            return Optional.ofNullable(query.getResultList());
+        }).orElse(null);
     }
 
     @Override
     public void save(EmailMessage emailMessage) {
         executeInsideTransaction(entityManager -> {
             entityManager.persist(emailMessage);
+            return Optional.empty();
         });
     }
 
@@ -35,6 +35,7 @@ public class EmailMessagesDao extends Dao<EmailMessage, Long> {
     public void update(EmailMessage emailMessage) {
         executeInsideTransaction(entityManager -> {
             entityManager.merge(emailMessage);
+            return Optional.empty();
         });
     }
 
@@ -43,6 +44,7 @@ public class EmailMessagesDao extends Dao<EmailMessage, Long> {
         executeInsideTransaction(entityManager -> {
                     EmailMessage promotionalCode = entityManager.find(EmailMessage.class, id);
                     entityManager.remove(promotionalCode);
+                    return Optional.empty();
                 }
         );
     }

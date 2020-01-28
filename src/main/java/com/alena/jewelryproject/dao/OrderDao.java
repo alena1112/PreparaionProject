@@ -4,6 +4,7 @@ import com.alena.jewelryproject.mvc.model.Order;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +19,8 @@ public class OrderDao extends Dao<Order, Long> {
     public List<Order> getAll() {
         return executeInsideTransaction(entityManager -> {
             TypedQuery<Order> query = entityManager.createQuery("SELECT o FROM Order o", Order.class);
-            return query.getResultList();
-        });
+            return Optional.ofNullable(query.getResultList());
+        }).orElse(new ArrayList<>());
     }
 
     @Override
@@ -30,6 +31,7 @@ public class OrderDao extends Dao<Order, Long> {
             } else {
                 entityManager.persist(order);
             }
+            return Optional.empty();
         });
     }
 

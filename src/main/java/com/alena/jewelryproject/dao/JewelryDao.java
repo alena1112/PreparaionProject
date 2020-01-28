@@ -5,6 +5,7 @@ import com.alena.jewelryproject.mvc.model.enums.JewelryType;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,27 +13,24 @@ import java.util.Optional;
 public class JewelryDao extends Dao<Jewelry, Long> {
     @Override
     public Optional<Jewelry> get(Long id) {
-        return Optional.ofNullable(executeInsideTransaction(entityManager -> {
-            return entityManager.find(Jewelry.class, id);
-        }));
+        return executeInsideTransaction(entityManager ->
+                Optional.ofNullable(entityManager.find(Jewelry.class, id)));
     }
 
     @Override
     public List<Jewelry> getAll() {
         return executeInsideTransaction(entityManager -> {
             TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j order by j.createdDate desc", Jewelry.class);
-            List<Jewelry> resultList = query.getResultList();
-            resultList.forEach(entityManager::detach);//TODO нужно что то другое придумать!
-            return resultList;
-        });
+            return Optional.ofNullable(query.getResultList());
+        }).orElse(new ArrayList<>());
     }
 
     public List<Jewelry> getAllUnhidden() {
         return executeInsideTransaction(entityManager -> {
             TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j where j.isHide = false " +
                     "order by j.isSold", Jewelry.class);
-            return query.getResultList();
-        });
+            return Optional.ofNullable(query.getResultList());
+        }).orElse(new ArrayList<>());
     }
 
     public List<Jewelry> getAllUnhidden(int count) {
@@ -40,8 +38,8 @@ public class JewelryDao extends Dao<Jewelry, Long> {
             TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j where j.isHide = false " +
                     "order by j.isSold, j.createdDate", Jewelry.class);
             query.setMaxResults(count);
-            return query.getResultList();
-        });
+            return Optional.ofNullable(query.getResultList());
+        }).orElse(new ArrayList<>());
     }
 
     public List<Jewelry> getAllUnhidden(JewelryType type) {
@@ -49,22 +47,21 @@ public class JewelryDao extends Dao<Jewelry, Long> {
             TypedQuery<Jewelry> query = entityManager.createQuery("SELECT j FROM Jewelry j where j.type = :type and " +
                     "j.isHide = false order by j.isSold", Jewelry.class);
             query.setParameter("type", type);
-            return query.getResultList();
-        });
+            return Optional.ofNullable(query.getResultList());
+        }).orElse(new ArrayList<>());
     }
 
     @Override
     public void save(Jewelry jewelry) {
         executeInsideTransaction(entityManager -> {
             entityManager.persist(jewelry);
+            return Optional.empty();
         });
     }
 
     @Override
     public void update(Jewelry jewelry) {
-        executeInsideTransaction(entityManager -> {
-            entityManager.merge(jewelry);
-        });
+        executeInsideTransaction(entityManager -> Optional.ofNullable(entityManager.merge(jewelry)));
     }
 
     @Override
@@ -72,6 +69,7 @@ public class JewelryDao extends Dao<Jewelry, Long> {
         executeInsideTransaction(entityManager -> {
                     Jewelry foundJewelry = entityManager.find(Jewelry.class, id);
                     entityManager.remove(foundJewelry);
+                    return Optional.empty();
                 }
         );
     }

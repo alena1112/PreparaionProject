@@ -18,8 +18,8 @@ public class ShopDao extends Dao<Shop, Long> {
     public List<Shop> getAll() {
         return executeInsideTransaction(entityManager -> {
             TypedQuery<Shop> query = entityManager.createQuery("SELECT s FROM Shop s", Shop.class);
-            return query.getResultList();
-        });
+            return Optional.ofNullable(query.getResultList());
+        }).orElse(null);
     }
 
     @Override

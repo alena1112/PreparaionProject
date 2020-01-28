@@ -22,6 +22,7 @@ public class ImageDao extends Dao<Image, Long> {
     public void save(Image image) {
         executeInsideTransaction(entityManager -> {
             entityManager.persist(image);
+            return Optional.empty();
         });
     }
 
@@ -35,6 +36,7 @@ public class ImageDao extends Dao<Image, Long> {
         executeInsideTransaction(entityManager -> {
                     Image foundImage = entityManager.find(Image.class, id);
                     entityManager.remove(foundImage);
+                    return Optional.empty();
                 }
         );
     }
