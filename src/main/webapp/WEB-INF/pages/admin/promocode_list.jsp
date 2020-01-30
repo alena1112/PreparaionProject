@@ -73,31 +73,31 @@
     <div class="collapse navbar-collapse justify-content-md-left">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/jewelry">Jewelries</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/jewelry/list">Jewelries</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/order">Orders</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/order/list">Orders</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/promocode">Promocodes</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/promocode/list">Promocodes</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/material">Materials</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/material/list">Materials</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/shop">Shops</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/shop/list">Shops</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/setting">Settings</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/settings/list">Settings</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/email">Email Messages</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/emails/list">Email Messages</a>
             </li>
         </ul>
     </div>
 </nav>
 
-<spring:form method="get" action="/promocode" modelAttribute="promocodeList">
+<spring:form method="get" action="/promocode/list" modelAttribute="promocodeList">
     <div class="container-fluid">
         <input class="btn btn-primary mb-3" type="button" value="Создать" onclick="location.href='edit'"/>
         <input class="btn btn-primary mb-3" type="button" value="Удалить" onclick="delete_item()"/>

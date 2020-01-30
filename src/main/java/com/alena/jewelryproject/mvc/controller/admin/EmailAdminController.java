@@ -12,12 +12,12 @@ import java.util.HashMap;
 
 @Controller
 @SessionAttributes(value = "email")
-@RequestMapping("/admin/email")
+@RequestMapping("/admin/emails")
 public class EmailAdminController {
     @Autowired
     private EmailMessagesService emailMessagesService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView getAllEmailMessages() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("emailsList", emailMessagesService.getAllEmailMessages());
@@ -25,7 +25,7 @@ public class EmailAdminController {
         return modelAndView;
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public ModelAndView editEmailMessage(@RequestParam(value = "id", required = false) Long id) {
         ModelAndView modelAndView = new ModelAndView();
         EmailMessage emailMessage = id != null ? emailMessagesService.getEmailMessage(id) : new EmailMessage();
@@ -35,7 +35,7 @@ public class EmailAdminController {
         return modelAndView;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView saveEmailMessage(@RequestParam(value = "id") Long id,
                                          @ModelAttribute("emailMsg") EmailMessage emailMessage) {
         if (id == null) {
@@ -46,7 +46,7 @@ public class EmailAdminController {
         return new ModelAndView("redirect:/admin/emails/list", new HashMap<>());
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public @ResponseBody String deleteEmailMessage(@RequestParam(value = "id") Long id) {
         emailMessagesService.deleteEmailMessage(id);
         return "ok";

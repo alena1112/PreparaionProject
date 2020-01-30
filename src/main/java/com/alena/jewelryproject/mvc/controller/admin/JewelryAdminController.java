@@ -30,7 +30,7 @@ public class JewelryAdminController {
     @Autowired
     private ImageService imageService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView getAllJewelries(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("jewelryList", jewelryService.getAllJewelries());
@@ -39,7 +39,7 @@ public class JewelryAdminController {
         return modelAndView;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView saveJewelry(@RequestParam(value = "id") Long id,
                                     @ModelAttribute("jewelry") Jewelry jewelry) {
         if (id == null) {
@@ -47,11 +47,11 @@ public class JewelryAdminController {
         } else {
             jewelryService.update(jewelry);
         }
-        return new ModelAndView("redirect:/admin/jewelry", new HashMap<>());
+        return new ModelAndView("redirect:/admin/jewelry/list", new HashMap<>());
     }
 
-    @RequestMapping(value = "/item", method = RequestMethod.GET)
-    public ModelAndView getItem(HttpServletRequest request,
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public ModelAndView editJewelry(HttpServletRequest request,
                                     @RequestParam(value = "id", required = false) Long id) {
         ModelAndView modelAndView = new ModelAndView();
         Jewelry jewelry = id != null ? jewelryService.getJewelry(id) : new Jewelry();
@@ -62,7 +62,7 @@ public class JewelryAdminController {
         return modelAndView;
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public @ResponseBody String deleteJewelry(@RequestParam(value = "id") Long id) {
         jewelryService.deleteJewelry(id);
         return "ok";
@@ -94,7 +94,7 @@ public class JewelryAdminController {
         }
     }
 
-    @RequestMapping(value = "/deleteImage", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteImage", method = RequestMethod.POST)
     public @ResponseBody String deleteImage(@RequestParam("position") Integer i,
                                             @ModelAttribute("jewelry") Jewelry jewelry) {
         Image image = jewelry.getImage(i);
