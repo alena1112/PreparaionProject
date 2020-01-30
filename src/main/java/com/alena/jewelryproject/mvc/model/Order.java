@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -43,6 +44,9 @@ public class Order extends IdentifiableEntity {
 
     @Embedded
     private UserData userData;
+
+    @Column(name = "created_date")
+    private Date createdDate = new Date(System.currentTimeMillis());
 
     public List<Jewelry> getJewelries() {
         return jewelries;
@@ -106,6 +110,14 @@ public class Order extends IdentifiableEntity {
 
     public void setTotalCost(Double totalCost) {
         this.totalCost = totalCost;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getFormatDeliveryCost() {

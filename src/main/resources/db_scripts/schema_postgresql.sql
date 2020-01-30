@@ -65,6 +65,7 @@ create table promotional_code (
 
 create table user_order (
   id SERIAL PRIMARY KEY,
+  created_date TIMESTAMPTZ not null DEFAULT Now(),
   promocode_id int,
   delivery_type varchar(20) not null,
   payment_type varchar(50) not null,

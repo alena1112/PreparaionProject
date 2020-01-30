@@ -105,6 +105,7 @@
             <tr class="table_heading">
                 <th>Id</th>
                 <th>Jewelries</th>
+                <th>Createde Date</th>
                 <th>Promocode</th>
                 <th>Delivery Type</th>
                 <th>Payment Type</th>
@@ -128,6 +129,7 @@
                             <a href="${pageContext.request.contextPath}/admin/jewelry/edit?id=${jewelry.id}">${jewelry.name}</a>
                         </c:forEach>
                     </td>
+                    <td>${item.createdDate}</td>
                     <td>${item.promocode.code}</td>
                     <td>${item.deliveryType.name}</td>
                     <td>${item.paymentType.name}</td>

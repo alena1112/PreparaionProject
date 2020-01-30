@@ -71,6 +71,7 @@ create table promotional_code (
 
 create table user_order (
   id int not null AUTO_INCREMENT,
+  created_date DATETIME not null default now(),
   promocode_id int,
   delivery_type varchar(20) not null,
   payment_type varchar(50) not null,
