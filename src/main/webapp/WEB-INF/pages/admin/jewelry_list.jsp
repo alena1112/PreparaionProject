@@ -57,7 +57,7 @@
                     selectedItemId = null;
                 }
             };
-            request.open("DELETE", "delete?id=" + selectedItemId, true);
+            request.open("DELETE", "id=" + selectedItemId, true);
             request.send();
         }
     }
@@ -74,33 +74,33 @@
     <div class="collapse navbar-collapse justify-content-md-left">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/jewelry/list">Jewelries</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/jewelry">Jewelries</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/order/list">Orders</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/order">Orders</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/promocode/list">Promocodes</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/promocode">Promocodes</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/material/list">Materials</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/material">Materials</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/shop/list">Shops</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/shop">Shops</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/settings/list">Settings</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/setting">Settings</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="${pageContext.request.contextPath}/admin/emails/list">Email Messages</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/admin/email">Email Messages</a>
             </li>
         </ul>
     </div>
 </nav>
 
-<spring:form method="get" action="/jewelry/list" modelAttribute="jewelryList">
+<spring:form method="get" action="/jewelry" modelAttribute="jewelryList">
     <div class="container-fluid">
-        <input class="btn btn-primary mb-3" type="button" value="Создать" onclick="location.href='edit'"/>
+        <input class="btn btn-primary mb-3" type="button" value="Создать" onclick="location.href='item'"/>
         <input class="btn btn-primary mb-3" type="button" value="Удалить" onclick="delete_item()"/>
         <table class="table table-bordered" id="mainTable">
             <tr class="table_heading">
@@ -117,7 +117,7 @@
                 <th>Is Sold</th>
             </tr>
             <c:forEach items="${jewelryList}" var="item" varStatus="status">
-                <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='edit?id=${item.id}'"
+                <tr onclick="select_row(this, ${item.id})" ondblclick="location.href='jewelry/item?id=${item.id}'"
                     style="cursor: pointer">
                     <td>${item.id}</td>
                     <td>

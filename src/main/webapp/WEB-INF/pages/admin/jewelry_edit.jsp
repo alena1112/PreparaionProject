@@ -210,7 +210,7 @@
 
                 <hr class="mb-4">
                 <button class="btn btn-primary" type="submit">Сохранить</button>
-                <button class="btn btn-primary" type="button" onclick="location.href='list'">Закрыть</button>
+                <button class="btn btn-primary" type="button" onclick="location.href='jewelry'">Закрыть</button>
             </form>
         </div>
     </div>

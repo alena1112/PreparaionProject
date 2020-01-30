@@ -24,7 +24,7 @@ public class AdminController {
     @Autowired
     private SettingsService settingsService;
 
-    @RequestMapping(value = "/order/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/order", method = RequestMethod.GET)
     public ModelAndView getAllOrders() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("orderList", orderService.getAllOrders());
@@ -32,7 +32,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/material/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/material", method = RequestMethod.GET)
     public ModelAndView getAllMaterials() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("materialList", materialService.getAllMaterials());
@@ -40,7 +40,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/shop/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/shop", method = RequestMethod.GET)
     public ModelAndView getAllShops() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("shopList", shopService.getAllShops());
@@ -48,7 +48,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/settings/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/setting", method = RequestMethod.GET)
     public ModelAndView getAllSettings() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("settingsList", settingsService.getAllSettings());
