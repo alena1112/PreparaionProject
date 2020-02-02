@@ -91,21 +91,4 @@
         <property name="columnTag" value="td"/>
         <property name="columnSize" value="5"/>
     </bean>
-
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <!-- SMTP settings -->
-        <property name="host" value="212.109.218.83"/>
-        <property name="port" value="25"/>
-        <property name="username" value="www-root"/>
-        <property name="password" value="Q2q2F9y0"/>
-
-        <property name="javaMailProperties">
-            <!-- additional properties specific to JavaMail -->
-            <props>
-                <prop key="mail.transport.protocol">smtp</prop>
-                <prop key="mail.smtp.auth">true</prop>
-                <prop key="mail.smtp.starttls.enable">true</prop>
-            </props>
-        </property>
-    </bean>
 </beans>

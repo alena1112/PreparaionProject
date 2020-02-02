@@ -3,6 +3,7 @@ package com.alena.jewelryproject.mvc.controller.admin;
 import com.alena.jewelryproject.mvc.model.EmailMessage;
 import com.alena.jewelryproject.mvc.model.enums.EmailMessageToType;
 import com.alena.jewelryproject.mvc.service.EmailMessagesService;
+import com.alena.jewelryproject.mvc.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,14 @@ import java.util.HashMap;
 public class EmailAdminController {
     @Autowired
     private EmailMessagesService emailMessagesService;
+    @Autowired
+    private OrderService orderService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView getAllEmailMessages() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("emailsList", emailMessagesService.getAllEmailMessages());
+        modelAndView.addObject("orders", orderService.getAllOrders());
         modelAndView.setViewName("admin/email_messages_list");
         return modelAndView;
     }
@@ -49,6 +53,14 @@ public class EmailAdminController {
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public @ResponseBody String deleteEmailMessage(@RequestParam(value = "id") Long id) {
         emailMessagesService.deleteEmailMessage(id);
+        return "ok";
+    }
+
+    @RequestMapping(value = "/sendEmail", method = RequestMethod.PUT)
+    public @ResponseBody String sendEmail(@RequestParam(value = "id") Long emailId,
+                                          @RequestParam(value = "email") String email,
+                                          @RequestParam(value = "orderId") Long orderId) {
+        emailMessagesService.sendEmail(emailId, email, orderId);
         return "ok";
     }
 }

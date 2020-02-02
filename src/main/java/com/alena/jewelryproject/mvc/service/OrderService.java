@@ -50,6 +50,10 @@ public class OrderService {
         return orderDao.getAll();
     }
 
+    public Order getOrder(Long id) {
+        return orderDao.get(id).orElse(null);
+    }
+
     //не должно происходить апдейт в базе по параметрам, украшениям, промокоду
     public void saveOrder(Order order) throws CreateOrderException {
         if (jewelryService.hashCode() > jewelryService.hashCode()) {

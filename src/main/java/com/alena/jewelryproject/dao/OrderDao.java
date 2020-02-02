@@ -11,8 +11,9 @@ import java.util.Optional;
 @Repository
 public class OrderDao extends Dao<Order, Long> {
     @Override
-    public Optional<Order> get(Long aLong) {
-        return Optional.empty();
+    public Optional<Order> get(Long id) {
+        return executeInsideTransaction(entityManager ->
+                Optional.ofNullable(entityManager.find(Order.class, id)));
     }
 
     @Override

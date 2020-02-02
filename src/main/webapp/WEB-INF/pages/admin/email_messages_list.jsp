@@ -71,6 +71,10 @@
     }
 
     function sendEmail() {
+        var email = document.getElementById("email").value;
+        var order = document.getElementById("orderOptions");
+        var orderId = order.options[order.selectedIndex].id;
+
         if (selectedItemId != null && selectedRow != null) {
             var request = new XMLHttpRequest();
             request.responseType = "text";
@@ -79,7 +83,7 @@
 
                 }
             };
-            request.open("GET", "sendEmail?id=" + selectedItemId, true);
+            request.open("PUT", "sendEmail?id=" + selectedItemId + "&email=" + email + "&orderId=" + orderId, true);
             request.send();
         }
     }
@@ -121,8 +125,8 @@
 
 <spring:form method="get" action="/emails/list" modelAttribute="emailsList">
     <div class="container-fluid">
-        <button class="btn btn-primary mb-3 active" onclick="location.href='admin/emails/edit'">Создать</button>
-        <button class="btn btn-secondary mb-3 active" onclick="delete_item()">Удалить</button>
+        <input class="btn btn-primary mb-3" type="button" value="Создать" onclick="location.href='edit'"/>
+        <input class="btn btn-primary mb-3" type="button" value="Удалить" onclick="delete_item()"/>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                 style="margin-bottom: 16px"
                 data-whatever="@mdo">Отправить</button>
@@ -143,7 +147,8 @@
             </c:forEach>
         </table>
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -156,17 +161,22 @@
                         <form>
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Email:</label>
-                                <input type="text" class="form-control" id="recipient-name">
+                                <input type="text" class="form-control" id="email">
                             </div>
                             <div class="form-group">
-                                <label for="message-text" class="col-form-label">Order:</label>
-                                <textarea class="form-control" id="message-text"></textarea>
+                                <label id="order" for="message-text" class="col-form-label">Order:</label>
+                                <select class="custom-select d-block w-100" id="orderOptions">
+                                    <option value="">Choose...</option>
+                                    <c:forEach items="${orders}" var="order">
+                                        <option id="${order.id}" value="${order}">${order}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Send message</button>
+                        <button type="button" class="btn btn-primary" onclick="sendEmail()">Send message</button>
                     </div>
                 </div>
             </div>

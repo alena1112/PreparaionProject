@@ -148,4 +148,9 @@ public class Order extends IdentifiableEntity {
                 costWithoutDiscount,
                 FormatHelper.Currency.RUB);
     }
+
+    @Override
+    public String toString() {
+        return String.format("Order from %s %s, %s", userData.getLastName(), userData.getFirstName(), createdDate);
+    }
 }
