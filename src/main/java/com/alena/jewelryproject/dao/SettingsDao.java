@@ -9,9 +9,16 @@ import java.util.Optional;
 
 @Repository
 public class SettingsDao extends Dao<Settings, Long> {
+
     @Override
-    public Optional<Settings> get(Long aLong) {
-        return Optional.empty();
+    public Optional<Settings> get(Long id) {
+        return executeInsideTransaction(entityManager -> {
+            TypedQuery<Settings> query = entityManager.createQuery("SELECT s FROM Settings s " +
+                    "where s.id = :id", Settings.class);
+            query.setParameter("id", id);
+            return query.getResultStream()
+                    .findFirst();
+        });
     }
 
     public Optional<Settings> get(String key) {
@@ -34,16 +41,24 @@ public class SettingsDao extends Dao<Settings, Long> {
 
     @Override
     public void save(Settings settings) {
-
+        executeInsideTransaction(entityManager -> {
+            entityManager.persist(settings);
+            return Optional.empty();
+        });
     }
 
     @Override
     public void update(Settings settings) {
-
+        executeInsideTransaction(entityManager -> Optional.ofNullable(entityManager.merge(settings)));
     }
 
     @Override
-    public void delete(Long aLong) {
-
+    public void delete(Long id) {
+        executeInsideTransaction(entityManager -> {
+                    Settings settings = entityManager.find(Settings.class, id);
+                    entityManager.remove(settings);
+                    return Optional.empty();
+                }
+        );
     }
 }

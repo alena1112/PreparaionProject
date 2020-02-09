@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.http.HttpSession;
@@ -18,9 +16,7 @@ public class JewelrySessionListener extends HttpSessionEventPublisher {
     @Override
     public void sessionCreated(HttpSessionEvent event) {
         super.sessionCreated(event);
-        String ip = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-                .getRequest().getRemoteAddr();
-        log.info(String.format("Create new user session: ip %s", ip));
+        log.info(String.format("Create new user session: id %s", event.getSession().getId()));
         //Установка таймаута сессии
         event.getSession().setMaxInactiveInterval(60 * 10);
 

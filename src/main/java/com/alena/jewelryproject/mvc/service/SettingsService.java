@@ -17,6 +17,10 @@ public class SettingsService {
     @Autowired
     private SettingsDao settingsDao;
 
+    public Settings getSetting(Long id) {
+        return settingsDao.get(id).orElse(null);
+    }
+
     public String getSettingByKey(String key, String defaultValue) {
         String settingValue = getSettingByKey(key);
         return StringUtils.isNotBlank(settingValue) ? settingValue : defaultValue;
@@ -36,5 +40,17 @@ public class SettingsService {
 
     public List<Settings> getAllSettings() {
         return settingsDao.getAll();
+    }
+
+    public void save(Settings settings) {
+        settingsDao.save(settings);
+    }
+
+    public synchronized void update(Settings settings) {
+        settingsDao.update(settings);
+    }
+
+    public synchronized void delete(Long id) {
+        settingsDao.delete(id);
     }
 }

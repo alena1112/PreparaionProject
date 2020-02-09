@@ -47,12 +47,4 @@ public class AdminController {
         modelAndView.setViewName("admin/shop_list");
         return modelAndView;
     }
-
-    @RequestMapping(value = "/settings/list", method = RequestMethod.GET)
-    public ModelAndView getAllSettings() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("settingsList", settingsService.getAllSettings());
-        modelAndView.setViewName("admin/settings_list");
-        return modelAndView;
-    }
 }
