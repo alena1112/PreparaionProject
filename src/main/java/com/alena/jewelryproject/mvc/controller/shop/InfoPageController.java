@@ -1,18 +1,16 @@
 package com.alena.jewelryproject.mvc.controller.shop;
 
-import com.alena.jewelryproject.mvc.model.Order;
-import com.alena.jewelryproject.mvc.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @SessionAttributes(value = "order")
 @RequestMapping("/info")
-public class InfoPageController {
-    @Autowired
-    private OrderService orderService;
+public class InfoPageController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getJewelry(@RequestParam(value = "type") InfoPageType type) {
@@ -20,10 +18,5 @@ public class InfoPageController {
         modelAndView.addObject("type", type);
         modelAndView.setViewName("shop/info");
         return modelAndView;
-    }
-
-    @ModelAttribute("order")
-    public Order createOrder() {
-        return orderService.createDefaultOrder();
     }
 }

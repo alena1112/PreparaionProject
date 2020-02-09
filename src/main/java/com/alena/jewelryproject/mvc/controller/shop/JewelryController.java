@@ -17,7 +17,7 @@ import static com.alena.jewelryproject.mvc.controller.base.ControllerHelper.getC
 @Controller
 @RequestMapping("/jewelry")
 @SessionAttributes(value = "order")
-public class JewelryController {
+public class JewelryController extends BaseController {
     @Autowired
     private JewelryService jewelryService;
     @Autowired
@@ -25,8 +25,8 @@ public class JewelryController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getJewelry(HttpServletRequest request,
-                                   @RequestParam(value = "id") Long id,
-                                   @ModelAttribute("order") Order order) {
+                                   @RequestParam(value = "id") Long id) {
+        Order order = getOrderFromSession(request);
         ModelAndView modelAndView = new ModelAndView();
         Jewelry jewelry = jewelryService.getJewelry(id);
         modelAndView.addObject("jewelry", jewelry);
@@ -43,17 +43,13 @@ public class JewelryController {
     }
 
     @RequestMapping(value = "/addInOrder", method = RequestMethod.POST)
-    public ModelAndView addInOrder(@RequestParam(value = "id") Long id,
-                                   @ModelAttribute("order") Order order) {
+    public ModelAndView addInOrder(HttpServletRequest request,
+                                   @RequestParam(value = "id") Long id) {
+        Order order = getOrderFromSession(request);
         orderService.updateOrderAfterAddJewelry(order, id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("order", order);
         modelAndView.setViewName("redirect:/jewelry?id=" + id);
         return modelAndView;
-    }
-
-    @ModelAttribute("order")
-    public Order createOrder() {
-        return orderService.createDefaultOrder();
     }
 }

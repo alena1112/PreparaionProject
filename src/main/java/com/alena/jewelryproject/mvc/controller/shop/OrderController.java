@@ -5,6 +5,7 @@ import com.alena.jewelryproject.mvc.controller.base.ControllerHelper;
 import com.alena.jewelryproject.mvc.controller.base.ImageHelper;
 import com.alena.jewelryproject.mvc.model.Order;
 import com.alena.jewelryproject.mvc.model.PromotionalCode;
+import com.alena.jewelryproject.mvc.model.enums.DeliveryType;
 import com.alena.jewelryproject.mvc.model.enums.PromoCodeType;
 import com.alena.jewelryproject.mvc.service.CreateOrderException;
 import com.alena.jewelryproject.mvc.service.OrderService;
@@ -20,13 +21,17 @@ import java.io.IOException;
 @Controller
 @SessionAttributes(value = "order")
 @RequestMapping("/buy")
-public class OrderController {
+public class OrderController extends BaseController {
     @Autowired
     private OrderService orderService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getAllJewelries(HttpServletRequest request,
-                                        @ModelAttribute("order") Order order) {
+    public ModelAndView getAllJewelries(HttpServletRequest request) {
+        Order order = getOrderFromSession(request);
+        //TODO сделано из-за невозможности заинжектить в листенер сервис!
+        if (order.getDeliveryType() != DeliveryType.PICKUP && order.getDeliveryCost() == null) {
+            orderService.updateOrderAfterChangeDeliveryType(order, order.getDeliveryType().getId());
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("shop/buy");
         modelAndView.addObject("order", order);
@@ -35,11 +40,12 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/createOrder", method = RequestMethod.POST)
-    public ModelAndView createOrder(@ModelAttribute("order") Order order) {
+    public ModelAndView createOrder(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
+        Order order = getOrderFromSession(request);
         try {
             orderService.saveOrder(order);
-            modelAndView.addObject("order", createOrder());
+            modelAndView.addObject("order", order);
             modelAndView.addObject("type", InfoPageType.SUCCESSFUL_ORDER);
             modelAndView.setViewName("redirect:/info");
         } catch (CreateOrderException e) {
@@ -71,8 +77,9 @@ public class OrderController {
 
     @RequestMapping(value = "/deleteItem", method = RequestMethod.GET)
     public @ResponseBody
-    String deleteItem(@ModelAttribute("order") Order order,
+    String deleteItem(HttpServletRequest request,
                       @RequestParam("itemId") Long jewelryId) throws IOException {
+        Order order = getOrderFromSession(request);
         orderService.updateOrderAfterDeleteJewelry(order, jewelryId);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(createResponseMessage(order));
@@ -80,8 +87,9 @@ public class OrderController {
 
     @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET)
     public @ResponseBody
-    String checkPromoCode(@ModelAttribute("order") Order order,
+    String checkPromoCode(HttpServletRequest request,
                           @RequestParam("code") String code) throws IOException {
+        Order order = getOrderFromSession(request);
         orderService.updateOrderAfterAddPromoCode(order, code);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(createResponseMessage(order));
@@ -89,16 +97,12 @@ public class OrderController {
 
     @RequestMapping(value = "/checkDelivery", method = RequestMethod.GET)
     public @ResponseBody
-    String checkDelivery(@ModelAttribute("order") Order order,
+    String checkDelivery(HttpServletRequest request,
                          @RequestParam("type") String type) throws IOException {
+        Order order = getOrderFromSession(request);
         orderService.updateOrderAfterChangeDeliveryType(order, type);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(createResponseMessage(order));
-    }
-
-    @ModelAttribute("order")
-    public Order createOrder() {
-        return orderService.createDefaultOrder();
     }
 
     private ResponseMessage createResponseMessage(Order order) {

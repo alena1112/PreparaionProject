@@ -2,7 +2,6 @@ package com.alena.jewelryproject.mvc.controller.shop;
 
 import com.alena.jewelryproject.mvc.controller.base.ImageHelper;
 import com.alena.jewelryproject.mvc.model.Jewelry;
-import com.alena.jewelryproject.mvc.model.Order;
 import com.alena.jewelryproject.mvc.model.enums.JewelryType;
 import com.alena.jewelryproject.mvc.service.JewelryService;
 import com.alena.jewelryproject.mvc.service.OrderService;
@@ -10,7 +9,10 @@ import com.alena.jewelryproject.mvc.service.SettingsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +26,7 @@ import static com.alena.jewelryproject.mvc.service.SettingKeys.MAX_NEW_JEWELRY_C
 @Controller
 @SessionAttributes(value = "order")
 @RequestMapping("/start")
-public class StartController {
+public class StartController extends BaseController {
     @Autowired
     private JewelryService jewelryService;
     @Autowired
@@ -64,10 +66,5 @@ public class StartController {
             }
         }
         return new ArrayList<>();
-    }
-
-    @ModelAttribute("order")
-    public Order createOrder() {
-        return orderService.createDefaultOrder();
     }
 }

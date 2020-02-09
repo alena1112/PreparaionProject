@@ -6,6 +6,8 @@ import com.alena.jewelryproject.mvc.model.enums.DeliveryType;
 import com.alena.jewelryproject.mvc.model.enums.PaymentType;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import static com.alena.jewelryproject.mvc.service.SettingKeys.DELIVERY_COST_RUS
 
 @Service
 public class OrderService {
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
+
     private final PromoCodeService promoCodeService;
     private final JewelryService jewelryService;
     private final SettingsService settingsService;
@@ -31,13 +35,13 @@ public class OrderService {
         this.settingsService = settingsService;
     }
 
-    public Order createDefaultOrder() {
+    public static Order createDefaultOrder() {
         Order order = new Order();
         order.setUserData(new UserData());
         order.setJewelries(new ArrayList<>());
         order.setDeliveryType(DeliveryType.RUSSIA_POST_OFFICE);
         order.setPaymentType(PaymentType.TRANSFER_TO_BANK_CARD);
-        order.setDeliveryCost(getDeliveryPrice(order.getDeliveryType()));
+//        order.setDeliveryCost(getDeliveryPrice(order.getDeliveryType()));
         order.setTotalCost(getTotalPrice(
                 getAllJewelriesPrice(order.getJewelries()),
                 0.0,
@@ -176,13 +180,13 @@ public class OrderService {
         );
     }
 
-    private double getTotalPrice(Double allJewelriesPrice, Double discount, Double delivery) {
+    private static double getTotalPrice(Double allJewelriesPrice, Double discount, Double delivery) {
         return ObjectUtils.defaultIfNull(allJewelriesPrice, 0.0) -
                 ObjectUtils.defaultIfNull(discount, 0.0) +
                 ObjectUtils.defaultIfNull(delivery, 0.0);
     }
 
-    private double getAllJewelriesPrice(List<Jewelry> jewelries) {
+    private static double getAllJewelriesPrice(List<Jewelry> jewelries) {
         double allJewelriesPrice = 0;
         if (jewelries != null) {
             allJewelriesPrice = jewelries.stream()
