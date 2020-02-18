@@ -108,7 +108,8 @@ public class OrderService {
                 throw new CreateOrderException(CreateOrderException.ExceptionType.PROMOCODE_IS_CHANGED);
             }
         }
-        if (Math.round(order.getDeliveryCost()) != getDeliveryPrice(order.getDeliveryType())) {
+        if (Math.round((Double) ObjectUtils.defaultIfNull(order.getDeliveryCost(), 0)) !=
+                getDeliveryPrice(order.getDeliveryType())) {
             throw new CreateOrderException(CreateOrderException.ExceptionType.DELIVERY_IS_CHANGED);
         }
     }

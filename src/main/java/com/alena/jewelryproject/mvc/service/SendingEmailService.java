@@ -44,7 +44,8 @@ public class SendingEmailService {
         emailObj.setSubject("Graceful Jewelry");
         emailObj.setText(message);
         mailSender.send(emailObj);
-        log.info("Email was sent successfully");
+        log.info(String.format("Email was sent successfully (from: %s, to: %s, message: '%s')",
+                fromAddress, toAddress, message));
     }
 
     private String getAdminAddress() {

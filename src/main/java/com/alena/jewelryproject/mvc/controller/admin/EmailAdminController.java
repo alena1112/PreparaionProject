@@ -4,6 +4,8 @@ import com.alena.jewelryproject.mvc.model.EmailMessage;
 import com.alena.jewelryproject.mvc.model.enums.EmailMessageToType;
 import com.alena.jewelryproject.mvc.service.EmailMessagesService;
 import com.alena.jewelryproject.mvc.service.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import java.util.HashMap;
 @SessionAttributes(value = "email")
 @RequestMapping("/admin/emails")
 public class EmailAdminController {
+    private static final Logger log = LoggerFactory.getLogger(EmailAdminController.class);
+
     @Autowired
     private EmailMessagesService emailMessagesService;
     @Autowired

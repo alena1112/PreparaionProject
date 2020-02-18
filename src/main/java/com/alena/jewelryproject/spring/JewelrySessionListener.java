@@ -13,12 +13,14 @@ import javax.servlet.http.HttpSessionEvent;
 public class JewelrySessionListener extends HttpSessionEventPublisher {
     private static final Logger log = LoggerFactory.getLogger(JewelrySessionListener.class);
 
+    private static final int SESSION_TIME_SEC = 60 * 60;
+
     @Override
     public void sessionCreated(HttpSessionEvent event) {
         super.sessionCreated(event);
         log.info(String.format("Create new user session: id %s", event.getSession().getId()));
         //Установка таймаута сессии
-        event.getSession().setMaxInactiveInterval(60 * 10);
+        event.getSession().setMaxInactiveInterval(SESSION_TIME_SEC);
 
         event.getSession().setAttribute("order", OrderService.createDefaultOrder());
     }
