@@ -1,6 +1,5 @@
 package com.alena.jewelryproject.spring;
 
-import com.alena.jewelryproject.mvc.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -21,21 +20,10 @@ public class JewelrySessionListener extends HttpSessionEventPublisher {
         log.info(String.format("Create new user session: id %s", event.getSession().getId()));
         //Установка таймаута сессии
         event.getSession().setMaxInactiveInterval(SESSION_TIME_SEC);
-
-        event.getSession().setAttribute("order", OrderService.createDefaultOrder());
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent event) {
-//        String name = null;
-//        SessionRegistry sessionRegistry = (SessionRegistry) getBean(event, "sessionRegistry");
-//        SessionInformation sessionInfo = (sessionRegistry != null ? sessionRegistry
-//                .getSessionInformation(event.getSession().getId()) : null);
-//        UserDetails ud = null;
-//        if (sessionInfo != null) ud = (UserDetails) sessionInfo.getPrincipal();
-//        if (ud != null) {
-//            name = ud.getUsername();
-//        }
         super.sessionDestroyed(event);
     }
 

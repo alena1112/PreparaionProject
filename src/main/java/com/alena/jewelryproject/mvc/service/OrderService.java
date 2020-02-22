@@ -35,13 +35,13 @@ public class OrderService {
         this.settingsService = settingsService;
     }
 
-    public static Order createDefaultOrder() {
+    public Order createDefaultOrder() {
         Order order = new Order();
         order.setUserData(new UserData());
         order.setJewelries(new ArrayList<>());
         order.setDeliveryType(DeliveryType.RUSSIA_POST_OFFICE);
         order.setPaymentType(PaymentType.TRANSFER_TO_BANK_CARD);
-//        order.setDeliveryCost(getDeliveryPrice(order.getDeliveryType()));
+        order.setDeliveryCost(getDeliveryPrice(order.getDeliveryType()));
         order.setTotalCost(getTotalPrice(
                 getAllJewelriesPrice(order.getJewelries()),
                 0.0,

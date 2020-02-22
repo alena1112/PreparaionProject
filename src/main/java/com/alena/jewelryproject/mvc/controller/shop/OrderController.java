@@ -5,10 +5,10 @@ import com.alena.jewelryproject.mvc.controller.base.ControllerHelper;
 import com.alena.jewelryproject.mvc.controller.base.ImageHelper;
 import com.alena.jewelryproject.mvc.model.Order;
 import com.alena.jewelryproject.mvc.model.PromotionalCode;
-import com.alena.jewelryproject.mvc.model.enums.DeliveryType;
 import com.alena.jewelryproject.mvc.model.enums.PromoCodeType;
 import com.alena.jewelryproject.mvc.service.CreateOrderException;
 import com.alena.jewelryproject.mvc.service.OrderService;
+import com.alena.jewelryproject.spring.ShoppingCart;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,56 +21,55 @@ import java.io.IOException;
 @Controller
 @SessionAttributes(value = "order")
 @RequestMapping("/buy")
-public class OrderController extends BaseController {
+public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private ShoppingCart shoppingCart;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getAllJewelries(HttpServletRequest request) {
-        Order order = getOrderFromSession(request);
-        //TODO сделано из-за невозможности заинжектить в листенер сервис!
-        if (order.getDeliveryType() != DeliveryType.PICKUP && order.getDeliveryCost() == null) {
-            orderService.updateOrderAfterChangeDeliveryType(order, order.getDeliveryType().getId());
-        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("shop/buy");
-        modelAndView.addObject("order", order);
+        modelAndView.addObject("order", shoppingCart.getOrder());
         modelAndView.addObject("imageHelper", new ImageHelper(ControllerHelper.getContextPath(request)));
         return modelAndView;
     }
 
     @RequestMapping(value = "/createOrder", method = RequestMethod.POST)
-    public ModelAndView createOrder(HttpServletRequest request) {
+    public ModelAndView createOrder(HttpServletRequest request,
+                                    @ModelAttribute("order") Order order) {
         ModelAndView modelAndView = new ModelAndView();
-        Order order = getOrderFromSession(request);
         try {
             orderService.saveOrder(order);
-            modelAndView.addObject("order", order);
+            shoppingCart.setOrder(null);
+
             modelAndView.addObject("type", InfoPageType.SUCCESSFUL_ORDER);
             modelAndView.setViewName("redirect:/info");
         } catch (CreateOrderException e) {
             switch (e.getExceptionType()) {
                 case JEWELRY_SOLD:
                 case JEWELRY_DOES_NOT_EXIST:
-                    orderService.updateOrderAfterDeleteJewelry(order, e.getJewelry().getId());
+                    orderService.updateOrderAfterDeleteJewelry(shoppingCart.getOrder(), e.getJewelry().getId());
                     break;
                 case JEWELRY_PRICE_CHANGE:
-                    order.getJewelries().remove(e.getJewelry());
-                    orderService.updateOrderAfterAddJewelry(order, e.getJewelry().getId());
+                    shoppingCart.getOrder().getJewelries().remove(e.getJewelry());
+                    orderService.updateOrderAfterAddJewelry(shoppingCart.getOrder(), e.getJewelry().getId());
                     break;
                 case PROMOCODE_DOES_NOT_EXIST:
                 case PROMOCODE_IS_NOT_VALID:
-                    orderService.updateOrderForInvalidPromoCode(order);
+                    orderService.updateOrderForInvalidPromoCode(shoppingCart.getOrder());
                     break;
                 case PROMOCODE_IS_CHANGED:
-                    orderService.updateOrderAfterAddPromoCode(order, order.getPromocode().getCode());
+                    orderService.updateOrderAfterAddPromoCode(shoppingCart.getOrder(), shoppingCart.getOrder().getPromocode().getCode());
                     break;
                 case DELIVERY_IS_CHANGED:
-                    orderService.updateOrderAfterChangeDeliveryType(order, order.getDeliveryType().getId());
+                    orderService.updateOrderAfterChangeDeliveryType(shoppingCart.getOrder(), shoppingCart.getOrder().getDeliveryType().getId());
                     break;
             }
             modelAndView.setViewName("redirect:/buy");
-            modelAndView.addObject("order", order);
+        } finally {
+            modelAndView.addObject("order", shoppingCart.getOrder());
         }
         return modelAndView;
     }
@@ -79,30 +78,27 @@ public class OrderController extends BaseController {
     public @ResponseBody
     String deleteItem(HttpServletRequest request,
                       @RequestParam("itemId") Long jewelryId) throws IOException {
-        Order order = getOrderFromSession(request);
-        orderService.updateOrderAfterDeleteJewelry(order, jewelryId);
+        orderService.updateOrderAfterDeleteJewelry(shoppingCart.getOrder(), jewelryId);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(createResponseMessage(order));
+        return mapper.writeValueAsString(createResponseMessage(shoppingCart.getOrder()));
     }
 
     @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET)
     public @ResponseBody
     String checkPromoCode(HttpServletRequest request,
                           @RequestParam("code") String code) throws IOException {
-        Order order = getOrderFromSession(request);
-        orderService.updateOrderAfterAddPromoCode(order, code);
+        orderService.updateOrderAfterAddPromoCode(shoppingCart.getOrder(), code);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(createResponseMessage(order));
+        return mapper.writeValueAsString(createResponseMessage(shoppingCart.getOrder()));
     }
 
     @RequestMapping(value = "/checkDelivery", method = RequestMethod.GET)
     public @ResponseBody
     String checkDelivery(HttpServletRequest request,
                          @RequestParam("type") String type) throws IOException {
-        Order order = getOrderFromSession(request);
-        orderService.updateOrderAfterChangeDeliveryType(order, type);
+        orderService.updateOrderAfterChangeDeliveryType(shoppingCart.getOrder(), type);
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(createResponseMessage(order));
+        return mapper.writeValueAsString(createResponseMessage(shoppingCart.getOrder()));
     }
 
     private ResponseMessage createResponseMessage(Order order) {
