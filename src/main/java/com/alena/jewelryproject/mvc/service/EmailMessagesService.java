@@ -26,8 +26,6 @@ public class EmailMessagesService {
     private EmailMessagesDao emailMessagesDao;
     @Autowired
     private SendingEmailService sendingEmailService;
-    @Autowired
-    private OrderService orderService;
 
     private final Map<String, Function<Order, String>> messageParameters = ImmutableMap.of(
             "${order.userData.firstName}",
@@ -56,15 +54,14 @@ public class EmailMessagesService {
         emailMessagesDao.delete(id);
     }
 
-    public void sendEmail(Long emailId, String toEmail, Long orderId) {
+    public void sendEmail(Long emailId, Order order) {
         EmailMessage emailMessage = getEmailMessage(emailId);
-        Order order = orderService.getOrder(orderId);
         if (emailMessage != null && order != null) {
             String message = parseMessageWithOrder(emailMessage.getMessage(), order);
             if (emailMessage.getType() == EmailMessageToType.ADMIN) {
                 sendingEmailService.sendMessageToAdmin(message);
             } else {
-                sendingEmailService.sendMessageToClient(toEmail, message);
+                sendingEmailService.sendMessageToClient(order.getUserData().getEmail(), message);
             }
         }
     }

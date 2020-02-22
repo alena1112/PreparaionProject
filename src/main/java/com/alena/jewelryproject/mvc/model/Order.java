@@ -151,6 +151,9 @@ public class Order extends IdentifiableEntity {
 
     @Override
     public String toString() {
+        if (userData == null) {
+            userData = new UserData();
+        }
         return String.format("Order from %s %s, %s", userData.getLastName(), userData.getFirstName(), createdDate);
     }
 }

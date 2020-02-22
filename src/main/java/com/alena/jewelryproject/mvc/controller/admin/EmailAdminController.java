@@ -64,7 +64,7 @@ public class EmailAdminController {
     public @ResponseBody String sendEmail(@RequestParam(value = "id") Long emailId,
                                           @RequestParam(value = "email") String email,
                                           @RequestParam(value = "orderId") Long orderId) {
-        emailMessagesService.sendEmail(emailId, email, orderId);
+        emailMessagesService.sendEmail(emailId, orderService.getOrder(orderId));
         return "ok";
     }
 }

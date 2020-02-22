@@ -6,6 +6,7 @@ import com.alena.jewelryproject.mvc.model.enums.DeliveryType;
 import com.alena.jewelryproject.mvc.model.enums.PaymentType;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,18 @@ public class OrderService {
     private final PromoCodeService promoCodeService;
     private final JewelryService jewelryService;
     private final SettingsService settingsService;
+    private final EmailMessagesService emailMessagesService;
 
     private final OrderDao orderDao;
 
     @Autowired
     public OrderService(OrderDao orderDao, PromoCodeService promoCodeService, JewelryService jewelryService,
-                        SettingsService settingsService) {
+                        SettingsService settingsService, EmailMessagesService emailMessagesService) {
         this.orderDao = orderDao;
         this.promoCodeService = promoCodeService;
         this.jewelryService = jewelryService;
         this.settingsService = settingsService;
+        this.emailMessagesService = emailMessagesService;
     }
 
     public Order createDefaultOrder() {
@@ -68,6 +71,7 @@ public class OrderService {
                     promoCodeService.applyPromotionCode(order.getPromocode());
                     jewelryService.sellJewelries(order.getJewelries());
                     orderDao.save(order);
+                    sendEmailMessages(order);
                 }
             }
         } else {
@@ -78,6 +82,7 @@ public class OrderService {
                     promoCodeService.applyPromotionCode(order.getPromocode());
                     jewelryService.sellJewelries(order.getJewelries());
                     orderDao.save(order);
+                    sendEmailMessages(order);
                 }
             }
         }
@@ -203,6 +208,17 @@ public class OrderService {
             return Double.parseDouble(value);
         }
         return 0;
+    }
+
+    private void sendEmailMessages(Order order) {
+        String adminEmailId = settingsService.getSettingByKey(SettingKeys.NEW_ORDER_ADMIN_EMAIL_ID);
+        String clientEmailId = settingsService.getSettingByKey(SettingKeys.NEW_ORDER_CLIENT_EMAIL_ID);
+        if (StringUtils.isNotBlank(adminEmailId)) {
+            emailMessagesService.sendEmail(Long.parseLong(adminEmailId), order);
+        }
+        if (StringUtils.isNotBlank(clientEmailId)) {
+            emailMessagesService.sendEmail(Long.parseLong(adminEmailId), order);
+        }
     }
 
     private enum JewelryAction {ADD, REMOVE}
