@@ -10,6 +10,8 @@ import com.alena.jewelryproject.mvc.service.CreateOrderException;
 import com.alena.jewelryproject.mvc.service.OrderService;
 import com.alena.jewelryproject.spring.ShoppingCart;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.io.IOException;
 @SessionAttributes(value = "order")
 @RequestMapping("/buy")
 public class OrderController {
+    private static final Logger log = LoggerFactory.getLogger(OrderController.class);
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -39,6 +42,7 @@ public class OrderController {
     @RequestMapping(value = "/createOrder", method = RequestMethod.POST)
     public ModelAndView createOrder(HttpServletRequest request,
                                     @ModelAttribute("order") Order order) {
+        log.info("Getting order attribute: " + order.toString());
         ModelAndView modelAndView = new ModelAndView();
         try {
             orderService.saveOrder(order);

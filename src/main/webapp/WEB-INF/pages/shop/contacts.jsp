@@ -3,13 +3,6 @@
 <!DOCTYPE html>
 
 <html>
-<script>
-    window.onload = function () {
-        if (${type == "SUCCESSFUL_ORDER"}) {
-            document.getElementById('infoMsg').innerHTML = "Заказ успешно создан";
-        }
-    }
-</script>
 <style>
     body, h1, h2, h3, h4, h5, h6 {
         font-family: 'Roboto', sans-serif;
@@ -29,7 +22,15 @@
     <div class="w3-hide-large" style="margin-top:70px">
     </div>
 
-    <p id="infoMsg" class="w3-text-grey" style="margin-top:20px;margin-bottom:350px;font-size: 12px"></p>
+    <div style="font-size: 17px; padding: 10px 0">
+        <p style="font-weight: bold">
+            КОНТАКТЫ
+        </p>
+        <p>
+            По всем вопросам и замечаниям вы можете писать на адрес
+            <a href="mailto:admin@gracefuljewelry.ru">admin@gracefuljewelry.ru</a>
+        </p>
+    </div>
 
     <hr>
 
@@ -38,7 +39,8 @@
 
             <div class="w3-col s4 w3-justify w3-text-grey">
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/about">О нас</a></p>
-                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a>
+                </p>
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/payment">Оплата заказа</a></p>
             </div>
 

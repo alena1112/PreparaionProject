@@ -3,13 +3,6 @@
 <!DOCTYPE html>
 
 <html>
-<script>
-    window.onload = function () {
-        if (${type == "SUCCESSFUL_ORDER"}) {
-            document.getElementById('infoMsg').innerHTML = "Заказ успешно создан";
-        }
-    }
-</script>
 <style>
     body, h1, h2, h3, h4, h5, h6 {
         font-family: 'Roboto', sans-serif;
@@ -29,7 +22,21 @@
     <div class="w3-hide-large" style="margin-top:70px">
     </div>
 
-    <p id="infoMsg" class="w3-text-grey" style="margin-top:20px;margin-bottom:350px;font-size: 12px"></p>
+    <div style="font-size: 17px; padding: 10px 0">
+        <p style="font-weight: bold">
+            САМОВЫВОЗ
+        </p>
+        <p>
+            Забрать заказ самостоятельно и примерить украшения можно в г. Москва,
+            станции метро Хорошево, Домодедовская.
+        </p>
+        <p style="font-weight: bold">
+            ДОСТАВКА ПО РОССИИ
+        </p>
+        <p>
+            Доставка осуществляется Почтой России или СДЭК в любой город страны.
+        </p>
+    </div>
 
     <hr>
 

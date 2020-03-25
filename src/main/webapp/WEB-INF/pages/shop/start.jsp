@@ -66,19 +66,20 @@
         <div class="w3-row-padding">
 
             <div class="w3-col s4 w3-justify w3-text-grey">
-                <p><a class="jewelry-item-class" href="#">О нас</a></p>
-                <p><a class="jewelry-item-class" href="#">Способы доставки</a></p>
-                <p><a class="jewelry-item-class" href="#">Оплата заказа</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/about">О нас</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/payment">Оплата заказа</a></p>
             </div>
 
             <div class="w3-col s4 w3-justify w3-text-grey">
-                <p><a class="jewelry-item-class" href="#">Обмен и возврат</a></p>
-                <p><a class="jewelry-item-class" href="#">Контакты</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/return">Обмен и возврат</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/contacts">Контакты</a></p>
             </div>
 
             <div class="w3-col s4 w3-right-align">
-                <i class="fa fa-instagram w3-hover-opacity w3-large" style="margin-right:8px!important"></i>
-                <i class="fa fa-envelope-o w3-hover-opacity w3-large"></i>
+                <a class="fa fa-instagram w3-hover-opacity w3-large" href="https://www.instagram.com/graceful.jewelry"
+                   style="margin-right:8px!important"></a>
+                <a class="fa fa-envelope-o w3-hover-opacity w3-large" href="mailto:admin@gracefuljewelry.ru"></a>
             </div>
         </div>
     </footer>

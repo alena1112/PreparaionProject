@@ -32,20 +32,24 @@ public class SendingEmailService {
     }
 
     private void sendEmail(String toAddress, String message) {
-        String fromAddress = getAdminAddress();
-        if (StringUtils.isBlank(fromAddress)) {
-            log.warn("Could not send email to admin: admin email address not found");
-            return;
-        }
+        try {
+            String fromAddress = getAdminAddress();
+            if (StringUtils.isBlank(fromAddress)) {
+                log.warn("Could not send email to admin: admin email address not found");
+                return;
+            }
 
-        SimpleMailMessage emailObj = new SimpleMailMessage();
-        emailObj.setFrom(fromAddress);
-        emailObj.setTo(toAddress);
-        emailObj.setSubject("Graceful Jewelry");
-        emailObj.setText(message);
-        mailSender.send(emailObj);
-        log.info(String.format("Email was sent successfully (from: %s, to: %s, message: '%s')",
-                fromAddress, toAddress, message));
+            SimpleMailMessage emailObj = new SimpleMailMessage();
+            emailObj.setFrom(fromAddress);
+            emailObj.setTo(toAddress);
+            emailObj.setSubject("Graceful Jewelry");
+            emailObj.setText(message);
+            mailSender.send(emailObj);
+            log.info(String.format("Email was sent successfully (from: %s, to: %s, message: '%s')",
+                    fromAddress, toAddress, message));
+        } catch (Exception ex) {
+            log.error(String.format("Cannot send message to %s", toAddress), ex);
+        }
     }
 
     private String getAdminAddress() {
