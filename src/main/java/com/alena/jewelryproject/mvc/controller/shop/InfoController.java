@@ -11,35 +11,35 @@ public class InfoController {
     @RequestMapping(value = "/about", method = RequestMethod.GET)
     public ModelAndView about() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shop/about");
+        modelAndView.setViewName("shop/info/about");
         return modelAndView;
     }
 
     @RequestMapping(value = "/delivery", method = RequestMethod.GET)
     public ModelAndView delivery() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shop/delivery");
+        modelAndView.setViewName("shop/info/delivery");
         return modelAndView;
     }
 
     @RequestMapping(value = "/payment", method = RequestMethod.GET)
     public ModelAndView payment() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shop/payment");
+        modelAndView.setViewName("shop/info/payment");
         return modelAndView;
     }
 
     @RequestMapping(value = "/return", method = RequestMethod.GET)
     public ModelAndView returnInfo() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shop/return");
+        modelAndView.setViewName("shop/info/return");
         return modelAndView;
     }
 
     @RequestMapping(value = "/contacts", method = RequestMethod.GET)
     public ModelAndView contacts() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("shop/contacts");
+        modelAndView.setViewName("shop/info/contacts");
         return modelAndView;
     }
 }
