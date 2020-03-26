@@ -56,7 +56,7 @@
 
     function loadMenu () {
         var url = new URL(window.location.href);
-        var menuParam = url.searchParams.get("menu");
+        var menuParam = url.searchParams.get("type");
         if (menuParam !== null) {
             var bigMenu = document.getElementById('bigMenu');
             [].filter.call(bigMenu.getElementsByTagName("a"), function (item) {
@@ -110,15 +110,15 @@
                 </a>
                 <div id="smallMenu" class="w3-bar-block w3-white w3-hide w3-hide-large w3-top"
                      style="margin-top:69px;font-size:10px;width:100%;height:100%">
-                    <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item menu-button"
+                    <a href="${pageContext.request.contextPath}/menu?type=new" class="w3-bar-item menu-button"
                        onclick="openSmallMenu()" id="new">НОВИНКИ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item menu-button"
+                    <a href="${pageContext.request.contextPath}/menu?type=all" class="w3-bar-item menu-button"
                        onclick="openSmallMenu()" id="all">ВСЕ УКРАШЕНИЯ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item menu-button"
+                    <a href="${pageContext.request.contextPath}/menu?type=bracelet" class="w3-bar-item menu-button"
                        onclick="openSmallMenu()" id="bracelet">БРАСЛЕТЫ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item menu-button"
+                    <a href="${pageContext.request.contextPath}/menu?type=earrings" class="w3-bar-item menu-button"
                        onclick="openSmallMenu()" id="earrings">СЕРЬГИ</a>
-                    <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item menu-button"
+                    <a href="${pageContext.request.contextPath}/menu?type=necklace" class="w3-bar-item menu-button"
                        onclick="openSmallMenu()" id="necklace">КОЛЬЕ</a>
                 </div>
             </div>
@@ -137,15 +137,15 @@
     </div>
 
     <div id="bigMenu" class="w3-bar w3-white w3-hide-medium w3-hide-small" style="max-width:1200px;margin:auto">
-        <a href="${pageContext.request.contextPath}/start?menu=new" class="w3-bar-item menu-button"
+        <a href="${pageContext.request.contextPath}/menu?type=new" class="w3-bar-item menu-button"
            style="width:20%" id="new">НОВИНКИ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=all" class="w3-bar-item menu-button"
+        <a href="${pageContext.request.contextPath}/menu?type=all" class="w3-bar-item menu-button"
            style="width:20%" id="all">ВСЕ УКРАШЕНИЯ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=bracelet" class="w3-bar-item menu-button"
+        <a href="${pageContext.request.contextPath}/menu?type=bracelet" class="w3-bar-item menu-button"
            style="width:20%" id="bracelet">БРАСЛЕТЫ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=earrings" class="w3-bar-item menu-button"
+        <a href="${pageContext.request.contextPath}/menu?type=earrings" class="w3-bar-item menu-button"
            style="width:20%" id="earrings">СЕРЬГИ</a>
-        <a href="${pageContext.request.contextPath}/start?menu=necklace" class="w3-bar-item menu-button"
+        <a href="${pageContext.request.contextPath}/menu?type=necklace" class="w3-bar-item menu-button"
            style="width:20%" id="necklace">КОЛЬЕ</a>
     </div>
 </div>

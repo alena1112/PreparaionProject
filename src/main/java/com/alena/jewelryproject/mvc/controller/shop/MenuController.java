@@ -24,8 +24,8 @@ import static com.alena.jewelryproject.mvc.controller.base.ControllerHelper.getC
 import static com.alena.jewelryproject.mvc.service.SettingKeys.MAX_NEW_JEWELRY_COUNT;
 
 @Controller
-@RequestMapping("/start")
-public class StartController {
+@RequestMapping("/menu")
+public class MenuController {
     @Autowired
     private JewelryService jewelryService;
     @Autowired
@@ -40,9 +40,9 @@ public class StartController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getAllJewelries(HttpServletRequest request,
-                                        @RequestParam(value = "menu") String menu) {
+                                        @RequestParam(value = "type") String type) {
         ModelAndView modelAndView = new ModelAndView();
-        List<Jewelry> allJewelries = getJewelries(menu);
+        List<Jewelry> allJewelries = getJewelries(type);
         List<List<Jewelry>> list = new ArrayList<>();
         for (int i = 0; i < allJewelries.size(); i += 4) {
             int end = allJewelries.size() >= i + 4 ? i + 4 : allJewelries.size();
@@ -50,18 +50,18 @@ public class StartController {
         }
         modelAndView.addObject("jewelryList", list);
         modelAndView.addObject("imageHelper", new ImageHelper(getContextPath(request)));
-        modelAndView.setViewName("shop/start");
+        modelAndView.setViewName("shop/menu");
         return modelAndView;
     }
 
-    private List<Jewelry> getJewelries(String menu) {
-        if (StringUtils.isBlank(menu) || MENU_ALL.equals(menu)) {
+    private List<Jewelry> getJewelries(String menuType) {
+        if (StringUtils.isBlank(menuType) || MENU_ALL.equals(menuType)) {
             return jewelryService.getAllUnhiddenJewelries();
-        } else if (MENU_NEW.equals(menu)) {
+        } else if (MENU_NEW.equals(menuType)) {
             return jewelryService.getNewUnhiddenJewelries(new Date(),
                     Integer.parseInt(settingsService.getSettingByKey(MAX_NEW_JEWELRY_COUNT, "3")));
         } else {
-            JewelryType jewelryType = JewelryType.fromId(menu);
+            JewelryType jewelryType = JewelryType.fromId(menuType);
             if (jewelryType != null) {
                 return jewelryService.getUnhiddenJewelries(jewelryType);
             }

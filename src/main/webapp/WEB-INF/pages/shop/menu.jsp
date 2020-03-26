@@ -38,7 +38,7 @@
     <p id="emptyList" class="w3-text-grey"
        style="display: ${jewelryList.size() == 0 ? 'display' : 'none'};margin-top:20px;margin-bottom:350px;font-size:12px">
         В данном разделе украшения пока отсутствуют</p>
-    <spring:form method="get" action="/start?type=all" modelAttribute="jewelryList">
+    <spring:form method="get" action="/menu?type=all" modelAttribute="jewelryList">
         <c:forEach items="${jewelryList}" var="list">
             <div class="w3-row-padding w3-padding-16 w3-center" id="row">
                 <c:forEach items="${list}" var="item">
