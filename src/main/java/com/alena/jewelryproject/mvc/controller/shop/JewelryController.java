@@ -4,6 +4,7 @@ import com.alena.jewelryproject.mvc.controller.base.ImageHelper;
 import com.alena.jewelryproject.mvc.model.Jewelry;
 import com.alena.jewelryproject.mvc.service.JewelryService;
 import com.alena.jewelryproject.mvc.service.OrderService;
+import com.alena.jewelryproject.mvc.service.sitemap.NeedInSiteMap;
 import com.alena.jewelryproject.spring.ShoppingCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class JewelryController {
     @Autowired
     private ShoppingCart shoppingCart;
 
+    @NeedInSiteMap(isAllJewelryIds = true)
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getJewelry(HttpServletRequest request,
                                    @RequestParam(value = "id") Long id) {

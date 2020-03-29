@@ -37,4 +37,10 @@ public enum JewelryType {
         }
         return null;
     }
+
+    public static final String[] getIds() {
+        return (String[]) Arrays.stream(JewelryType.values())
+                .map(jewelryType -> jewelryType.id)
+                .toArray();
+    }
 }

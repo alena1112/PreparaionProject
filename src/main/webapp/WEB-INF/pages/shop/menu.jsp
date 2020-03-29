@@ -53,7 +53,7 @@
                            class="jewelry-item-class"><h3>${item.name}</h3></a>
                         <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}"
                            class="jewelry-item-class"><p>${item.description}</p></a>
-                        <p class="w3-text-grey">${item.sold ? 'Нет в наличии' : item.formatPrice}</p>
+                        <p class="w3-text-grey">${item.formatPrice}</p>
                     </div>
                 </c:forEach>
             </div>

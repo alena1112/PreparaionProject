@@ -6,6 +6,7 @@ import com.alena.jewelryproject.mvc.model.enums.JewelryType;
 import com.alena.jewelryproject.mvc.service.JewelryService;
 import com.alena.jewelryproject.mvc.service.OrderService;
 import com.alena.jewelryproject.mvc.service.SettingsService;
+import com.alena.jewelryproject.mvc.service.sitemap.NeedInSiteMap;
 import com.alena.jewelryproject.spring.ShoppingCart;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class MenuController {
     private static final String MENU_ALL = "all";
     private static final String MENU_NEW = "new";
 
+    @NeedInSiteMap(paths = {"?type=all", "?type=new", "?type=bracelet", "?type=earrings", "?type=necklace"})
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getAllJewelries(HttpServletRequest request,
                                         @RequestParam(value = "type") String type) {
