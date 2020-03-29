@@ -15,8 +15,8 @@ public class SiteMapController {
     private SiteMapService siteMapService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody
-    Urlset getSiteMap() {
+    @ResponseBody
+    public Urlset getSiteMap() {
         return siteMapService.generateUrlset();
     }
 }
