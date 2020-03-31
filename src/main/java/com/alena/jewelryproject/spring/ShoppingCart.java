@@ -1,7 +1,7 @@
 package com.alena.jewelryproject.spring;
 
-import com.alena.jewelryproject.mvc.model.Order;
-import com.alena.jewelryproject.mvc.service.OrderService;
+import com.alena.jewelryproject.model.Order;
+import com.alena.jewelryproject.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.dao;
 
-import com.alena.jewelryproject.mvc.model.Shop;
+import com.alena.jewelryproject.model.Shop;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;

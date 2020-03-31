@@ -54,7 +54,7 @@ public class JavaConfigBeans {
 
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        entityManagerFactory.setPackagesToScan("com.alena.jewelryproject.mvc.model");
+        entityManagerFactory.setPackagesToScan("com.alena.jewelryproject.model");
         entityManagerFactory.setPersistenceUnitName("PersistenceUnit");
         entityManagerFactory.setJpaPropertyMap(properties);
         entityManagerFactory.setLoadTimeWeaver(new ReflectiveLoadTimeWeaver());

@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.admin.htmlreader;
 
-import com.alena.jewelryproject.mvc.model.Material;
+import com.alena.jewelryproject.model.Material;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

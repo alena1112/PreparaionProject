@@ -1,8 +1,8 @@
 package com.alena.jewelryproject.admin.htmlreader;
 
-import com.alena.jewelryproject.mvc.model.Material;
-import com.alena.jewelryproject.mvc.model.MaterialOrder;
-import com.alena.jewelryproject.mvc.model.Shop;
+import com.alena.jewelryproject.model.Material;
+import com.alena.jewelryproject.model.MaterialOrder;
+import com.alena.jewelryproject.model.Shop;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

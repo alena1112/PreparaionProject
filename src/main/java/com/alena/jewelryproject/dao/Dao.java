@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.dao;
 
-import com.alena.jewelryproject.mvc.model.IdentifiableEntity;
+import com.alena.jewelryproject.model.IdentifiableEntity;
 import org.hibernate.exception.JDBCConnectionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceUnit;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class Dao<T extends IdentifiableEntity, ID> {

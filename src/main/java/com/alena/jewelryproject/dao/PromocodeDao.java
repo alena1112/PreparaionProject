@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.dao;
 
-import com.alena.jewelryproject.mvc.model.PromotionalCode;
+import com.alena.jewelryproject.model.PromotionalCode;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
