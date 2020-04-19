@@ -19,11 +19,6 @@
     <context:annotation-config/>
     <bean name="JavaConfigBeans" class="com.alena.jewelryproject.spring.JavaConfigBeans"/>
 
-    <bean id="resolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/pages/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
-
     <!--для загрузки картинок на сервер-->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="10000000"/>
@@ -50,9 +45,9 @@
     <!--    &lt;!&ndash;для работы аннотации transactional&ndash;&gt;-->
     <!--    <tx:annotation-driven/>-->
 
-    <bean id="calculator" class="com.alena.jewelryproject.admin.htmlreader.Calculator"/>
+    <bean id="calculator" class="com.alena.jewelryproject.rich.htmlreader.Calculator"/>
 
-    <bean id="greenBirdParser" class="com.alena.jewelryproject.admin.htmlreader.HtmlReader">
+    <bean id="greenBirdParser" class="com.alena.jewelryproject.rich.htmlreader.HtmlReader">
         <property name="charsetName" value="windows-1251"/>
         <property name="tableTag" value="table"/>
         <property name="tableAttributeName" value="class"/>
@@ -62,7 +57,7 @@
         <property name="columnSize" value="4"/>
     </bean>
 
-    <bean id="pandahallParser" class="com.alena.jewelryproject.admin.htmlreader.HtmlReader">
+    <bean id="pandahallParser" class="com.alena.jewelryproject.rich.htmlreader.HtmlReader">
         <property name="charsetName" value="utf-8"/>
         <property name="tableTag" value="div"/>
         <property name="tableAttributeName" value="class"/>
@@ -72,7 +67,7 @@
         <property name="columnSize" value="11"/>
     </bean>
 
-    <bean id="stilnayaParser" class="com.alena.jewelryproject.admin.htmlreader.HtmlReader">
+    <bean id="stilnayaParser" class="com.alena.jewelryproject.rich.htmlreader.HtmlReader">
         <property name="charsetName" value="utf-8"/>
         <property name="tableTag" value="table"/>
         <property name="tableAttributeName" value="class"/>
@@ -82,7 +77,7 @@
         <property name="columnSize" value="7"/>
     </bean>
 
-    <bean id="luxfurnituraParser" class="com.alena.jewelryproject.admin.htmlreader.HtmlReader">
+    <bean id="luxfurnituraParser" class="com.alena.jewelryproject.rich.htmlreader.HtmlReader">
         <property name="charsetName" value="utf-8"/>
         <property name="tableTag" value="table"/>
         <property name="tableAttributeName" value="id"/>

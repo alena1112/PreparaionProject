@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.dao;
 
-import com.alena.jewelryproject.mvc.model.EmailMessage;
+import com.alena.jewelryproject.model.EmailMessage;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;

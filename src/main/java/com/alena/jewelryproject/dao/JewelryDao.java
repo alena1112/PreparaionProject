@@ -1,7 +1,7 @@
 package com.alena.jewelryproject.dao;
 
-import com.alena.jewelryproject.mvc.model.Jewelry;
-import com.alena.jewelryproject.mvc.model.enums.JewelryType;
+import com.alena.jewelryproject.model.Jewelry;
+import com.alena.jewelryproject.model.enums.JewelryType;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;

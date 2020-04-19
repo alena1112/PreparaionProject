@@ -22,11 +22,11 @@
     <div class="w3-hide-large" style="margin-top:70px">
     </div>
 
-    <div style="font-size: 17px; padding: 10px 0">
+    <div style="font-size: 15px; padding: 10px 0">
         <p style="font-weight: bold">
             КОНТАКТЫ
         </p>
-        <p>
+        <p style="letter-spacing:1px">
             По всем вопросам и замечаниям вы можете писать на адрес
             <a href="mailto:admin@gracefuljewelry.ru">admin@gracefuljewelry.ru</a>
         </p>

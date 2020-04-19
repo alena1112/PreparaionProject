@@ -22,11 +22,11 @@
     <div class="w3-hide-large" style="margin-top:70px">
     </div>
 
-    <div style="font-size: 17px; padding: 10px 0">
+    <div style="font-size: 15px; padding: 10px 0">
         <p style="font-weight: bold">
             ОБМЕН И ВОЗВРАТ
         </p>
-        <p>
+        <p style="letter-spacing:1px">
             Товары ненадлежащего качества принимаются обратно с полной компенсацией стоимости.
             Для этого необходимо написать письмо на
             <a href="mailto:admin@gracefuljewelry.ru">admin@gracefuljewelry.ru</a> и приложить в качестве

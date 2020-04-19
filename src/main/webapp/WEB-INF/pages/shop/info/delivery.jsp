@@ -22,18 +22,18 @@
     <div class="w3-hide-large" style="margin-top:70px">
     </div>
 
-    <div style="font-size: 17px; padding: 10px 0">
+    <div style="font-size: 15px; padding: 10px 0">
         <p style="font-weight: bold">
             САМОВЫВОЗ
         </p>
-        <p>
+        <p style="letter-spacing:1px">
             Забрать заказ самостоятельно и примерить украшения можно в г. Москва,
             станции метро Хорошево, Домодедовская.
         </p>
         <p style="font-weight: bold">
             ДОСТАВКА ПО РОССИИ
         </p>
-        <p>
+        <p style="letter-spacing:1px">
             Доставка осуществляется Почтой России или СДЭК в любой город страны.
         </p>
     </div>
