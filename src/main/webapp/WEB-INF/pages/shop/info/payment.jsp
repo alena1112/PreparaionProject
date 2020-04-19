@@ -22,14 +22,14 @@
     <div class="w3-hide-large" style="margin-top:70px">
     </div>
 
-    <div style="font-size: 17px; padding: 10px 0">
+    <div style="font-size: 15px; padding: 10px 0">
         <p style="font-weight: bold">
             ОПЛАТА
         </p>
-        <p>
+        <p style="letter-spacing:1px">
             Оплата заказа возможна одним из следующих способов:
         </p>
-        <ol>
+        <ol style="letter-spacing:1px">
             <li>Банковский перевод на карту Тинькофф</li>
             <li>Наличными при самовывозе</li>
         </ol>

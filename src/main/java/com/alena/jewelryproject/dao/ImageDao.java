@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.dao;
 
-import com.alena.jewelryproject.mvc.model.Image;
+import com.alena.jewelryproject.model.Image;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

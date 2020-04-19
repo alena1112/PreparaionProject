@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Украшения ручной работы - купить дизайнерские украшения в интернет-магазине Graceful Jewelry</title>
+    <meta name="description" content="Украшения ручной работы. Купить дизайнерские украшения из натуральных камней и жемчуга класса LUX"/>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google-site-verification" content="1sFx6SQ1d5_5boFHZq8p7lsR0OcG-smUgqRTSITg74w" />

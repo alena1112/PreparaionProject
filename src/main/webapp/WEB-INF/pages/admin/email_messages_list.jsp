@@ -87,6 +87,16 @@
             request.send();
         }
     }
+
+    function logout() {
+        var request = new XMLHttpRequest();
+        request.responseType = "text";
+        request.onreadystatechange = function () {
+            window.location.replace("${pageContext.request.contextPath}/registration");
+        };
+        request.open("GET", "${pageContext.request.contextPath}/logout", true);
+        request.send();
+    }
 </script>
 
 <body>
@@ -121,6 +131,8 @@
             </li>
         </ul>
     </div>
+
+    <button class="btn btn-light justify-content-md-right" type="button" onclick="logout()">Logout</button>
 </nav>
 
 <spring:form method="get" action="/emails/list" modelAttribute="emailsList">

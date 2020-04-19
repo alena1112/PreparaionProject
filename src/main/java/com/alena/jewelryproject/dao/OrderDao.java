@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.dao;
 
-import com.alena.jewelryproject.mvc.model.Order;
+import com.alena.jewelryproject.model.Order;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
