@@ -75,10 +75,11 @@
     <img class="mb-4" src="${pageContext.request.contextPath}/resources/images/about.jpeg" alt=""
          style="width:100%;max-height:90px;object-fit:scale-down">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <p style="color: red">${errorMsg}</p>
     <label for="inputLogin" class="sr-only">Login</label>
     <spring:input type="text" id="inputLogin" class="form-control" placeholder="Login" path="username" required="required"/>
     <label for="inputPassword" class="sr-only">Password</label>
-    <spring:input type="password" id="inputPassword" class="form-control" placeholder="Password" path="password" required="required"/>
+    <spring:input type="password" id="inputPassword" class="form-control" placeholder="Password" path="password"/>
     <div class="checkbox mb-3">
         <label>
             <input type="checkbox" value="remember-me"> Remember me

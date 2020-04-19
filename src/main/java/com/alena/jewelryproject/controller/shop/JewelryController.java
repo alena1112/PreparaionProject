@@ -8,9 +8,7 @@ import com.alena.jewelryproject.service.sitemap.NeedInSiteMap;
 import com.alena.jewelryproject.spring.ShoppingCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +26,7 @@ public class JewelryController {
     private ShoppingCart shoppingCart;
 
     @NeedInSiteMap(isAllJewelryIds = true)
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ModelAndView getJewelry(HttpServletRequest request,
                                    @RequestParam(value = "id") Long id) {
         ModelAndView modelAndView = new ModelAndView();
@@ -46,7 +44,7 @@ public class JewelryController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/addInOrder", method = RequestMethod.POST)
+    @PostMapping("/addInOrder")
     public ModelAndView addInOrder(HttpServletRequest request,
                                    @RequestParam(value = "id") Long id) {
         orderService.updateOrderAfterAddJewelry(shoppingCart.getOrder(), id);

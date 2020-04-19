@@ -6,6 +6,7 @@ import com.alena.jewelryproject.service.SettingsService;
 import com.alena.jewelryproject.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -24,7 +25,7 @@ public class AdminController {
     @Autowired
     private SettingsService settingsService;
 
-    @RequestMapping(value = "/order/list", method = RequestMethod.GET)
+    @GetMapping("/order/list")
     public ModelAndView getAllOrders() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("orderList", orderService.getAllOrders());
@@ -32,7 +33,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/material/list", method = RequestMethod.GET)
+    @GetMapping("/material/list")
     public ModelAndView getAllMaterials() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("materialList", materialService.getAllMaterials());
@@ -40,7 +41,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/shop/list", method = RequestMethod.GET)
+    @GetMapping("/shop/list")
     public ModelAndView getAllShops() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("shopList", shopService.getAllShops());

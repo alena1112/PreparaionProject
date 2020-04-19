@@ -1,6 +1,5 @@
-package com.alena.jewelryproject.spring;
+package com.alena.jewelryproject.spring.security;
 
-import com.alena.jewelryproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
+    @Autowired
+    private ShopAuthSuccessHandler authHandler;
+    @Autowired
+    private ShopAuthFailureHandler authFailureHandler;
+    @Autowired
+    private ShopUrlLogoutSuccessHandler logoutSuccessHandler;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -29,39 +34,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .csrf()
+                    .disable()
                 .authorizeRequests()
-                    .anyRequest()
-                    .authenticated()
+                    //Доступ только для не зарегистрированных пользователей
+                    .antMatchers("/registration").not().fullyAuthenticated()
+                    //Доступ только для пользователей с ролью Администратор
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                //Все остальные страницы не требуют аутентификации
+                .anyRequest().permitAll()
                 .and()
                     //Настройка для входа в систему
                     .formLogin()
                     .loginPage("/registration")
+                    .successHandler(authHandler)
+                    .failureHandler(authFailureHandler)
                     .permitAll()
                 .and()
                     .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessHandler(logoutSuccessHandler)
+                    .logoutSuccessUrl("/registration")
                     .permitAll();
-//        httpSecurity
-//                .csrf()
-//                    .disable()
-//                .authorizeRequests()
-//                    //Доступ только для не зарегистрированных пользователей
-//                    .antMatchers("/registration").not().fullyAuthenticated()
-//                    //Доступ только для пользователей с ролью Администратор
-//                    .antMatchers("/admin/**").hasRole("ADMIN")
-//                    //Доступ разрешен всем пользователей
-////                    .antMatchers("/", "/resources/**").permitAll()
-//                //Все остальные страницы требуют аутентификации
-//                .anyRequest().authenticated()
-//                .and()
-//                    //Настройка для входа в систему
-//                    .formLogin()
-//                    .loginPage("/registration")
-//                    //Перенарпавление на главную страницу после успешного входа
-//                    .defaultSuccessUrl("/")
-//                    .permitAll()
-//                .and()
-//                    .logout()
-//                    .permitAll()
-//                    .logoutSuccessUrl("/");
     }
 }

@@ -1,4 +1,4 @@
-package com.alena.jewelryproject.admin.htmlreader;
+package com.alena.jewelryproject.rich.htmlreader;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;

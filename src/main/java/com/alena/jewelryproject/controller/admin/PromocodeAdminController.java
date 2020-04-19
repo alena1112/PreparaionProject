@@ -17,7 +17,7 @@ public class PromocodeAdminController {
     @Autowired
     private PromoCodeService promoCodeService;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @GetMapping("/list")
     public ModelAndView getAllPromocodes() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("promocodeList", promoCodeService.getAllPromocodes());
@@ -25,7 +25,7 @@ public class PromocodeAdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @GetMapping("/edit")
     public ModelAndView editPromocode(@RequestParam(value = "id", required = false) Long id) {
         ModelAndView modelAndView = new ModelAndView();
         PromotionalCode promotionalCode = id != null ? promoCodeService.getPromotionalCodeById(id) : new PromotionalCode();
@@ -35,7 +35,7 @@ public class PromocodeAdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping("/save")
     public ModelAndView saveJewelry(@RequestParam(value = "id") Long id,
                                     @ModelAttribute("promocode") PromotionalCode promotionalCode) {
         if (id == null) {
@@ -46,7 +46,7 @@ public class PromocodeAdminController {
         return new ModelAndView("redirect:/admin/promocode/list", new HashMap<>());
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @DeleteMapping("/delete")
     public @ResponseBody String deleteJewelry(@RequestParam(value = "id") Long id) {
         promoCodeService.delete(id);
         return "ok";

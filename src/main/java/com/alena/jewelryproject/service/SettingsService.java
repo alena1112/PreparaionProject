@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.service;
 
-import com.alena.jewelryproject.dao.SettingsDao;
+import com.alena.jewelryproject.jpa_repositories.SettingsRepository;
 import com.alena.jewelryproject.model.Settings;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -15,10 +15,10 @@ public class SettingsService {
     private static final Logger log = LoggerFactory.getLogger(SettingsService.class);
 
     @Autowired
-    private SettingsDao settingsDao;
+    private SettingsRepository settingsRepository;
 
     public Settings getSetting(Long id) {
-        return settingsDao.get(id).orElse(null);
+        return settingsRepository.findById(id).orElse(null);
     }
 
     public String getSettingByKey(String key, String defaultValue) {
@@ -27,8 +27,7 @@ public class SettingsService {
     }
 
     public String getSettingByKey(String key) {
-        Settings settings = settingsDao.get(key)
-                .orElse(null);
+        Settings settings = settingsRepository.getByKey(key);
         if (settings == null) {
             log.warn(String.format("Did not find setting with key %s", key));
             return null;
@@ -39,18 +38,18 @@ public class SettingsService {
     }
 
     public List<Settings> getAllSettings() {
-        return settingsDao.getAll();
+        return settingsRepository.findAll();
     }
 
     public void save(Settings settings) {
-        settingsDao.save(settings);
+        settingsRepository.save(settings);
     }
 
     public synchronized void update(Settings settings) {
-        settingsDao.update(settings);
+        settingsRepository.save(settings);
     }
 
     public synchronized void delete(Long id) {
-        settingsDao.delete(id);
+        settingsRepository.deleteById(id);
     }
 }

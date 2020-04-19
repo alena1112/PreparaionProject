@@ -1,4 +1,4 @@
-package com.alena.jewelryproject.admin.htmlreader;
+package com.alena.jewelryproject.rich.htmlreader;
 
 public enum Shops {
     GREEN_BIRD("greenBird"),

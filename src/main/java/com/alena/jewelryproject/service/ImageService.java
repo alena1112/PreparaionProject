@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.service;
 
-import com.alena.jewelryproject.dao.ImageDao;
+import com.alena.jewelryproject.jpa_repositories.ImageRepository;
 import com.alena.jewelryproject.model.Image;
 import com.alena.jewelryproject.model.Jewelry;
 import org.slf4j.Logger;
@@ -13,7 +13,7 @@ public class ImageService {
     private static final Logger log = LoggerFactory.getLogger(ImageService.class);
 
     @Autowired
-    private ImageDao imageDao;
+    private ImageRepository imageRepository;
     @Autowired
     private ImageFileService imageFileService;
 
@@ -30,13 +30,13 @@ public class ImageService {
     }
 
     public void save(Image image) {
-        imageDao.update(image);
+        imageRepository.save(image);
     }
 
     public void delete(Image image) {
         if (image != null) {
             if (image.getId() != null) {
-                imageDao.delete(image.getId());
+                imageRepository.deleteById(image.getId());
             }
             imageFileService.deleteImage(image.getName());
         }

@@ -11,6 +11,7 @@ import com.alena.jewelryproject.spring.ShoppingCart;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +41,7 @@ public class MenuController {
     private static final String MENU_NEW = "new";
 
     @NeedInSiteMap(paths = {"?type=all", "?type=new", "?type=bracelet", "?type=earrings", "?type=necklace"})
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ModelAndView getAllJewelries(HttpServletRequest request,
                                         @RequestParam(value = "type") String type) {
         ModelAndView modelAndView = new ModelAndView();

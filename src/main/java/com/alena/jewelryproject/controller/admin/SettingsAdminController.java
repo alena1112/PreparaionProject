@@ -19,7 +19,7 @@ public class SettingsAdminController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @GetMapping("/list")
     public ModelAndView getAllSettings() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("settingsList", settingsService.getAllSettings());
@@ -27,7 +27,7 @@ public class SettingsAdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @GetMapping("/edit")
     public ModelAndView getSetting(@RequestParam(value = "id", required = false) Long id) {
         ModelAndView modelAndView = new ModelAndView();
         Settings setting = id != null ? settingsService.getSetting(id) : new Settings();
@@ -36,7 +36,7 @@ public class SettingsAdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping("/save")
     public ModelAndView createSetting(@ModelAttribute("setting") Settings settings) {
         if (settings.getId() == null) {
             settingsService.save(settings);
@@ -46,7 +46,7 @@ public class SettingsAdminController {
         return new ModelAndView("redirect:/admin/settings/list", new HashMap<>());
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @DeleteMapping("/delete")
     public @ResponseBody
     String deleteEmailMessage(@RequestParam(value = "id") Long id) {
         settingsService.delete(id);

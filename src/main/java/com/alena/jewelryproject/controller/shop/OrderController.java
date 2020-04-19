@@ -30,7 +30,7 @@ public class OrderController {
     @Autowired
     private ShoppingCart shoppingCart;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ModelAndView getAllJewelries(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("shop/buy");
@@ -39,7 +39,7 @@ public class OrderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/createOrder", method = RequestMethod.POST)
+    @PostMapping("/createOrder")
     public ModelAndView createOrder(HttpServletRequest request,
                                     @ModelAttribute("order") Order order) {
         log.info("Getting order attribute: " + order.toString());
@@ -78,7 +78,7 @@ public class OrderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/deleteItem", method = RequestMethod.GET)
+    @GetMapping("/deleteItem")
     public @ResponseBody
     String deleteItem(HttpServletRequest request,
                       @RequestParam("itemId") Long jewelryId) throws IOException {
@@ -87,7 +87,7 @@ public class OrderController {
         return mapper.writeValueAsString(createResponseMessage(shoppingCart.getOrder()));
     }
 
-    @RequestMapping(value = "/checkPromoCode", method = RequestMethod.GET)
+    @GetMapping("/checkPromoCode")
     public @ResponseBody
     String checkPromoCode(HttpServletRequest request,
                           @RequestParam("code") String code) throws IOException {
@@ -96,7 +96,7 @@ public class OrderController {
         return mapper.writeValueAsString(createResponseMessage(shoppingCart.getOrder()));
     }
 
-    @RequestMapping(value = "/checkDelivery", method = RequestMethod.GET)
+    @GetMapping("/checkDelivery")
     public @ResponseBody
     String checkDelivery(HttpServletRequest request,
                          @RequestParam("type") String type) throws IOException {

@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.service;
 
-import com.alena.jewelryproject.dao.PromocodeDao;
+import com.alena.jewelryproject.jpa_repositories.PromocodeRepository;
 import com.alena.jewelryproject.model.Jewelry;
 import com.alena.jewelryproject.model.PromotionalCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,30 +11,30 @@ import java.util.List;
 @Service
 public class PromoCodeService {
     @Autowired
-    private PromocodeDao promocodeDao;
+    private PromocodeRepository promocodeRepository;
 
     public PromotionalCode getPromotionalCode(String code) {
-        return promocodeDao.getByCode(code);
+        return promocodeRepository.getByCode(code);
     }
 
     public PromotionalCode getPromotionalCodeById(Long id) {
-        return promocodeDao.get(id).orElse(null);
+        return promocodeRepository.findById(id).orElse(null);
     }
 
     public List<PromotionalCode> getAllPromocodes() {
-        return promocodeDao.getAll();
+        return promocodeRepository.findAll();
     }
 
     public void save(PromotionalCode promotionalCode) {
-        promocodeDao.save(promotionalCode);
+        promocodeRepository.save(promotionalCode);
     }
 
     public synchronized void update(PromotionalCode promotionalCode) {
-        promocodeDao.update(promotionalCode);
+        promocodeRepository.save(promotionalCode);
     }
 
     public synchronized void delete(Long id) {
-        promocodeDao.delete(id);
+        promocodeRepository.deleteById(id);
     }
 
     public boolean isValidPromoCode(PromotionalCode promocode) {
@@ -63,7 +63,7 @@ public class PromoCodeService {
                     System.currentTimeMillis() > promotionalCode.getExpirationDate().getTime()) {
                 promotionalCode.setActive(false);
             }
-            promocodeDao.save(promotionalCode);
+            promocodeRepository.save(promotionalCode);
             return true;
         }
         return false;

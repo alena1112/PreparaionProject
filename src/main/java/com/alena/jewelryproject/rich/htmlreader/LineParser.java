@@ -1,4 +1,4 @@
-package com.alena.jewelryproject.admin.htmlreader;
+package com.alena.jewelryproject.rich.htmlreader;
 
 import com.alena.jewelryproject.model.Material;
 import org.jsoup.select.Elements;

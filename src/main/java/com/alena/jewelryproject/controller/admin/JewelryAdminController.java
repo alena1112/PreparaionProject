@@ -30,7 +30,7 @@ public class JewelryAdminController {
     @Autowired
     private ImageService imageService;
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @GetMapping("/list")
     public ModelAndView getAllJewelries(HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("jewelryList", jewelryService.getAllJewelries());
@@ -39,7 +39,7 @@ public class JewelryAdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping("/save")
     public ModelAndView saveJewelry(@RequestParam(value = "id") Long id,
                                     @ModelAttribute("jewelry") Jewelry jewelry) {
         if (id == null) {
@@ -50,7 +50,7 @@ public class JewelryAdminController {
         return new ModelAndView("redirect:/admin/jewelry/list", new HashMap<>());
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @GetMapping("/edit")
     public ModelAndView editJewelry(HttpServletRequest request,
                                     @RequestParam(value = "id", required = false) Long id) {
         ModelAndView modelAndView = new ModelAndView();
@@ -62,13 +62,13 @@ public class JewelryAdminController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @DeleteMapping("/delete")
     public @ResponseBody String deleteJewelry(@RequestParam(value = "id") Long id) {
         jewelryService.deleteJewelry(id);
         return "ok";
     }
 
-    @RequestMapping(value = "/uploadImage", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/uploadImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public @ResponseBody String uploadImage(HttpServletRequest request,
                                             @RequestParam("image") MultipartFile multipartFile,
                                             @RequestParam("imageOrder") Integer imageOrder,
@@ -94,7 +94,7 @@ public class JewelryAdminController {
         }
     }
 
-    @RequestMapping(value = "/deleteImage", method = RequestMethod.POST)
+    @DeleteMapping(value = "/deleteImage")
     public @ResponseBody String deleteImage(@RequestParam("position") Integer i,
                                             @ModelAttribute("jewelry") Jewelry jewelry) {
         Image image = jewelry.getImage(i);

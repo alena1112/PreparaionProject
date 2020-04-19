@@ -51,7 +51,7 @@
                     document.getElementById("customFileLabel" + i).innerText = "";
                 }
             };
-            request.open("POST", "deleteImage?position=" + i, true);
+            request.open("DELETE", "deleteImage?position=" + i, true);
             request.send();
         }
     </script>

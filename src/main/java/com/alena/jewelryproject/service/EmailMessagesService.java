@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.service;
 
-import com.alena.jewelryproject.dao.EmailMessagesDao;
+import com.alena.jewelryproject.jpa_repositories.EmailMessagesRepository;
 import com.alena.jewelryproject.model.EmailMessage;
 import com.alena.jewelryproject.model.Order;
 import com.alena.jewelryproject.model.enums.EmailMessageToType;
@@ -20,7 +20,7 @@ public class EmailMessagesService {
     private static final Logger log = LoggerFactory.getLogger(EmailMessagesService.class);
 
     @Autowired
-    private EmailMessagesDao emailMessagesDao;
+    private EmailMessagesRepository emailMessagesRepository;
     @Autowired
     private SendingEmailService sendingEmailService;
 
@@ -32,23 +32,23 @@ public class EmailMessagesService {
     );
 
     public List<EmailMessage> getAllEmailMessages() {
-        return emailMessagesDao.getAll();
+        return emailMessagesRepository.findAll();
     }
 
     public EmailMessage getEmailMessage(Long id) {
-        return emailMessagesDao.get(id).orElse(null);
+        return emailMessagesRepository.findById(id).orElse(null);
     }
 
     public void save(EmailMessage emailMessage) {
-        emailMessagesDao.save(emailMessage);
+        emailMessagesRepository.save(emailMessage);
     }
 
     public void update(EmailMessage emailMessage) {
-        emailMessagesDao.update(emailMessage);
+        emailMessagesRepository.save(emailMessage);
     }
 
     public void deleteEmailMessage(Long id) {
-        emailMessagesDao.delete(id);
+        emailMessagesRepository.deleteById(id);
     }
 
     public void sendEmail(Long emailId, Order order) {

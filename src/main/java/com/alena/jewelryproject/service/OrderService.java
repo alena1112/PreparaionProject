@@ -1,6 +1,6 @@
 package com.alena.jewelryproject.service;
 
-import com.alena.jewelryproject.dao.OrderDao;
+import com.alena.jewelryproject.jpa_repositories.OrderRepository;
 import com.alena.jewelryproject.model.*;
 import com.alena.jewelryproject.model.enums.DeliveryType;
 import com.alena.jewelryproject.model.enums.PaymentType;
@@ -26,12 +26,12 @@ public class OrderService {
     private final SettingsService settingsService;
     private final EmailMessagesService emailMessagesService;
 
-    private final OrderDao orderDao;
+    private final OrderRepository orderRepository;
 
     @Autowired
-    public OrderService(OrderDao orderDao, PromoCodeService promoCodeService, JewelryService jewelryService,
+    public OrderService(OrderRepository orderRepository, PromoCodeService promoCodeService, JewelryService jewelryService,
                         SettingsService settingsService, EmailMessagesService emailMessagesService) {
-        this.orderDao = orderDao;
+        this.orderRepository = orderRepository;
         this.promoCodeService = promoCodeService;
         this.jewelryService = jewelryService;
         this.settingsService = settingsService;
@@ -54,11 +54,11 @@ public class OrderService {
     }
 
     public List<Order> getAllOrders() {
-        return orderDao.getAll();
+        return orderRepository.findAll();
     }
 
     public Order getOrder(Long id) {
-        return orderDao.get(id).orElse(null);
+        return orderRepository.findById(id).orElse(null);
     }
 
     //не должно происходить апдейт в базе по параметрам, украшениям, промокоду
@@ -70,7 +70,7 @@ public class OrderService {
 
                     promoCodeService.applyPromotionCode(order.getPromocode());
                     jewelryService.sellJewelries(order.getJewelries());
-                    orderDao.save(order);
+                    orderRepository.save(order);
                     sendEmailMessages(order);
                 }
             }
@@ -81,7 +81,7 @@ public class OrderService {
 
                     promoCodeService.applyPromotionCode(order.getPromocode());
                     jewelryService.sellJewelries(order.getJewelries());
-                    orderDao.save(order);
+                    orderRepository.save(order);
                     sendEmailMessages(order);
                 }
             }
