@@ -2,6 +2,7 @@ package com.alena.jewelryproject.model;
 
 import com.alena.jewelryproject.FormatHelper;
 import com.alena.jewelryproject.model.enums.JewelryType;
+import com.google.gson.annotations.Expose;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -12,19 +13,24 @@ import java.util.List;
 @Entity
 @Table(name = "jewelry")
 public class Jewelry extends IdentifiableEntity {
+    @Expose
     @Column(name = "name")
     private String name;
 
+    @Expose
     @Column(name = "price")
     private Double price;
 
+    @Expose
     @Column(name = "description")
     private String description;
 
+    @Expose
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private JewelryType type;
 
+    @Expose
     @OneToMany(mappedBy = "jewelry", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Image> images;
 
@@ -34,18 +40,23 @@ public class Jewelry extends IdentifiableEntity {
             inverseJoinColumns = {@JoinColumn(name = "material_id")})
     private List<Material> materials;
 
+    @Expose
     @Column(name = "material_description")
     private String materialDescription;
 
+    @Expose
     @Column(name = "size")
     private String size;
 
+    @Expose
     @Column(name = "weight")
     private String weight;
 
+    @Expose
     @Column(name = "is_sold")
     private Boolean isSold = false;
 
+    @Expose
     @Column(name = "is_hide")
     private Boolean isHide = false;
 
