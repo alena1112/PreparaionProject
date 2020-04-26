@@ -11,14 +11,17 @@
     <meta name="generator" content="Jekyll v3.8.5">
     <title>Admin Page</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/navbars/">
-
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <style>
     .selected {
@@ -55,11 +58,46 @@
                     document.getElementById("mainTable").deleteRow(i);
                     selectedRow = null;
                     selectedItemId = null;
+                    $('#successDeleteModal').modal('show');
                 }
             };
             request.open("DELETE", "delete?id=" + selectedItemId, true);
             request.send();
         }
+    }
+
+    function importJson() {
+        var json = document.getElementById("jsonImport").value;
+
+        if (json != null) {
+            var request = new XMLHttpRequest();
+            request.responseType = "text";
+            request.onreadystatechange = function () {
+                if (this.status === 200) {
+                    $('#successModal').modal('show')
+                } else if (this.status === 500) {
+                    $('#errorModal').modal('show')
+                }
+            };
+            request.open("PUT", "import", true);
+            request.setRequestHeader("Content-Type", "application/json");
+            request.send(json);
+        }
+    }
+
+    function exportJson() {
+        var request = new XMLHttpRequest();
+        request.responseType = "text";
+        request.onreadystatechange = function () {
+            if (this.status === 200 && this.responseText !== '') {
+                document.getElementById("jsonExport").innerHTML = this.responseText;
+                $('#successModal').modal('show')
+            } else if (this.status === 500) {
+                $('#errorModal').modal('show')
+            }
+        };
+        request.open("GET", "export", true);
+        request.send();
     }
 
     function logout() {
@@ -73,8 +111,7 @@
     }
 </script>
 
-<body class="bg-light">
-
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08"
             aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,6 +151,12 @@
     <div class="container-fluid">
         <input class="btn btn-primary mb-3" type="button" value="Создать" onclick="location.href='edit'"/>
         <input class="btn btn-primary mb-3" type="button" value="Удалить" onclick="delete_item()"/>
+        <button class="btn btn-secondary mb-3" type="button" data-toggle="modal" data-target="#importModal"
+                data-whatever="@mdo">Import
+        </button>
+        <button class="btn btn-secondary mb-3" type="button" data-toggle="modal" data-target="#exportModal"
+                data-whatever="@mdo">Export
+        </button>
         <table class="table table-bordered" id="mainTable">
             <tr class="table_heading">
                 <th>Id</th>
@@ -149,6 +192,83 @@
                 </tr>
             </c:forEach>
         </table>
+
+        <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="importModalLabel">Import</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="jsonImport" class="col-form-label">JSON:</label>
+                                <textarea class="form-control" id="jsonImport" rows="10"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="importJson()">Import</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exportModalLabel">Export</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="jsonExport" class="col-form-label">JSON:</label>
+                            <textarea class="form-control" id="jsonExport" rows="10"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="exportJson()">Export</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="successModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="alert alert-success alert-dismissible">
+                <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
+                Import/export doing <strong>successful</strong>!
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="errorModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="alert alert-danger alert-dismissible">
+                <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
+                <strong>Error</strong> while importing/exporting
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="successDeleteModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="alert alert-success alert-dismissible">
+                <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
+                <strong>Deleting</strong> was successful
+            </div>
+        </div>
     </div>
     <br/>
 </spring:form>

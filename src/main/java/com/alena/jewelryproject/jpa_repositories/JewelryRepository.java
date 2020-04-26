@@ -8,21 +8,32 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface JewelryRepository extends JpaRepository<Jewelry, Long> {
-    default List<Jewelry> getAllUnhidden() {
-        return findAllByIsHideIsFalseOrderByIsSold();
-    }
 
     default List<Jewelry> getAllUnhidden(Pageable pageable) {
-        return findAllByIsHideIsFalseOrderByIsSold(pageable);
+        return findAllByIsHideIsFalseOrderByIdAscIsSoldAsc(pageable);
     }
 
-    default List<Jewelry> getAllUnhidden(JewelryType type) {
-        return findAllByIsHideIsFalseAndTypeOrderByIsSold(type);
+    default List<Jewelry> getAllNewUnhidden(Pageable pageable) {
+        return findAllByIsHideIsFalseOrderByIsSoldAscCreatedDateDesc(pageable);
     }
 
-    List<Jewelry> findAllByIsHideIsFalseOrderByIsSold();
+    default List<Jewelry> getAllUnhidden() {
+        return findAllByIsHideIsFalse();
+    }
 
-    List<Jewelry> findAllByIsHideIsFalseOrderByIsSold(Pageable pageable);
+    default List<Jewelry> getAllUnhidden(JewelryType type, Pageable pageable) {
+        return findAllByIsHideIsFalseAndTypeOrderByIdAscIsSoldAsc(type, pageable);
+    }
 
-    List<Jewelry> findAllByIsHideIsFalseAndTypeOrderByIsSold(JewelryType type);
+    int countJewelriesByIsHideIsFalse();
+
+    int countJewelriesByIsHideIsFalseAndType(JewelryType type);
+
+    List<Jewelry> findAllByIsHideIsFalseOrderByIdAscIsSoldAsc(Pageable pageable);
+
+    List<Jewelry> findAllByIsHideIsFalse();
+
+    List<Jewelry> findAllByIsHideIsFalseAndTypeOrderByIdAscIsSoldAsc(JewelryType type, Pageable pageable);
+
+    List<Jewelry> findAllByIsHideIsFalseOrderByIsSoldAscCreatedDateDesc(Pageable pageable);
 }

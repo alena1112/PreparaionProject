@@ -10,9 +10,7 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -56,16 +54,15 @@ public class SiteMapService {
                 }
 
                 for (Method method : controller.getMethods()) {
-                    RequestMapping methodRequestMapping = method.getAnnotation(RequestMapping.class);
+                    String[] value = getRequestPath(method);
                     NeedInSiteMap methodNeedInSiteMap = method.getAnnotation(NeedInSiteMap.class);
-                    if (methodRequestMapping != null &&
+                    if (value != null &&
                             (!isMethodContainsRequestParam(method) || methodNeedInSiteMap != null)) {
-                        String[] value = methodRequestMapping.value();
                         if (value.length == 0) {
                             urls.addAll(getUrlsForMethodWithSpecialAnnotation(methodNeedInSiteMap, controllerPath));
                         } else {
                             urls.addAll(getUrlsForMethodWithSpecialAnnotation(methodNeedInSiteMap,
-                                    controllerPath + methodRequestMapping.value()[0]));
+                                    controllerPath + value[0]));
                         }
                     }
                 }
@@ -108,5 +105,17 @@ public class SiteMapService {
             urls.add(new Url(controllerPath, changeDate, 0.80));
         }
         return urls;
+    }
+
+    private String[] getRequestPath(Method method) {
+        RequestMapping methodRequestMapping = method.getAnnotation(RequestMapping.class);
+        GetMapping methodGetMapping = method.getAnnotation(GetMapping.class);
+        if (methodRequestMapping != null) {
+            return methodRequestMapping.value();
+        }
+        if (methodGetMapping != null) {
+            return methodGetMapping.value();
+        }
+        return null;
     }
 }

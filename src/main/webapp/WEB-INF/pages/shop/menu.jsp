@@ -58,6 +58,27 @@
                 </c:forEach>
             </div>
         </c:forEach>
+
+        <div class="w3-center w3-padding-32">
+            <div class="w3-bar">
+                <a href="${pageContext.request.contextPath}/menu?type=${type}&page=${currentPage - 1}"
+                   class="w3-bar-item w3-button w3-hover-black">&laquo;</a>
+                <c:forEach items="${pages}" var="page">
+                    <c:choose>
+                        <c:when test="${page == '...'}">
+                            <a class="w3-bar-item">...</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/menu?type=${type}&page=${page}"
+                               class="w3-bar-item w3-button ${currentPage == page ? 'w3-black' : 'w3-hover-black'}">${page}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <a href="${pageContext.request.contextPath}/menu?type=${type}&page=${currentPage + 1}"
+                   class="w3-bar-item w3-button w3-hover-black">&raquo;</a>
+            </div>
+        </div>
+
     </spring:form>
 
     <hr>

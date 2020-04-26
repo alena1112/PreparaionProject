@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google-site-verification" content="1sFx6SQ1d5_5boFHZq8p7lsR0OcG-smUgqRTSITg74w" />
     <meta name="yandex-verification" content="b11c0a6029dab8cd"/>
+    <meta name="p:domain_verify" content="c9c313eb3baa2a5c5e7b6016b2868f78"/>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
@@ -82,7 +83,7 @@
 
         function openSmallMenu() {
             var x = document.getElementById("smallMenu");
-            if (x.className.indexOf("w3-show") == -1) {
+            if (x.className.indexOf("w3-show") === -1) {
                 x.className += " w3-show";
             } else {
                 x.className = x.className.replace(" w3-show", "");
@@ -90,13 +91,13 @@
         }
 
         function addClass(element, className) {
-            if (element.className.indexOf(className) == -1) {
+            if (element.className.indexOf(className) === -1) {
                 element.className += " " + className;
             }
         }
 
         function removeClass(element, className) {
-            if (element.className.indexOf(className) != -1) {
+            if (element.className.indexOf(className) !== -1) {
                 element.className = x.className.replace(" " + className, "");
             }
         }
@@ -130,8 +131,8 @@
                 </a>
                 <div id="smallMenu" class="w3-bar-block w3-white w3-hide w3-hide-large w3-top"
                      style="margin-top:69px;font-size:10px;width:100%;height:100%">
-                    <a href="${pageContext.request.contextPath}/menu?type=new" class="w3-bar-item menu-button"
-                       onclick="openSmallMenu()" id="new">НОВИНКИ</a>
+                    <a href="${pageContext.request.contextPath}/menu?type=only_new" class="w3-bar-item menu-button"
+                       onclick="openSmallMenu()" id="only_new">НОВИНКИ</a>
                     <a href="${pageContext.request.contextPath}/menu?type=all" class="w3-bar-item menu-button"
                        onclick="openSmallMenu()" id="all">ВСЕ УКРАШЕНИЯ</a>
                     <a href="${pageContext.request.contextPath}/menu?type=bracelet" class="w3-bar-item menu-button"
@@ -157,8 +158,8 @@
     </div>
 
     <div id="bigMenu" class="w3-bar w3-white w3-hide-medium w3-hide-small" style="max-width:1200px;margin:auto">
-        <a href="${pageContext.request.contextPath}/menu?type=new" class="w3-bar-item menu-button"
-           style="width:20%" id="new">НОВИНКИ</a>
+        <a href="${pageContext.request.contextPath}/menu?type=only_new" class="w3-bar-item menu-button"
+           style="width:20%" id="only_new">НОВИНКИ</a>
         <a href="${pageContext.request.contextPath}/menu?type=all" class="w3-bar-item menu-button"
            style="width:20%" id="all">ВСЕ УКРАШЕНИЯ</a>
         <a href="${pageContext.request.contextPath}/menu?type=bracelet" class="w3-bar-item menu-button"
