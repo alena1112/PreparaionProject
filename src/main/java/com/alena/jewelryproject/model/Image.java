@@ -1,5 +1,6 @@
 package com.alena.jewelryproject.model;
 
+import com.google.gson.annotations.Expose;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "image")
 public class Image extends IdentifiableEntity {
+    @Expose
     @Column(name = "name")
     private String name;
 
@@ -18,6 +20,7 @@ public class Image extends IdentifiableEntity {
     /*
     * 0 - main image
     */
+    @Expose
     @Column(name = "img_index")
     private Integer index;
 

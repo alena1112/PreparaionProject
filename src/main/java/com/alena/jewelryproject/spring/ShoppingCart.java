@@ -15,7 +15,6 @@ import java.io.Serializable;
 @Scope(value="session", proxyMode= ScopedProxyMode.TARGET_CLASS)
 public class ShoppingCart implements Serializable {
     private static final Logger log = LoggerFactory.getLogger(ShoppingCart.class);
-
     @Autowired
     private OrderService orderService;
 
