@@ -216,12 +216,17 @@ public class OrderService {
 
     private void sendEmailMessages(Order order) {
         String adminEmailId = settingsService.getSettingByKey(SettingKeys.NEW_ORDER_ADMIN_EMAIL_ID);
-        String clientEmailId = settingsService.getSettingByKey(SettingKeys.NEW_ORDER_CLIENT_EMAIL_ID);
+        String clientEmailId;
+        if (order.getPaymentType() == PaymentType.TRANSFER_TO_BANK_CARD) {
+            clientEmailId = settingsService.getSettingByKey(SettingKeys.NEW_ORDER_CLIENT_EMAIL_ID);
+        } else {
+            clientEmailId = settingsService.getSettingByKey(SettingKeys.NEW_ORDER_CLIENT_EMAIL_WITHOUT_PAYMENT_ID);
+        }
         if (StringUtils.isNotBlank(adminEmailId)) {
             emailMessagesService.sendEmail(Long.parseLong(adminEmailId), order);
         }
         if (StringUtils.isNotBlank(clientEmailId)) {
-            emailMessagesService.sendEmail(Long.parseLong(adminEmailId), order);
+            emailMessagesService.sendEmail(Long.parseLong(clientEmailId), order);
         }
     }
 

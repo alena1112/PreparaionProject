@@ -103,3 +103,11 @@ create table email_message (
   message varchar(1000) not null,
   type varchar(10) not null
 );
+
+create table emails_log (
+    id SERIAL PRIMARY KEY,
+    created_date TIMESTAMPTZ not null DEFAULT Now(),
+    message varchar(1000),
+    from_email varchar(50) not null,
+    to_email varchar(50) not null
+);

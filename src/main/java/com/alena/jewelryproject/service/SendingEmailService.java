@@ -17,6 +17,8 @@ public class SendingEmailService {
     private JavaMailSender mailSender;
     @Autowired
     private SettingsService settingsService;
+    @Autowired
+    private EmailsLogService emailsLogService;
 
     public void sendMessageToAdmin(String message) {
         String toAddress = getAdminAddress();
@@ -47,6 +49,7 @@ public class SendingEmailService {
             mailSender.send(emailObj);
             log.info(String.format("Email was sent successfully (from: %s, to: %s, message: '%s')",
                     fromAddress, toAddress, message));
+            emailsLogService.save(message, fromAddress, toAddress);
         } catch (Exception ex) {
             log.error(String.format("Cannot send message to %s", toAddress), ex);
         }
