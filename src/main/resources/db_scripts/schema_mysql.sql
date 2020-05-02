@@ -112,3 +112,12 @@ create table email_message (
   type varchar(10) not null,
   PRIMARY KEY (id)
 );
+
+create table emails_log (
+  id int not null AUTO_INCREMENT,
+  created_date DATETIME not null default now(),
+  message varchar(1000),
+  from_email varchar(50) not null,
+  to_email varchar(50) not null,
+  PRIMARY KEY (id)
+);

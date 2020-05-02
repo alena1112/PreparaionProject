@@ -34,7 +34,7 @@
                 <div class="mb-3">
                     <label for="name">Key</label>
                     <spring:input type="text" class="form-control" id="key" placeholder="" path="key"
-                           value="${jewelry.key}" required="required"/>
+                           value="${setting.key}" required="required"/>
                     <div class="invalid-feedback">
                         Valid key is required.
                     </div>
@@ -43,7 +43,7 @@
                 <div class="mb-3">
                     <label for="name">Value</label>
                     <spring:input type="text" class="form-control" id="value" placeholder="" path="value"
-                           value="${jewelry.value}" required="required"/>
+                           value="${setting.value}" required="required"/>
                     <div class="invalid-feedback">
                         Valid value is required.
                     </div>
@@ -51,8 +51,7 @@
 
                 <div class="mb-3">
                     <label for="description">Description</label>
-                    <spring:textarea class="form-control" id="description" rows="5"
-                                     path="description"/>
+                    <spring:textarea class="form-control" id="description" rows="5" path="description"/>
                 </div>
 
                 <hr class="mb-4">
