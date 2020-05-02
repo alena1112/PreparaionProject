@@ -64,6 +64,9 @@ public class MenuController {
     }
 
     public int getAllUnhiddenJewelriesCount(MenuType menuType) {
+        if (menuType == null) {
+            return jewelryService.getAllJewelriesCount();
+        }
         switch (menuType) {
             case only_new:
                 return countInPage;

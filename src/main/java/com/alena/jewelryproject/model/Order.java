@@ -21,7 +21,7 @@ public class Order extends IdentifiableEntity {
             inverseJoinColumns = {@JoinColumn(name = "jewelry_id")})
     private List<Jewelry> jewelries;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "promocode_id")
     private PromotionalCode promocode;
 
