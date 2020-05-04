@@ -10,11 +10,11 @@ import java.util.List;
 public interface JewelryRepository extends JpaRepository<Jewelry, Long> {
 
     default List<Jewelry> getAllUnhidden(Pageable pageable) {
-        return findAllByIsHideIsFalseOrderByIdAscIsSoldAsc(pageable);
+        return findAllByIsHideIsFalseOrderByIsSoldAscRatingDesc(pageable);
     }
 
     default List<Jewelry> getAllNewUnhidden(Pageable pageable) {
-        return findAllByIsHideIsFalseOrderByIsSoldAscCreatedDateDesc(pageable);
+        return findAllByIsHideIsFalseOrderByIsSoldAscCreatedDateDescRatingDesc(pageable);
     }
 
     default List<Jewelry> getAllUnhidden() {
@@ -22,18 +22,18 @@ public interface JewelryRepository extends JpaRepository<Jewelry, Long> {
     }
 
     default List<Jewelry> getAllUnhidden(JewelryType type, Pageable pageable) {
-        return findAllByIsHideIsFalseAndTypeOrderByIdAscIsSoldAsc(type, pageable);
+        return findAllByIsHideIsFalseAndTypeOrderByIsSoldAscRatingDesc(type, pageable);
     }
 
     int countJewelriesByIsHideIsFalse();
 
     int countJewelriesByIsHideIsFalseAndType(JewelryType type);
 
-    List<Jewelry> findAllByIsHideIsFalseOrderByIdAscIsSoldAsc(Pageable pageable);
+    List<Jewelry> findAllByIsHideIsFalseOrderByIsSoldAscRatingDesc(Pageable pageable);
 
     List<Jewelry> findAllByIsHideIsFalse();
 
-    List<Jewelry> findAllByIsHideIsFalseAndTypeOrderByIdAscIsSoldAsc(JewelryType type, Pageable pageable);
+    List<Jewelry> findAllByIsHideIsFalseAndTypeOrderByIsSoldAscRatingDesc(JewelryType type, Pageable pageable);
 
-    List<Jewelry> findAllByIsHideIsFalseOrderByIsSoldAscCreatedDateDesc(Pageable pageable);
+    List<Jewelry> findAllByIsHideIsFalseOrderByIsSoldAscCreatedDateDescRatingDesc(Pageable pageable);
 }

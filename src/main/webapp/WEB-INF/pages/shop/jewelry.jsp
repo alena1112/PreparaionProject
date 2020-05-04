@@ -8,7 +8,7 @@
 <script>
     window.onload = function () {
         var btn = document.getElementById("addInOrderBtn");
-        if (${jewelry.sold} === true) {
+        if (${jewelry.isSold} === true) {
             btn.innerText = "Нет в наличии";
             btn.disabled = true;
         } else if (${isContains} === true) {

@@ -98,7 +98,7 @@ public class OrderService {
             if (jewelry == null) {
                 throw new CreateOrderException(CreateOrderException.ExceptionType.JEWELRY_DOES_NOT_EXIST, orderJewelry);
             }
-            if (BooleanUtils.isTrue(jewelry.getSold())) {
+            if (BooleanUtils.isTrue(jewelry.getIsSold())) {
                 throw new CreateOrderException(CreateOrderException.ExceptionType.JEWELRY_SOLD, orderJewelry);
             }
             if (!jewelry.getPrice().equals(orderJewelry.getPrice())) {

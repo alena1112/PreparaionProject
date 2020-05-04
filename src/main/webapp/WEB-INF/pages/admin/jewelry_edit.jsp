@@ -102,7 +102,8 @@
 </head>
 
 <body class="bg-light">
-<spring:form method="post" action="${pageContext.request.contextPath}/admin/jewelry/save?id=${jewelry.id}" modelAttribute="jewelry">
+<spring:form method="post" action="${pageContext.request.contextPath}/admin/jewelry/save"
+             modelAttribute="jewelry">
     <div class="container">
         <div class="py-2 text-center">
             <h3>${jewelry.name != null ? jewelry.name : "Jewelry"} Edit</h3>
@@ -128,7 +129,8 @@
                                                for="customFile${i}">${jewelry.getImage(i) != null ? jewelry.getImage(i).name : ""}</label>
                                     </div>
                                     <button class="btn btn-outline-secondary" type="button"
-                                        onclick="deleteImage(${i}, '${imageHelper.getDefaultImage()}')">X</button>
+                                            onclick="deleteImage(${i}, '${imageHelper.getDefaultImage()}')">X
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -136,20 +138,33 @@
                 </div>
 
                 <div class="mb-3">
-                    <div class="mb-3">
-                        <label for="name">Name</label>
-                        <spring:input type="text" class="form-control" id="name" placeholder="" path="name"
-                               value="${jewelry.name}" required="required"/>
-                        <div class="invalid-feedback">
-                            Valid name is required.
-                        </div>
+                    <label for="rating">Rating</label>
+                    <spring:select class="custom-select d-block w-100" id="rating" path="rating" required="required">
+                        <option value="">Choose...</option>
+                        <spring:option value="1"/>
+                        <spring:option value="2"/>
+                        <spring:option value="3"/>
+                        <spring:option value="4"/>
+                        <spring:option value="5"/>
+                    </spring:select>
+                    <div class="invalid-feedback">
+                        Please select a valid rating.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="name">Name</label>
+                    <spring:input type="text" class="form-control" id="name" placeholder="" path="name"
+                                  value="${jewelry.name}" required="required"/>
+                    <div class="invalid-feedback">
+                        Valid name is required.
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="price">Price</label>
                     <spring:input type="text" class="form-control" id="price" path="price" value="${jewelry.price}"
-                           required="required"/>
+                                  required="required"/>
                     <div class="invalid-feedback" style="width: 100%;">
                         Your price is required.
                     </div>
@@ -158,7 +173,7 @@
                 <div class="mb-3">
                     <label for="description">Description <span class="text-muted">(Optional)</span></label>
                     <spring:textarea class="form-control" id="description" rows="3"
-                        path="description"/>
+                                     path="description"/>
                     <div class="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                     </div>
@@ -177,13 +192,13 @@
 
                 <hr class="mb-4">
                 <div class="custom-control custom-checkbox">
-                    <spring:checkbox class="custom-control-input" id="isHide" path="hide"
-                           value="${jewelry.hide}"/>
+                    <spring:checkbox class="custom-control-input" id="isHide" path="isHide"
+                                     value="${jewelry.isHide}"/>
                     <label class="custom-control-label" for="isHide">Hide</label>
                 </div>
                 <div class="custom-control custom-checkbox">
-                    <spring:checkbox class="custom-control-input" id="isSold" path="sold"
-                           value="${jewelry.sold}"/>
+                    <spring:checkbox class="custom-control-input" id="isSold" path="isSold"
+                                     value="${jewelry.isSold}"/>
                     <label class="custom-control-label" for="isSold">Sold</label>
                 </div>
                 <hr class="mb-4">
@@ -192,7 +207,7 @@
                     <label for="materialDescription">Material Description <span
                             class="text-muted">(Optional)</span></label>
                     <spring:textarea class="form-control" id="materialDescription" rows="3"
-                              path="materialDescription"/>
+                                     path="materialDescription"/>
                     <div class="invalid-feedback">
                         Please enter a valid email address for shipping updates.
                     </div>

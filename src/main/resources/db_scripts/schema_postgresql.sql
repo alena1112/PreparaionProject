@@ -33,7 +33,8 @@ create table jewelry (
   weight varchar(500),
   is_sold BOOLEAN not null default false,
   is_hide BOOLEAN not null default false,
-  created_date TIMESTAMPTZ not null DEFAULT Now()
+  created_date TIMESTAMPTZ not null DEFAULT Now(),
+  rating int not null
 );
 
 create table image (

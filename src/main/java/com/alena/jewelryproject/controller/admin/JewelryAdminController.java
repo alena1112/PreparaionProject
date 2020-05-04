@@ -51,13 +51,8 @@ public class JewelryAdminController {
     }
 
     @PostMapping("/save")
-    public ModelAndView saveJewelry(@RequestParam(value = "id") Long id,
-                                    @ModelAttribute("jewelry") Jewelry jewelry) {
-        if (id == null) {
-            jewelryService.save(jewelry);
-        } else {
-            jewelryService.update(jewelry);
-        }
+    public ModelAndView saveJewelry(@ModelAttribute("jewelry") Jewelry jewelry) {
+        jewelryService.save(jewelry);
         return new ModelAndView("redirect:/admin/jewelry/list", new HashMap<>());
     }
 
