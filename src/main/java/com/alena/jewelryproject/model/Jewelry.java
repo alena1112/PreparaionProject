@@ -3,13 +3,17 @@ package com.alena.jewelryproject.model;
 import com.alena.jewelryproject.FormatHelper;
 import com.alena.jewelryproject.model.enums.JewelryType;
 import com.google.gson.annotations.Expose;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "jewelry")
 public class Jewelry extends IdentifiableEntity {
@@ -63,53 +67,8 @@ public class Jewelry extends IdentifiableEntity {
     @Column(name = "created_date")
     private Date createdDate = new Date(System.currentTimeMillis());
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public JewelryType getType() {
-        return type;
-    }
-
-    public void setType(JewelryType type) {
-        this.type = type;
-    }
-
-    public List<Material> getMaterials() {
-        return materials;
-    }
-
-    public void setMaterials(List<Material> materials) {
-        this.materials = materials;
-    }
-
-    public List<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(List<Image> images) {
-        this.images = images;
-    }
+    @Column(name = "rating")
+    private Integer rating;
 
     public Image getImage(int index) {
         return images != null && images.size() > index ?
@@ -118,54 +77,6 @@ public class Jewelry extends IdentifiableEntity {
                         .findFirst()
                         .orElse(null) :
                 null;
-    }
-
-    public String getMaterialDescription() {
-        return materialDescription;
-    }
-
-    public void setMaterialDescription(String materialDescription) {
-        this.materialDescription = materialDescription;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    public Boolean getSold() {
-        return isSold;
-    }
-
-    public void setSold(Boolean sold) {
-        isSold = sold;
-    }
-
-    public Boolean getHide() {
-        return isHide;
-    }
-
-    public void setHide(Boolean hide) {
-        isHide = hide;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public String getFormatPrice() {

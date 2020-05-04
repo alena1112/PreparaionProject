@@ -5,6 +5,7 @@ import com.alena.jewelryproject.model.Jewelry;
 import com.alena.jewelryproject.model.enums.JewelryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -27,7 +28,7 @@ public class JewelryService {
     }
 
     public List<Jewelry> getAllJewelries() {
-        return jewelryRepository.findAll();
+        return jewelryRepository.findAll(Sort.by("id"));
     }
 
     public List<Jewelry> getNewUnhiddenJewelries(int maxCount) {
@@ -50,10 +51,6 @@ public class JewelryService {
         return jewelryRepository.findById(id).orElse(null);
     }
 
-    public void update(Jewelry jewelry) {
-        jewelryRepository.save(jewelry);
-    }
-
     public void save(Jewelry jewelry) {
         jewelryRepository.save(jewelry);
     }
@@ -68,7 +65,7 @@ public class JewelryService {
 
     public void sellJewelries(List<Jewelry> jewelries) {
         for (Jewelry jewelry : jewelries) {
-            jewelry.setSold(true);
+            jewelry.setIsSold(true);
             save(jewelry);
         }
     }

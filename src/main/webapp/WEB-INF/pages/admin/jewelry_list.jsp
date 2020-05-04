@@ -161,6 +161,7 @@
             <tr class="table_heading">
                 <th>Id</th>
                 <th>Image</th>
+                <th>Rating</th>
                 <th>Name</th>
                 <th>Price</th>
                 <th>Description</th>
@@ -180,6 +181,7 @@
                              alt="jewelry"
                              style="width:90px; height:90px">
                     </td>
+                    <td>${item.rating}</td>
                     <td>${item.name}</td>
                     <td>${item.price}</td>
                     <td>${item.description}</td>
@@ -187,8 +189,8 @@
                     <td>${item.materialDescription}</td>
                     <td>${item.weight}</td>
                     <td>${item.size}</td>
-                    <td>${item.hide}</td>
-                    <td>${item.sold}</td>
+                    <td>${item.isHide}</td>
+                    <td>${item.isSold}</td>
                 </tr>
             </c:forEach>
         </table>
