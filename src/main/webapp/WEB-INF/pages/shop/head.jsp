@@ -61,24 +61,25 @@
         function loadMenu() {
             var url = new URL(window.location.href);
             var menuParam = url.searchParams.get("type");
-            if (menuParam !== null) {
-                var bigMenu = document.getElementById('bigMenu');
-                [].filter.call(bigMenu.getElementsByTagName("a"), function (item) {
-                    if (item.id === menuParam) {
-                        addClass(item, "menu-selected");
-                    } else {
-                        removeClass(item, "menu-selected");
-                    }
-                });
-                var smallMenu = document.getElementById('smallMenu');
-                [].filter.call(smallMenu.getElementsByTagName("a"), function (item) {
-                    if (item.id === menuParam) {
-                        addClass(item, "menu-selected");
-                    } else {
-                        removeClass(item, "menu-selected");
-                    }
-                });
+            if (menuParam === null) {
+                menuParam = "all";
             }
+            var bigMenu = document.getElementById('bigMenu');
+            [].filter.call(bigMenu.getElementsByTagName("a"), function (item) {
+                if (item.id === menuParam) {
+                    addClass(item, "menu-selected");
+                } else {
+                    removeClass(item, "menu-selected");
+                }
+            });
+            var smallMenu = document.getElementById('smallMenu');
+            [].filter.call(smallMenu.getElementsByTagName("a"), function (item) {
+                if (item.id === menuParam) {
+                    addClass(item, "menu-selected");
+                } else {
+                    removeClass(item, "menu-selected");
+                }
+            });
         }
 
         function openSmallMenu() {
