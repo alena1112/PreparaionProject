@@ -100,6 +100,24 @@
         request.send();
     }
 
+    function changePrice() {
+        var formula = document.getElementById("formulaText").value;
+        if (formula != null) {
+            var request = new XMLHttpRequest();
+            request.responseType = "text";
+            request.onreadystatechange = function () {
+                if (this.status === 200) {
+                    $('#successModal').modal('show')
+                } else if (this.status === 500) {
+                    $('#errorModal').modal('show')
+                }
+            };
+            request.open("POST", "changePrice", true);
+            request.setRequestHeader("Content-Type", "application/json");
+            request.send(formula);
+        }
+    }
+
     function logout() {
         var request = new XMLHttpRequest();
         request.responseType = "text";
@@ -156,6 +174,9 @@
         </button>
         <button class="btn btn-secondary mb-3" type="button" data-toggle="modal" data-target="#exportModal"
                 data-whatever="@mdo">Export
+        </button>
+        <button class="btn btn-secondary mb-3" type="button" data-toggle="modal" data-target="#priceModal"
+                data-whatever="@mdo">Change Price
         </button>
         <table class="table table-bordered" id="mainTable">
             <tr class="table_heading">
@@ -248,11 +269,37 @@
         </div>
     </div>
 
+    <div class="modal fade" id="priceModal" tabindex="-1" role="dialog" aria-labelledby="priceModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="priceModalLabel">Change Price</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="formulaText" class="col-form-label">Formula (+100, -200, *2, /2, +10%, -20%):</label>
+                            <input id="formulaText" type="text" class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="changePrice()">Change</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="successModal" role="dialog">
         <div class="modal-dialog">
             <div class="alert alert-success alert-dismissible">
                 <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
-                Import/export doing <strong>successful</strong>!
+                Operation was doing <strong>successful</strong>!
             </div>
         </div>
     </div>
@@ -260,7 +307,7 @@
         <div class="modal-dialog">
             <div class="alert alert-danger alert-dismissible">
                 <a  class="close" data-dismiss="modal" aria-label="close">&times;</a>
-                <strong>Error</strong> while importing/exporting
+                <strong>Error</strong> while doing operation
             </div>
         </div>
     </div>
