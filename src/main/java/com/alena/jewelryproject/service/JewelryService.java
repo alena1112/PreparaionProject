@@ -3,6 +3,10 @@ package com.alena.jewelryproject.service;
 import com.alena.jewelryproject.jpa_repositories.JewelryRepository;
 import com.alena.jewelryproject.model.Jewelry;
 import com.alena.jewelryproject.model.enums.JewelryType;
+import com.alena.jewelryproject.service.utils.Formula;
+import com.alena.jewelryproject.service.utils.Helper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,6 +20,8 @@ import java.util.stream.IntStream;
 
 @Service
 public class JewelryService {
+    private static final Logger log = LoggerFactory.getLogger(JewelryService.class);
+
     @Autowired
     private JewelryRepository jewelryRepository;
 
@@ -109,5 +115,50 @@ public class JewelryService {
             return lastPage;
         }
         return page;
+    }
+
+    public boolean changePrice(String formulaStr) {
+        Formula formula = Helper.parseChangeMoneyFormula(formulaStr);
+        if (formula != null) {
+            List<Jewelry> allJewelries = getAllJewelries();
+            allJewelries.forEach(jewelry -> {
+                switch (formula.getSign()) {
+                    case "+":
+                        if (formula.isPersent()) {
+                            double newPrice = jewelry.getPrice() + jewelry.getPrice() / 100 * formula.getValue();
+                            log.info(String.format("Changing price for jewelry %s: %s -> %s", jewelry.getId(), jewelry.getPrice(), newPrice));
+                            jewelry.setPrice(newPrice);
+                        } else {
+                            double newPrice = jewelry.getPrice() + formula.getValue();
+                            jewelry.setPrice(newPrice);
+                            log.info(String.format("Changing price for jewelry %s: %s -> %s", jewelry.getId(), jewelry.getPrice(), newPrice));
+                        }
+                        break;
+                    case "-":
+                        if (formula.isPersent()) {
+                            double newPrice = jewelry.getPrice() - jewelry.getPrice() / 100 * formula.getValue();
+                            log.info(String.format("Changing price for jewelry %s: %s -> %s", jewelry.getId(), jewelry.getPrice(), newPrice));
+                            jewelry.setPrice(newPrice);
+                        } else if (jewelry.getPrice() - formula.getValue() > 0) {
+                            double newPrice = jewelry.getPrice() - formula.getValue();
+                            log.info(String.format("Changing price for jewelry %s: %s -> %s", jewelry.getId(), jewelry.getPrice(), newPrice));
+                            jewelry.setPrice(newPrice);
+                        }
+                        break;
+                    case "*":
+                        double newPrice = jewelry.getPrice() * formula.getValue();
+                        log.info(String.format("Changing price for jewelry %s: %s -> %s", jewelry.getId(), jewelry.getPrice(), newPrice));
+                        jewelry.setPrice(newPrice);
+                        break;
+                    case "/":
+                        newPrice = jewelry.getPrice() / formula.getValue();
+                        log.info(String.format("Changing price for jewelry %s: %s -> %s", jewelry.getId(), jewelry.getPrice(), newPrice));
+                        jewelry.setPrice(newPrice);
+                }
+            });
+            saveAll(allJewelries);
+            return true;
+        }
+        return false;
     }
 }

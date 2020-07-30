@@ -23,12 +23,12 @@
             padding: 20px
         }
 
-        .head-size span { /*изменения размера шрифта заголовка при изменении размера экрана*/
+        .head-size a { /*изменения размера шрифта заголовка при изменении размера экрана*/
             font-size: 30px;
         }
 
         @media screen and (min-width: 0px) and (max-width: 992px) {
-            .head-size span {
+            .head-size a {
                 font-size: 23px;
             }
         }
@@ -119,6 +119,24 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/61402531" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
+
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+            n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t,s)}(window, document,'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '287091855880814');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=287091855880814&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Facebook Pixel Code -->
 </head>
 
 <body>
@@ -145,8 +163,14 @@
                 </div>
             </div>
 
-            <div class="w3-col s8 w3-center head-size" style="font-weight:600;letter-spacing:1px;white-space:nowrap">
-                <span>Graceful Jewelry</span>
+            <div class="w3-col s8 w3-center">
+                <div class="head-size" style="font-weight:600;letter-spacing:1px">
+                    <a href="${pageContext.request.contextPath}/menu?type=all"
+                       style="text-decoration:none;cursor:pointer;white-space:nowrap">Graceful Jewelry</a>
+                </div>
+<%--                <div style="letter-spacing:1px;white-space:nowrap;font-size:8px;color:#7a7e82b0">--%>
+<%--                    <span>-ДИЗАЙНЕРСКИЕ УКРАШЕНИЯ РУЧНОЙ РАБОТЫ ИЗ НАТУРАЛЬНЫХ КАМНЕЙ И ЖЕМЧУГА-</span>--%>
+<%--                </div>--%>
             </div>
 
             <div class="w3-col s2">

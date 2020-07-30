@@ -139,4 +139,17 @@ public class JewelryAdminController {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @PostMapping(value = "/changePrice", consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> changePrice(HttpEntity<String> httpEntity) {
+        try {
+            if (jewelryService.changePrice(httpEntity.getBody())) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+            }
+        } catch (Exception ex) {
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
