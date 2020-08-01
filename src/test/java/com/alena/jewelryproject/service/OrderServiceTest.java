@@ -69,7 +69,7 @@ public class OrderServiceTest {
         Order order = new Order();
         order.setJewelries(Arrays.asList(gracefulWhite, gracefulGold));
         order.setDeliveryCost(deliveryCost);
-        order.setDeliveryType(DeliveryType.RUSSIA_POST_OFFICE);
+        order.setDeliveryType(DeliveryType.POST_OFFICE);
         order.setPromocode(promotionalCode);
 
         given(jewelryService.getJewelry(gracefulWhite.getId())).willReturn(gracefulWhite);

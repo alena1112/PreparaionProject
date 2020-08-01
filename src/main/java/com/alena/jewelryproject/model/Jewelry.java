@@ -22,6 +22,10 @@ public class Jewelry extends IdentifiableEntity {
     private String name;
 
     @Expose
+    @Column(name = "original_price")
+    private Double originalPrice;
+
+    @Expose
     @Column(name = "price")
     private Double price;
 
@@ -35,7 +39,7 @@ public class Jewelry extends IdentifiableEntity {
     private JewelryType type;
 
     @Expose
-    @OneToMany(mappedBy = "jewelry", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jewelry", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -71,7 +75,7 @@ public class Jewelry extends IdentifiableEntity {
     private Integer rating;
 
     public Image getImage(int index) {
-        return images != null && images.size() > index ?
+        return images != null && !images.isEmpty() ?
                 images.stream()
                         .filter(image -> image.getIndex() == index)
                         .findFirst()

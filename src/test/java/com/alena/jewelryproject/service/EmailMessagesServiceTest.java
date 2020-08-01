@@ -148,7 +148,7 @@ public class EmailMessagesServiceTest {
         order.setUserData(userData);
         order.setJewelries(Arrays.asList(gracefulWhite, gracefulGold));
         order.setTotalCost(2200.0);
-        order.setDeliveryType(DeliveryType.RUSSIA_POST_OFFICE);
+        order.setDeliveryType(DeliveryType.POST_OFFICE);
         order.setPaymentType(PaymentType.TRANSFER_TO_BANK_CARD);
 
         String resultMessage = emailMessagesService.parseMessageWithOrder(firstToAdminMsg, order);

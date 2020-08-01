@@ -6,8 +6,9 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum DeliveryType {
-    RUSSIA_POST_OFFICE("russiaPostOffice", "Почта России"),
-    PICKUP("pickup", "Самовывоз");
+    POST_OFFICE("postOffice", "Почта"),
+    PICKUP("pickup", "Самовывоз"),
+    BOXBERRY_MOSCOW("boxberryMoscow", "Boxberry");
 
     private String id;
     private String name;
