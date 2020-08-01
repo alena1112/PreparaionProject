@@ -35,9 +35,6 @@ public class ImageService {
 
     public void delete(Image image) {
         if (image != null) {
-            if (image.getId() != null) {
-                imageRepository.deleteById(image.getId());
-            }
             imageFileService.deleteImage(image.getName());
         }
     }

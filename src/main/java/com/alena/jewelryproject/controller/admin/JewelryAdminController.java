@@ -81,22 +81,21 @@ public class JewelryAdminController {
                        @RequestParam("image") MultipartFile multipartFile,
                        @RequestParam("imageOrder") Integer imageOrder,
                        @ModelAttribute("jewelry") Jewelry jewelry) throws IOException {
-        Image image = imageService.uploadImage(multipartFile.getOriginalFilename(),
+        Image newImage = imageService.uploadImage(multipartFile.getOriginalFilename(),
                 multipartFile.getBytes(),
                 imageOrder,
                 jewelry);
-        if (image != null) {
+        if (newImage != null) {
             if (jewelry.getImages() == null) {
                 jewelry.setImages(new ArrayList<>(4));
             }
-            List<Image> images = jewelry.getImages();
-            if (images.size() > imageOrder && images.get(imageOrder) != null) {
-                imageService.delete(images.get(imageOrder));
-                images.set(imageOrder, image);
-            } else {
-                images.add(image);
+            Image deletedImage = jewelry.getImage(imageOrder);
+            if (deletedImage != null) {
+                imageService.delete(deletedImage);
+                jewelry.getImages().remove(deletedImage);
             }
-            return ImageHelper.getImageFullPath(image.getName(), getContextPath(request));
+            jewelry.getImages().add(newImage);
+            return ImageHelper.getImageFullPath(newImage.getName(), getContextPath(request));
         } else {
             return "";
         }

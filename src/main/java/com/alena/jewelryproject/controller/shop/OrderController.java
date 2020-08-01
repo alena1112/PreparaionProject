@@ -68,7 +68,9 @@ public class OrderController {
                     orderService.updateOrderAfterAddPromoCode(shoppingCart.getOrder(), shoppingCart.getOrder().getPromocode().getCode());
                     break;
                 case DELIVERY_IS_CHANGED:
-                    orderService.updateOrderAfterChangeDeliveryType(shoppingCart.getOrder(), shoppingCart.getOrder().getDeliveryType().getId());
+                    orderService.updateOrderAfterChangeDeliveryType(shoppingCart.getOrder(),
+                            shoppingCart.getOrder().getDeliveryType().getId(),
+                            shoppingCart.getOrder().getUserData().getCountry());
                     break;
             }
             modelAndView.setViewName("redirect:/buy");
@@ -99,8 +101,9 @@ public class OrderController {
     @GetMapping("/checkDelivery")
     public @ResponseBody
     String checkDelivery(HttpServletRequest request,
-                         @RequestParam("type") String type) throws IOException {
-        orderService.updateOrderAfterChangeDeliveryType(shoppingCart.getOrder(), type);
+                         @RequestParam("type") String type,
+                         @RequestParam("country") String country) throws IOException {
+        orderService.updateOrderAfterChangeDeliveryType(shoppingCart.getOrder(), type, country);
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(createResponseMessage(shoppingCart.getOrder()));
     }
@@ -115,7 +118,8 @@ public class OrderController {
             responseMessage.setPromocodeLimit(promocode.getMaxJewelries().toString());
         }
         responseMessage.setFormatPromocode(FormatHelper.getPriceFormat(order.getDiscount()));
-        responseMessage.setFormatDeliveryPrice(FormatHelper.getPriceFormat(order.getDeliveryCost()));
+        responseMessage.setFormatDeliveryPrice(order.getDeliveryCost() != null ?
+                FormatHelper.getPriceFormat(order.getDeliveryCost()) : null);
         responseMessage.setFormatTotalCost(FormatHelper.getPriceFormat(order.getTotalCost()));
         responseMessage.setFormatCostWithoutDiscount(FormatHelper.getPriceFormat(order.getCostWithoutDiscount()));
         return responseMessage;

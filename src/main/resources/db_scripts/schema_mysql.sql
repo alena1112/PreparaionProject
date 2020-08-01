@@ -28,6 +28,7 @@ create table material (
 create table jewelry (
   id int not null AUTO_INCREMENT,
   name varchar(100),
+  original_price double,
   price double,
   description varchar(500),
   type varchar(50),
@@ -85,6 +86,7 @@ create table user_order (
   patronymic varchar(50),
   phone varchar(50),
   email varchar(50),
+  country varchar(50),
   city varchar(50),
   address varchar(100),
   post_index varchar(50),

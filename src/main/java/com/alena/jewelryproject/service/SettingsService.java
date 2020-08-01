@@ -21,6 +21,11 @@ public class SettingsService {
         return settingsRepository.findById(id).orElse(null);
     }
 
+    public boolean getSettingByKey(String key, boolean defaultValue) {
+        String settingValue = getSettingByKey(key);
+        return StringUtils.isNotBlank(settingValue) ? settingValue.equals("true") : defaultValue;
+    }
+
     public String getSettingByKey(String key, String defaultValue) {
         String settingValue = getSettingByKey(key);
         return StringUtils.isNotBlank(settingValue) ? settingValue : defaultValue;

@@ -162,6 +162,15 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="originalPrice">Original Price</label>
+                    <spring:input type="text" class="form-control" id="originalPrice" path="originalPrice" value="${jewelry.originalPrice}"
+                                  required="required"/>
+                    <div class="invalid-feedback" style="width: 100%;">
+                        Your Original Price is required.
+                    </div>
+                </div>
+
+                <div class="mb-3">
                     <label for="price">Price</label>
                     <spring:input type="text" class="form-control" id="price" path="price" value="${jewelry.price}"
                                   required="required"/>
