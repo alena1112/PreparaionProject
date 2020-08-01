@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="../head.jsp" %>
 <!DOCTYPE html>
 
@@ -24,17 +25,49 @@
 
     <div style="font-size: 15px; padding: 10px 0">
         <p style="font-weight: bold">
-            САМОВЫВОЗ
+            САМОВЫВОЗ (г. Москва)
         </p>
         <p style="letter-spacing:1px">
             Забрать заказ самостоятельно и примерить украшения можно в г. Москва,
-            станции метро Хорошево, Домодедовская.
+            станция метро Домодедовская.
         </p>
+        <p style="font-weight: bold">
+            BOXBERRY (г. Москва)
+        </p>
+        <c:choose>
+            <c:when test="${boxberryFree}">
+                <p style="letter-spacing:1px">
+                    Действует БЕСПЛАТНАЯ доставка в любой пункт выдачи Boxberry по г. Москва.
+                </p>
+            </c:when>
+            <c:otherwise>
+                <p style="letter-spacing:1px">
+                    Забрать заказ можно в любом пункте выдачи Boxberry по г. Москва. Стоимость доставки ${boxberryCost} руб.
+                </p>
+            </c:otherwise>
+        </c:choose>
         <p style="font-weight: bold">
             ДОСТАВКА ПО РОССИИ
         </p>
+        <c:choose>
+            <c:when test="${deliveryFree}">
+                <p style="letter-spacing:1px">
+                    Доставка осуществляется БЕСПЛАТНО в любой город Почтой России или СДЭК.
+                </p>
+            </c:when>
+            <c:otherwise>
+                <p style="letter-spacing:1px">
+                    Доставка осуществляется Почтой России или СДЭК в любой город страны. Стоимость доставки Почтой России ${deliveryCost} руб.
+                </p>
+            </c:otherwise>
+        </c:choose>
+        <p style="font-weight: bold">
+            ДОСТАВКА ПО МИРУ
+        </p>
         <p style="letter-spacing:1px">
-            Доставка осуществляется Почтой России или СДЭК в любой город страны. Стоимость доставки Почтой России ${deliveryCost} руб.
+            Доставка украшений осуществляется в любую точку мира. Стоимость доставки для Украины ${ukraineDeliveryCost} руб.,
+            Казахстана ${kazakhstanDeliveryCost} руб.
+            Стоимость доставки для других стран рассчитывается отдельно в момент формирования заказа.
         </p>
     </div>
 

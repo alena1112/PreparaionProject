@@ -20,6 +20,9 @@ public class UserData {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "country")
+    private String country;
+
     @Column(name = "city")
     private String city;
 
@@ -67,6 +70,14 @@ public class UserData {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getCity() {

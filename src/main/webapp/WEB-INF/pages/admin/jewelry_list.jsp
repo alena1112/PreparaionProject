@@ -184,6 +184,7 @@
                 <th>Image</th>
                 <th>Rating</th>
                 <th>Name</th>
+                <th>Original Price</th>
                 <th>Price</th>
                 <th>Description</th>
                 <th>Type</th>
@@ -204,6 +205,7 @@
                     </td>
                     <td>${item.rating}</td>
                     <td>${item.name}</td>
+                    <td>${item.originalPrice}</td>
                     <td>${item.price}</td>
                     <td>${item.description}</td>
                     <td>${item.type.name}</td>

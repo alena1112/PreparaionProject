@@ -36,8 +36,10 @@
         var lastName = document.getElementById('lastNameInput');
         var phone = document.getElementById('phoneInput');
         var email = document.getElementById('emailInput');
+        var country = document.getElementById('countryInput');
         var city = document.getElementById('cityInput');
-        var address = document.getElementById('addressInput');
+        var postOfficeAddress = document.getElementById('postOfficeAddressInput');
+        var boxberryAddress = document.getElementById('boxberryAddressInput');
         var index = document.getElementById('indexInput');
 
         var createOrderError = document.getElementById('createOrderError');
@@ -45,24 +47,28 @@
         var lastNameError = document.getElementById('lastNameError');
         var phoneError = document.getElementById('phoneError');
         var emailError = document.getElementById('emailError');
+        var countryError = document.getElementById('countryError');
         var cityError = document.getElementById('cityError');
-        var addressError = document.getElementById('addressError');
+        var postOfficeAddressError = document.getElementById('postOfficeAddressError');
+        var boxberryAddressError = document.getElementById('boxberryAddressError');
         var indexError = document.getElementById('indexError');
 
         addEvent(name, nameError, createOrderError);
         addEvent(lastName, lastNameError, createOrderError);
         addEvent(phone, phoneError, createOrderError);
         addEvent(email, emailError, createOrderError);
+        addEvent(country, countryError, createOrderError);
         addEvent(city, cityError, createOrderError);
-        addEvent(address, addressError, createOrderError);
+        addEvent(postOfficeAddress, postOfficeAddressError, createOrderError);
+        addEvent(boxberryAddress, boxberryAddressError, createOrderError);
         addEvent(index, indexError, createOrderError);
 
         pickUpRadioBtn.addEventListener("click", function (event) {
-            cityError.innerHTML = "";
-            cityError.className = "error";
+            postOfficeAddressError.innerHTML = "";
+            postOfficeAddressError.className = "error";
 
-            addressError.innerHTML = "";
-            addressError.className = "error";
+            boxberryAddressError.innerHTML = "";
+            boxberryAddressError.className = "error";
 
             indexError.innerHTML = "";
             indexError.className = "error";
@@ -89,15 +95,25 @@
                 emailError.innerHTML = "Введите адрес электронной почты";
                 emailError.className = "error active";
                 event.preventDefault();
+            } else if (country.validity.valueMissing) {
+                createOrderErrorActivate();
+                countryError.innerHTML = "Введите страну";
+                countryError.className = "error active";
+                event.preventDefault();
             } else if (city.validity.valueMissing) {
                 createOrderErrorActivate();
                 cityError.innerHTML = "Введите город";
                 cityError.className = "error active";
                 event.preventDefault();
-            } else if (address.validity.valueMissing) {
+            } else if (postOfficeAddress.validity.valueMissing) {
                 createOrderErrorActivate();
-                addressError.innerHTML = "Введите адрес";
-                addressError.className = "error active";
+                postOfficeAddressError.innerHTML = "Введите адрес";
+                postOfficeAddressError.className = "error active";
+                event.preventDefault();
+            } else if (boxberryAddress.validity.valueMissing) {
+                createOrderErrorActivate();
+                boxberryAddressError.innerHTML = "Введите адрес";
+                boxberryAddressError.className = "error active";
                 event.preventDefault();
             } else if (index.validity.valueMissing) {
                 createOrderErrorActivate();
@@ -124,6 +140,22 @@
                 promocodeError.className = "messageError active";
             }
         }, false);
+
+        let countryInput = document.getElementById('countryInput');
+        let cityInput = document.getElementById('cityInput');
+        countryInput.addEventListener('blur', (event) => {
+            checkDeliveryType()
+        }, true);
+        cityInput.addEventListener('blur', (event) => {
+            let isDisabled = cityInput.value == null || !cityInput.value.toLowerCase().includes("москва");
+            setBoxberryMoscowDisabled(isDisabled);
+            setPickUpDisabled(isDisabled);
+            if (isDisabled === true) {
+                document.getElementById("postOfficeRadioBtn").checked = true;
+                setPostOfficeState(true);
+                setCashPaymentDisabled(true)
+            }
+        }, true);
     }
 </script>
 
@@ -193,14 +225,14 @@
     }
 
     .img-size img {
-        width:90px;
-        height:90px
+        width: 90px;
+        height: 90px
     }
 
     @media screen and (min-width: 0px) and (max-width: 992px) {
         .img-size img {
-            width:45px;
-            height:45px
+            width: 45px;
+            height: 45px
         }
     }
 </style>
@@ -214,8 +246,10 @@
     <div class="w3-hide-large" style="margin-top:80px">
     </div>
 
-    <p id="emptyOrder" class="w3-text-grey" style="display: none;margin-top: 20px;margin-bottom: 350px;font-size: 12px">Ваша корзина пуста</p>
-    <spring:form method="post" action="${pageContext.request.contextPath}/buy/createOrder" modelAttribute="order" id="createOrderForm" novalidate="true">
+    <p id="emptyOrder" class="w3-text-grey" style="display: none;margin-top: 20px;margin-bottom: 350px;font-size: 12px">
+        Ваша корзина пуста</p>
+    <spring:form method="post" action="${pageContext.request.contextPath}/buy/createOrder" modelAttribute="order"
+                 id="createOrderForm" novalidate="true">
         <div class="w3-row-padding w3-center" id="mainDiv">
 
             <h4 style="margin:0px 0px">Оформление заказа</h4>
@@ -231,7 +265,8 @@
                                          class="w3-margin-right">
                                 </div>
                                 <div class="w3-cell w3-cell-middle">
-                                    <a href="${pageContext.request.contextPath}/jewelry?id=${jewelry.id}" class="jewelry-item-class"><p
+                                    <a href="${pageContext.request.contextPath}/jewelry?id=${jewelry.id}"
+                                       class="jewelry-item-class"><p
                                             style="margin:0;font-weight:600">${jewelry.name}</p></a>
                                     <p style="margin:0;font-size:12px">${jewelry.description}</p>
                                 </div>
@@ -278,7 +313,8 @@
                             <span id="formatDeliveryCostSpan">${order.formatDeliveryCost}</span>
                         </p>
                         <p style="font-weight:600;font-size:18px;margin:8px 0">ИТОГО:
-                            <span id="formatCostWithoutDiscountSpan" style="text-decoration:line-through">${order.formatCostWithoutDiscount}</span>
+                            <span id="formatCostWithoutDiscountSpan"
+                                  style="text-decoration:line-through">${order.formatCostWithoutDiscount}</span>
                             <span id="formatTotalCostSpan" style="color:#ff7180"> ${order.formatTotalCost}</span>
                         </p>
                     </div>
@@ -313,6 +349,18 @@
                                       path="userData.email" id="emailInput" required="required"/>
                         <span id="emailError" class="error" aria-live="polite"></span>
                     </p>
+                    <p>
+                        <label style="font-size:12px">Страна <span class="required">*</span></label>
+                        <spring:input class="w3-input" value="${order.userData.country}"
+                                      path="userData.country" id="countryInput" required="required"/>
+                        <span id="countryError" class="error" aria-live="polite"></span>
+                    </p>
+                    <p>
+                        <label style="font-size:12px">Город <span class="required">*</span></label>
+                        <spring:input class="w3-input" value="${order.userData.city}"
+                                      path="userData.city" id="cityInput" required="required"/>
+                        <span id="cityError" class="error" aria-live="polite"></span>
+                    </p>
                 </div>
 
                 <div class="w3-half w3-justify">
@@ -320,32 +368,23 @@
                     <div class="w3-container w3-justify w3-light-grey" style="margin-bottom: 10px">
 
                         <p>
-                            <spring:radiobutton class="w3-radio" path="deliveryType" value="RUSSIA_POST_OFFICE"
+                            <spring:radiobutton class="w3-radio" path="deliveryType" value="POST_OFFICE"
                                                 id="postOfficeRadioBtn"
-                                                checked="${order.deliveryType != null && order.deliveryType.id == 'russiaPostOffice' ? 'checked' : '' }"
+                                                checked="${order.deliveryType != null && order.deliveryType.id == 'postOffice' ? 'checked' : '' }"
                                                 onclick="checkDeliveryType()"/>
-                            <label>Почта России</label>
+                            <label>Почта</label>
                         </p>
 
                         <div style="margin-left: 10%; margin-right: 10%">
                             <p>
-                                <label id="cityLabel"
-                                       style="font-size:12px;color: ${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'gray' : 'black' }">Город
-                                    <span class="required">*</span></label>
-                                <spring:input class="w3-input w3-light-grey" value="${order.userData.city}"
-                                              path="userData.city" id="cityInput" required="required"
-                                              disabled="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'true' : 'false'}"/>
-                                <span id="cityError" class="error" aria-live="polite"></span>
-                            </p>
-                            <p>
-                                <label id="addressLabel"
+                                <label id="postOfficeAddressLabel"
                                        style="font-size:12px;color: ${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'gray' : 'black' }">Адрес
                                     <span
                                             class="required">*</span></label>
                                 <spring:input class="w3-input w3-light-grey" value="${order.userData.address}"
-                                              path="userData.address" id="addressInput" required="required"
+                                              path="userData.address" id="postOfficeAddressInput" required="required"
                                               disabled="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'true' : 'false'}"/>
-                                <span id="addressError" class="error" aria-live="polite"></span>
+                                <span id="postOfficeAddressError" class="error" aria-live="polite"></span>
                             </p>
                             <p>
                                 <label id="indexLabel"
@@ -360,11 +399,37 @@
                         </div>
                     </div>
 
+                    <div class="w3-container w3-justify w3-light-grey" style="margin-bottom: 10px">
+
+                        <p>
+                            <spring:radiobutton class="w3-radio" path="deliveryType" value="BOXBERRY_MOSCOW"
+                                                id="boxberryRadioBtn"
+                                                checked="${order.deliveryType != null && order.deliveryType.id == 'boxberryMoscow' ? 'checked' : '' }"
+                                                disabled="true"
+                                                onclick="checkDeliveryType()"/>
+                            <label>Boxberry по г. Москва</label>
+                        </p>
+
+                        <div style="margin-left: 10%; margin-right: 10%">
+                            <p>
+                                <label id="boxberryAddressLabel"
+                                       style="font-size:12px;color: ${order.deliveryType == null && order.deliveryType.id == 'boxberryMoscow' ? 'black' : 'gray' }">Адрес
+                                    <span
+                                            class="required">*</span></label>
+                                <spring:input class="w3-input w3-light-grey" value="${order.userData.address}"
+                                              path="userData.address" id="boxberryAddressInput" required="required"
+                                              disabled="${order.deliveryType != null && order.deliveryType.id == 'boxberryMoscow' ? 'false' : 'true'}"/>
+                                <span id="boxberryAddressError" class="error" aria-live="polite"></span>
+                            </p>
+                        </div>
+                    </div>
+
                     <div class="w3-container w3-justify w3-light-grey">
                         <p>
                             <spring:radiobutton class="w3-radio" path="deliveryType" value="PICKUP"
                                                 id="pickUpRadioBtn"
                                                 checked="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'checked' : '' }"
+                                                disabled="true"
                                                 onclick="checkDeliveryType()"/>
                             <label>Самовывоз по г. Москва</label>
                         </p>
@@ -384,9 +449,9 @@
                             <spring:radiobutton class="w3-radio" value="CASH" path="paymentType"
                                                 id="cashPaymentRadioBtn"
                                                 checked="${order.paymentType != null && order.paymentType.id == 'cash' ? 'checked' : '' }"
-                                                disabled="${order.deliveryType != null && order.deliveryType.id == 'russiaPostOffice' ? 'true' : 'false'}"/>
+                                                disabled="${order.deliveryType != null && order.deliveryType.id == 'postOffice' ? 'true' : 'false'}"/>
                             <label id="cashPaymentLabel"
-                                   style="color: ${order.deliveryType != null && order.deliveryType.id == 'russiaPostOffice' ? 'gray' : 'black' }">Наличными
+                                   style="color: ${order.deliveryType != null && order.deliveryType.id == 'postOffice' ? 'gray' : 'black' }">Наличными
                                 при получении</label>
                         </p>
                     </div>
@@ -402,12 +467,14 @@
 
             <div class="w3-col s4 w3-justify w3-text-grey">
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/about">О нас</a></p>
-                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a>
+                </p>
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/payment">Оплата заказа</a></p>
             </div>
 
             <div class="w3-col s4 w3-justify w3-text-grey">
-                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/return">Обмен и возврат</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/return">Обмен и возврат</a>
+                </p>
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/contacts">Контакты</a></p>
             </div>
 
@@ -421,21 +488,64 @@
 </div>
 
 <script type="text/javascript">
-    function checkDeliveryType() {
-        var checked = document.getElementById("postOfficeRadioBtn").checked;
-        document.getElementById("cashPaymentRadioBtn").checked = false;
-        document.getElementById("cashPaymentRadioBtn").disabled = checked;
-        if (checked) {
+    function setPostOfficeState(state) {
+        document.getElementById("postOfficeAddressLabel").style.color = state === false ? "gray" : "black";
+        document.getElementById("postOfficeAddressInput").disabled = !state;
+        document.getElementById("indexLabel").style.color = state === false ? "gray" : "black";
+        document.getElementById("indexInput").disabled = !state;
+    }
+
+    function setBoxberryMoscowState(state) {
+        document.getElementById("boxberryAddressLabel").style.color = state === false ? "gray" : "black";
+        document.getElementById("boxberryAddressInput").disabled = !state;
+    }
+
+    function setBoxberryMoscowDisabled(disabled) {
+        setBoxberryMoscowState(!disabled);
+        document.getElementById("boxberryRadioBtn").disabled = disabled;
+        if (disabled === true) {
+            document.getElementById("boxberryRadioBtn").checked = false;
+        }
+    }
+
+    function setPickUpDisabled(disabled) {
+        document.getElementById("pickUpRadioBtn").disabled = disabled;
+        if (disabled === true) {
+            document.getElementById("pickUpRadioBtn").checked = false;
+        }
+    }
+
+    function setCashPaymentDisabled(disabled) {
+        document.getElementById("cashPaymentLabel").style.color = disabled === true ? "gray" : "black";
+        document.getElementById("cashPaymentRadioBtn").disabled = disabled;
+        if (disabled === true) {
             document.getElementById("transferPaymentRadioBtn").checked = true;
+            document.getElementById("cashPaymentRadioBtn").checked = false;
+        }
+    }
+
+    function checkDeliveryType() {
+        let checkedPostOffice = document.getElementById("postOfficeRadioBtn").checked;
+        let checkedBoxberry = document.getElementById("boxberryRadioBtn").checked;
+        let checkedPickUp = document.getElementById("pickUpRadioBtn").checked;
+
+        if (checkedPostOffice) {
+            setPostOfficeState(true);
+            setBoxberryMoscowState(false);
+            setCashPaymentDisabled(true);
+        }
+        if (checkedBoxberry) {
+            setBoxberryMoscowState(true);
+            setPostOfficeState(false);
+            setCashPaymentDisabled(true);
+        }
+        if (checkedPickUp) {
+            setPostOfficeState(false);
+            setBoxberryMoscowState(false);
+            setCashPaymentDisabled(false);
         }
 
-        document.getElementById("cashPaymentLabel").style.color = checked === true ? "gray" : "black";
-        document.getElementById("cityLabel").style.color = checked === false ? "gray" : "black";
-        document.getElementById("addressLabel").style.color = checked === false ? "gray" : "black";
-        document.getElementById("indexLabel").style.color = checked === false ? "gray" : "black";
-        document.getElementById("cityInput").disabled = !checked;
-        document.getElementById("addressInput").disabled = !checked;
-        document.getElementById("indexInput").disabled = !checked;
+        let country = document.getElementById("countryInput").value;
 
         var request = new XMLHttpRequest();
         request.responseType = "text";
@@ -445,7 +555,9 @@
                 recalculatePrice(responseMessage);
             }
         };
-        request.open("GET", "buy/checkDelivery?type=" + (checked === true ? "russiaPostOffice" : "pickup"), true);
+        request.open("GET", "buy/checkDelivery?type=" + (checkedPostOffice === true ? "postOffice" :
+            (checkedBoxberry === true ? "boxberryMoscow" : "pickup")) +
+            "&country=" + country, true);
         request.send();
     }
 
@@ -503,7 +615,8 @@
         var formatTotalCostSpan = document.getElementById('formatTotalCostSpan');
 
         formatDiscountSpan.innerHTML = responseMessage.formatPromocode + " \u20BD";
-        formatDeliveryCostSpan.innerHTML = responseMessage.formatDeliveryPrice + " \u20BD";
+        formatDeliveryCostSpan.innerHTML = responseMessage.formatDeliveryPrice !== null ?
+            responseMessage.formatDeliveryPrice + " \u20BD" : "Неопределена";
         if (responseMessage.formatCostWithoutDiscount !== '0') {
             formatCostWithoutDiscountSpan.innerHTML = responseMessage.formatCostWithoutDiscount + " \u20BD";
         } else {

@@ -133,6 +133,7 @@
                 <th>Patronymic</th>
                 <th>Phone</th>
                 <th>Email</th>
+                <th>Country</th>
                 <th>City</th>
                 <th>Address</th>
                 <th>Post Index</th>
@@ -157,6 +158,7 @@
                     <td>${item.userData.patronymic}</td>
                     <td>${item.userData.phone}</td>
                     <td>${item.userData.email}</td>
+                    <td>${item.userData.country}</td>
                     <td>${item.userData.city}</td>
                     <td>${item.userData.address}</td>
                     <td>${item.userData.postIndex}</td>

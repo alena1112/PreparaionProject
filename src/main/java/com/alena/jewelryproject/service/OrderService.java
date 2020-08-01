@@ -2,6 +2,7 @@ package com.alena.jewelryproject.service;
 
 import com.alena.jewelryproject.jpa_repositories.OrderRepository;
 import com.alena.jewelryproject.model.*;
+import com.alena.jewelryproject.model.enums.Country;
 import com.alena.jewelryproject.model.enums.DeliveryType;
 import com.alena.jewelryproject.model.enums.PaymentType;
 import org.apache.commons.lang3.BooleanUtils;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.alena.jewelryproject.service.SettingKeys.DELIVERY_COST_RUSSIA_POST_OFFICE;
+import static com.alena.jewelryproject.service.SettingKeys.*;
 
 @Service
 public class OrderService {
@@ -42,9 +43,9 @@ public class OrderService {
         Order order = new Order();
         order.setUserData(new UserData());
         order.setJewelries(new ArrayList<>());
-        order.setDeliveryType(DeliveryType.RUSSIA_POST_OFFICE);
+        order.setDeliveryType(DeliveryType.POST_OFFICE);
         order.setPaymentType(PaymentType.TRANSFER_TO_BANK_CARD);
-        order.setDeliveryCost(getDeliveryPrice(order.getDeliveryType()));
+        order.setDeliveryCost(getDeliveryPrice(order.getDeliveryType(), null));
         order.setTotalCost(getTotalPrice(
                 getAllJewelriesPrice(order.getJewelries()),
                 0.0,
@@ -117,8 +118,9 @@ public class OrderService {
                 throw new CreateOrderException(CreateOrderException.ExceptionType.PROMOCODE_IS_CHANGED);
             }
         }
-        if (Math.round((Double) ObjectUtils.defaultIfNull(order.getDeliveryCost(), 0)) !=
-                getDeliveryPrice(order.getDeliveryType())) {
+        Double realDeliveryPrice = getDeliveryPrice(order.getDeliveryType(), Country.fromName(order.getUserData().getCountry()));
+        if (order.getDeliveryCost() == null && realDeliveryPrice != null || order.getDeliveryCost() != null &&
+                Math.round(order.getDeliveryCost()) != Math.round(realDeliveryPrice)) {
             throw new CreateOrderException(CreateOrderException.ExceptionType.DELIVERY_IS_CHANGED);
         }
     }
@@ -153,10 +155,10 @@ public class OrderService {
         );
     }
 
-    public void updateOrderAfterChangeDeliveryType(Order order, String deliveryType) {
+    public void updateOrderAfterChangeDeliveryType(Order order, String deliveryType, String country) {
         DeliveryType type = DeliveryType.fromId(deliveryType);
         order.setDeliveryType(type);
-        order.setDeliveryCost(getDeliveryPrice(type));
+        order.setDeliveryCost(getDeliveryPrice(type, Country.fromName(country)));
         order.setTotalCost(getTotalPrice(
                 getAllJewelriesPrice(order.getJewelries()),
                 order.getDiscount(),
@@ -206,12 +208,47 @@ public class OrderService {
         return allJewelriesPrice;
     }
 
-    private double getDeliveryPrice(DeliveryType deliveryType) {
-        if (deliveryType == DeliveryType.RUSSIA_POST_OFFICE) {
-            String value = settingsService.getSettingByKey(DELIVERY_COST_RUSSIA_POST_OFFICE, "50");
-            return Double.parseDouble(value);
+    private Double getDeliveryPrice(DeliveryType deliveryType, Country country) {
+        if (deliveryType == null) {
+            return null;
         }
-        return 0;
+        if (country == null) {
+            country = Country.OTHER;
+        }
+
+        switch (deliveryType) {
+            case POST_OFFICE:
+                switch (country) {
+                    case RUSSIA:
+                        boolean isFree = settingsService.getSettingByKey(DELIVERY_COST_RUSSIA_POST_OFFICE_FREE, false);
+                        if (!isFree) {
+                            String value = settingsService.getSettingByKey(DELIVERY_COST_RUSSIA_POST_OFFICE, "0");
+                            return Double.parseDouble(value);
+                        } else {
+                            return 0.0;
+                        }
+                    case UKRAINE:
+                        String value = settingsService.getSettingByKey(DELIVERY_COST_UKRAINE_POST_OFFICE, "0");
+                        return Double.parseDouble(value);
+                    case KAZAKHSTAN:
+                        value = settingsService.getSettingByKey(DELIVERY_COST_KAZAKHSTAN_POST_OFFICE, "0");
+                        return Double.parseDouble(value);
+                    case OTHER:
+                        break;
+                }
+                break;
+            case BOXBERRY_MOSCOW:
+                boolean isFree = settingsService.getSettingByKey(BOXBERRY_MOSCOW_DELIVERY_COST_FREE, false);
+                if (!isFree) {
+                    String value = settingsService.getSettingByKey(BOXBERRY_MOSCOW_DELIVERY_COST, "0");
+                    return Double.parseDouble(value);
+                } else {
+                    return 0.0;
+                }
+            case PICKUP:
+                return 0.0;
+        }
+        return null;
     }
 
     private void sendEmailMessages(Order order) {
