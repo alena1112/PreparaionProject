@@ -8,6 +8,7 @@ import com.alena.jewelryproject.model.PromotionalCode;
 import com.alena.jewelryproject.model.enums.PromoCodeType;
 import com.alena.jewelryproject.service.CreateOrderException;
 import com.alena.jewelryproject.service.OrderService;
+import com.alena.jewelryproject.service.SettingsService;
 import com.alena.jewelryproject.spring.ShoppingCart;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -20,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+import static com.alena.jewelryproject.service.SettingKeys.*;
+
 @Controller
 @SessionAttributes(value = "order")
 @RequestMapping("/buy")
@@ -29,6 +32,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private ShoppingCart shoppingCart;
+    @Autowired
+    private SettingsService settingsService;
 
     @GetMapping
     public ModelAndView getAllJewelries(HttpServletRequest request) {
@@ -36,6 +41,9 @@ public class OrderController {
         modelAndView.setViewName("shop/buy");
         modelAndView.addObject("order", shoppingCart.getOrder());
         modelAndView.addObject("imageHelper", new ImageHelper(ControllerHelper.getContextPath(request)));
+        modelAndView.addObject("boxberryAvailable", settingsService.getSettingByKey(BOXBERRY_MOSCOW_DELIVERY_AVAILABLE));
+        modelAndView.addObject("deliveryPickupAvailableMoscow", settingsService.getSettingByKey(DELIVERY_PICKUP_AVAILABLE_MOSCOW));
+        modelAndView.addObject("deliveryPickupAvailableSamara", settingsService.getSettingByKey(DELIVERY_PICKUP_AVAILABLE_SAMARA));
         return modelAndView;
     }
 

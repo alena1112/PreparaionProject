@@ -41,7 +41,7 @@
         width: 100%;
         max-height: 140px;
         object-fit: scale-down;
-        cursor:pointer;
+        cursor: pointer;
     }
 </style>
 
@@ -54,7 +54,8 @@
     <div class="w3-hide-large" style="margin-top:70px">
     </div>
 
-    <spring:form method="post" action="${pageContext.request.contextPath}/jewelry/addInOrder?id=${jewelry.id}" modelAttribute="order" id="addInOrderForm">
+    <spring:form method="post" action="${pageContext.request.contextPath}/jewelry/addInOrder?id=${jewelry.id}"
+                 modelAttribute="order" id="addInOrderForm">
 
         <div class="w3-row w3-white w3-padding-16">
 
@@ -85,7 +86,9 @@
                 <h3 style="font-weight:600;font-size:24px;margin-top: 0;margin-bottom: 10px">${jewelry.name}</h3>
                 <p style="letter-spacing:1px;font-size:12px;margin-top: 0;margin-bottom: 10px"
                    align="justify">${jewelry.description}</p>
-                <p style="font-weight:600;font-size:20px;margin: 0">${jewelry.formatPrice}</p>
+                <c:if test="${!jewelry.isSold}">
+                    <p style="font-weight:600;font-size:20px;margin: 0">${jewelry.formatPrice}</p>
+                </c:if>
                 <div style="width: 100%;display: flex;align-items: center;justify-content:center;margin: 24px 0">
                     <button id="addInOrderBtn" type="submit" class="w3-btn w3-round-large" form="addInOrderForm"
                             style="width:50%;min-width:150px;background-color:black;color:white;margin:0">
@@ -109,12 +112,14 @@
 
             <div class="w3-col s4 w3-justify w3-text-grey">
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/about">О нас</a></p>
-                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a>
+                </p>
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/payment">Оплата заказа</a></p>
             </div>
 
             <div class="w3-col s4 w3-justify w3-text-grey">
-                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/return">Обмен и возврат</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/return">Обмен и возврат</a>
+                </p>
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/contacts">Контакты</a></p>
             </div>
 

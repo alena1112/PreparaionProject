@@ -43,7 +43,7 @@ public class SettingsService {
     }
 
     public List<Settings> getAllSettings() {
-        return settingsRepository.findAll();
+        return settingsRepository.findAllByOrderByKey();
     }
 
     public void save(Settings settings) {
@@ -56,5 +56,9 @@ public class SettingsService {
 
     public synchronized void delete(Long id) {
         settingsRepository.deleteById(id);
+    }
+
+    public static boolean isFree(String settingValue) {
+        return settingValue == null || settingValue.isEmpty() || settingValue.equals("0");
     }
 }
