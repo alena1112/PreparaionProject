@@ -26,6 +26,18 @@
     }
 </style>
 
+<script>
+    function test(parent, isOver) {
+        if (isOver) {
+            parent.getElementById("imageOne").style.display = "none";
+            parent.getElementById("imageTwo").style.display = "block";
+        } else {
+            parent.getElementById("imageOne").style.display = "block";
+            parent.getElementById("imageTwo").style.display = "none";
+        }
+    }
+</script>
+
 <body>
 <div class="w3-main w3-content w3-padding" style="max-width:1200px">
 
@@ -45,15 +57,25 @@
                     <div class="w3-quarter">
                         <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}"
                            class="jewelry-item-class">
-                            <img src="${imageHelper.getMainImageFullPath(item)}"
+                                <%--                            <img src="${imageHelper.getMainImageFullPath(item)}"--%>
+                                <%--                                 onmouseover="this.src='https://www.gracefuljewelry.ru/shop/image?name=IMG_0557_Facetune_19-07-2020-23-05-23%202-min.jpg'"--%>
+                                <%--                                 onmouseout="this.src='${imageHelper.getMainImageFullPath(item)}'"--%>
+                                <%--                                 alt="${item.name}"--%>
+                                <%--                                 style="width:100%">--%>
+                            <img id="imageOne" src="${imageHelper.getMainImageFullPath(item)}"
                                  alt="${item.name}"
-                                 style="width:100%">
+                                 style="width:100%"
+                                 onmouseover="test(this.parent, true)" onmouseout="test(this.parent, false)">
+<%--                                    TODO нужен иф в случае когда нет второго изоб-ия--%>
+                            <img id="imageTwo" src="https://www.gracefuljewelry.ru/shop/image?name=IMG_0557_Facetune_19-07-2020-23-05-23%202-min.jpg"
+                                 alt="${item.name}"
+                                 style="width:100%;display:none">
                         </a>
                         <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}"
                            class="jewelry-item-class"><h3>${item.name}</h3></a>
                         <a href="${pageContext.request.contextPath}/jewelry?id=${item.id}"
                            class="jewelry-item-class"><p>${item.description}</p></a>
-                        <p class="w3-text-grey">${item.formatPrice}</p>
+                        <p class="w3-text-grey">${item.isSold ? 'Нет в наличии' : item.formatPrice}</p>
                     </div>
                 </c:forEach>
             </div>
@@ -88,12 +110,14 @@
 
             <div class="w3-col s4 w3-justify w3-text-grey">
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/about">О нас</a></p>
-                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a>
+                </p>
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/payment">Оплата заказа</a></p>
             </div>
 
             <div class="w3-col s4 w3-justify w3-text-grey">
-                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/return">Обмен и возврат</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/return">Обмен и возврат</a>
+                </p>
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/contacts">Контакты</a></p>
             </div>
 

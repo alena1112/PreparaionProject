@@ -24,27 +24,42 @@
     </div>
 
     <div style="font-size: 15px; padding: 10px 0">
-        <p style="font-weight: bold">
-            САМОВЫВОЗ (г. Москва)
-        </p>
-        <p style="letter-spacing:1px">
-            Забрать заказ самостоятельно и примерить украшения можно в г. Москва,
-            станция метро Домодедовская.
-        </p>
-        <p style="font-weight: bold">
-            BOXBERRY (г. Москва)
-        </p>
         <c:choose>
-            <c:when test="${boxberryFree}">
+            <c:when test="${deliveryPickupAvailableMoscow}">
+                <p style="font-weight: bold">
+                    САМОВЫВОЗ (г. Москва)
+                </p>
                 <p style="letter-spacing:1px">
-                    Действует БЕСПЛАТНАЯ доставка в любой пункт выдачи Boxberry по г. Москва.
+                    Забрать заказ самостоятельно и примерить украшения можно в г.Москва.
                 </p>
             </c:when>
-            <c:otherwise>
-                <p style="letter-spacing:1px">
-                    Забрать заказ можно в любом пункте выдачи Boxberry по г. Москва. Стоимость доставки ${boxberryCost} руб.
+            <c:when test="${deliveryPickupAvailableSamara}">
+                <p style="font-weight: bold">
+                    САМОВЫВОЗ (г. Самара)
                 </p>
-            </c:otherwise>
+                <p style="letter-spacing:1px">
+                    Забрать заказ самостоятельно и примерить украшения можно в г.Самара, ТРК Космопорт.
+                </p>
+            </c:when>
+        </c:choose>
+        <c:choose>
+            <c:when test="${boxberryAvailable && boxberryFree}">
+                <p style="font-weight: bold">
+                    BOXBERRY (г. Москва)
+                </p>
+                <p style="letter-spacing:1px">
+                    Действует БЕСПЛАТНАЯ доставка в любой пункт выдачи Boxberry по г.Москва.
+                </p>
+            </c:when>
+            <c:when test="${boxberryAvailable}">
+                <p style="font-weight: bold">
+                    BOXBERRY (г. Москва)
+                </p>
+                <p style="letter-spacing:1px">
+                    Забрать заказ можно в любом пункте выдачи Boxberry по г.Москва. Стоимость доставки ${boxberryCost}
+                    руб.
+                </p>
+            </c:when>
         </c:choose>
         <p style="font-weight: bold">
             ДОСТАВКА ПО РОССИИ
@@ -57,7 +72,8 @@
             </c:when>
             <c:otherwise>
                 <p style="letter-spacing:1px">
-                    Доставка осуществляется Почтой России или СДЭК в любой город страны. Стоимость доставки Почтой России ${deliveryCost} руб.
+                    Доставка осуществляется Почтой России или СДЭК в любой город страны. Стоимость доставки Почтой
+                    России ${deliveryCost} руб.
                 </p>
             </c:otherwise>
         </c:choose>
@@ -65,7 +81,8 @@
             ДОСТАВКА ПО МИРУ
         </p>
         <p style="letter-spacing:1px">
-            Доставка украшений осуществляется в любую точку мира. Стоимость доставки для Украины ${ukraineDeliveryCost} руб.,
+            Доставка украшений осуществляется в любую точку мира. Стоимость доставки для Украины ${ukraineDeliveryCost}
+            руб.,
             Казахстана ${kazakhstanDeliveryCost} руб.
             Стоимость доставки для других стран рассчитывается отдельно в момент формирования заказа.
         </p>
@@ -78,12 +95,14 @@
 
             <div class="w3-col s4 w3-justify w3-text-grey">
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/about">О нас</a></p>
-                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/delivery">Способы доставки</a>
+                </p>
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/payment">Оплата заказа</a></p>
             </div>
 
             <div class="w3-col s4 w3-justify w3-text-grey">
-                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/return">Обмен и возврат</a></p>
+                <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/return">Обмен и возврат</a>
+                </p>
                 <p><a class="jewelry-item-class" href="${pageContext.request.contextPath}/contacts">Контакты</a></p>
             </div>
 

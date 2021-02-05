@@ -8,14 +8,16 @@
 <html>
 <script>
     function addEvent(field, fieldError, createOrderError) {
-        field.addEventListener("input", function (event) {
-            if (!field.validity.valueMissing) {
-                fieldError.innerHTML = "";
-                fieldError.className = "error";
-                createOrderError.innerHTML = "";
-                createOrderError.className = "messageError";
-            }
-        }, false);
+        if (field !== null) {
+            field.addEventListener("input", function (event) {
+                if (!field.validity.valueMissing) {
+                    fieldError.innerHTML = "";
+                    fieldError.className = "error";
+                    createOrderError.innerHTML = "";
+                    createOrderError.className = "messageError";
+                }
+            }, false);
+        }
     }
 
     function createOrderErrorActivate() {
@@ -30,7 +32,8 @@
         }
 
         var btn = document.getElementById('createOrderButton');
-        var pickUpRadioBtn = document.getElementById('pickUpRadioBtn');
+        var pickUpMoscowRadioBtn = document.getElementById('pickUpMoscowRadioBtn');
+        var pickUpSamaraRadioBtn = document.getElementById('pickUpSamaraRadioBtn');
 
         var name = document.getElementById('nameInput');
         var lastName = document.getElementById('lastNameInput');
@@ -63,16 +66,35 @@
         addEvent(boxberryAddress, boxberryAddressError, createOrderError);
         addEvent(index, indexError, createOrderError);
 
-        pickUpRadioBtn.addEventListener("click", function (event) {
-            postOfficeAddressError.innerHTML = "";
-            postOfficeAddressError.className = "error";
+        if (pickUpMoscowRadioBtn !== null) {
+            pickUpMoscowRadioBtn.addEventListener("click", function (event) {
+                postOfficeAddressError.innerHTML = "";
+                postOfficeAddressError.className = "error";
 
-            boxberryAddressError.innerHTML = "";
-            boxberryAddressError.className = "error";
+                if (boxberryAddressError !== null) {
+                    boxberryAddressError.innerHTML = "";
+                    boxberryAddressError.className = "error";
+                }
 
-            indexError.innerHTML = "";
-            indexError.className = "error";
-        }, false);
+                indexError.innerHTML = "";
+                indexError.className = "error";
+            }, false);
+        }
+
+        if (pickUpSamaraRadioBtn !== null) {
+            pickUpSamaraRadioBtn.addEventListener("click", function (event) {
+                postOfficeAddressError.innerHTML = "";
+                postOfficeAddressError.className = "error";
+
+                if (boxberryAddressError !== null) {
+                    boxberryAddressError.innerHTML = "";
+                    boxberryAddressError.className = "error";
+                }
+
+                indexError.innerHTML = "";
+                indexError.className = "error";
+            }, false);
+        }
 
         btn.addEventListener("click", function (event) {
             if (name.validity.valueMissing) {
@@ -110,7 +132,7 @@
                 postOfficeAddressError.innerHTML = "Введите адрес";
                 postOfficeAddressError.className = "error active";
                 event.preventDefault();
-            } else if (boxberryAddress.validity.valueMissing) {
+            } else if (boxberryAddress !== null && boxberryAddress.validity.valueMissing) {
                 createOrderErrorActivate();
                 boxberryAddressError.innerHTML = "Введите адрес";
                 boxberryAddressError.className = "error active";
@@ -149,7 +171,9 @@
         cityInput.addEventListener('blur', (event) => {
             let isDisabled = cityInput.value == null || !cityInput.value.toLowerCase().includes("москва");
             setBoxberryMoscowDisabled(isDisabled);
-            setPickUpDisabled(isDisabled);
+            setPickUpMoscowDisabled(isDisabled);
+            isDisabled = cityInput.value == null || !cityInput.value.toLowerCase().includes("самара");
+            setPickUpSamaraDisabled(isDisabled)
             if (isDisabled === true) {
                 document.getElementById("postOfficeRadioBtn").checked = true;
                 setPostOfficeState(true);
@@ -399,41 +423,58 @@
                         </div>
                     </div>
 
-                    <div class="w3-container w3-justify w3-light-grey" style="margin-bottom: 10px">
+                    <c:if test="${boxberryAvailable}">
+                        <div class="w3-container w3-justify w3-light-grey" style="margin-bottom: 10px">
 
-                        <p>
-                            <spring:radiobutton class="w3-radio" path="deliveryType" value="BOXBERRY_MOSCOW"
-                                                id="boxberryRadioBtn"
-                                                checked="${order.deliveryType != null && order.deliveryType.id == 'boxberryMoscow' ? 'checked' : '' }"
-                                                disabled="true"
-                                                onclick="checkDeliveryType()"/>
-                            <label>Boxberry по г. Москва</label>
-                        </p>
-
-                        <div style="margin-left: 10%; margin-right: 10%">
                             <p>
-                                <label id="boxberryAddressLabel"
-                                       style="font-size:12px;color: ${order.deliveryType == null && order.deliveryType.id == 'boxberryMoscow' ? 'black' : 'gray' }">Адрес
-                                    <span
-                                            class="required">*</span></label>
-                                <spring:input class="w3-input w3-light-grey" value="${order.userData.address}"
-                                              path="userData.address" id="boxberryAddressInput" required="required"
-                                              disabled="${order.deliveryType != null && order.deliveryType.id == 'boxberryMoscow' ? 'false' : 'true'}"/>
-                                <span id="boxberryAddressError" class="error" aria-live="polite"></span>
+                                <spring:radiobutton class="w3-radio" path="deliveryType" value="BOXBERRY_MOSCOW"
+                                                    id="boxberryRadioBtn"
+                                                    checked="${order.deliveryType != null && order.deliveryType.id == 'boxberryMoscow' ? 'checked' : '' }"
+                                                    disabled="true"
+                                                    onclick="checkDeliveryType()"/>
+                                <label>Boxberry по г. Москва</label>
+                            </p>
+
+                            <div style="margin-left: 10%; margin-right: 10%">
+                                <p>
+                                    <label id="boxberryAddressLabel"
+                                           style="font-size:12px;color: ${order.deliveryType == null && order.deliveryType.id == 'boxberryMoscow' ? 'black' : 'gray' }">Адрес
+                                        <span
+                                                class="required">*</span></label>
+                                    <spring:input class="w3-input w3-light-grey" value="${order.userData.address}"
+                                                  path="userData.address" id="boxberryAddressInput" required="required"
+                                                  disabled="${order.deliveryType != null && order.deliveryType.id == 'boxberryMoscow' ? 'false' : 'true'}"/>
+                                    <span id="boxberryAddressError" class="error" aria-live="polite"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${deliveryPickupAvailableMoscow}">
+                        <div class="w3-container w3-justify w3-light-grey">
+                            <p>
+                                <spring:radiobutton class="w3-radio" path="deliveryType" value="PICKUP"
+                                                    id="pickUpMoscowRadioBtn"
+                                                    checked="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'checked' : '' }"
+                                                    disabled="true"
+                                                    onclick="checkDeliveryType()"/>
+                                <label>Самовывоз по г. Москва</label>
                             </p>
                         </div>
-                    </div>
+                    </c:if>
 
-                    <div class="w3-container w3-justify w3-light-grey">
-                        <p>
-                            <spring:radiobutton class="w3-radio" path="deliveryType" value="PICKUP"
-                                                id="pickUpRadioBtn"
-                                                checked="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'checked' : '' }"
-                                                disabled="true"
-                                                onclick="checkDeliveryType()"/>
-                            <label>Самовывоз по г. Москва</label>
-                        </p>
-                    </div>
+                    <c:if test="${deliveryPickupAvailableSamara}">
+                        <div class="w3-container w3-justify w3-light-grey">
+                            <p>
+                                <spring:radiobutton class="w3-radio" path="deliveryType" value="PICKUP"
+                                                    id="pickUpSamaraRadioBtn"
+                                                    checked="${order.deliveryType != null && order.deliveryType.id == 'pickup' ? 'checked' : '' }"
+                                                    disabled="true"
+                                                    onclick="checkDeliveryType()"/>
+                                <label>Самовывоз по г. Самара</label>
+                            </p>
+                        </div>
+                    </c:if>
 
                     <h5>Способ оплаты</h5>
 
@@ -496,22 +537,42 @@
     }
 
     function setBoxberryMoscowState(state) {
-        document.getElementById("boxberryAddressLabel").style.color = state === false ? "gray" : "black";
-        document.getElementById("boxberryAddressInput").disabled = !state;
-    }
-
-    function setBoxberryMoscowDisabled(disabled) {
-        setBoxberryMoscowState(!disabled);
-        document.getElementById("boxberryRadioBtn").disabled = disabled;
-        if (disabled === true) {
-            document.getElementById("boxberryRadioBtn").checked = false;
+        let boxberryAddressLabel = document.getElementById("boxberryAddressLabel");
+        let boxberryAddressInput = document.getElementById("boxberryAddressInput");
+        if (boxberryAddressLabel !== null) {
+            boxberryAddressLabel.style.color = state === false ? "gray" : "black";
+            boxberryAddressInput.disabled = !state;
         }
     }
 
-    function setPickUpDisabled(disabled) {
-        document.getElementById("pickUpRadioBtn").disabled = disabled;
-        if (disabled === true) {
-            document.getElementById("pickUpRadioBtn").checked = false;
+    function setBoxberryMoscowDisabled(disabled) {
+        let boxberryRadioBtn = document.getElementById("boxberryRadioBtn");
+        if (boxberryRadioBtn != null) {
+            setBoxberryMoscowState(!disabled);
+            boxberryRadioBtn.disabled = disabled;
+            if (disabled === true) {
+                boxberryRadioBtn.checked = false;
+            }
+        }
+    }
+
+    function setPickUpMoscowDisabled(disabled) {
+        let pickUpMoscowBtn = document.getElementById("pickUpMoscowRadioBtn");
+        if (pickUpMoscowBtn !== null) {
+            pickUpMoscowBtn.disabled = disabled;
+            if (disabled === true) {
+                pickUpMoscowBtn.checked = false;
+            }
+        }
+    }
+
+    function setPickUpSamaraDisabled(disabled) {
+        let pickUpSamaraBtn = document.getElementById("pickUpSamaraRadioBtn");
+        if (pickUpSamaraBtn !== null) {
+            pickUpSamaraBtn.disabled = disabled;
+            if (disabled === true) {
+                pickUpSamaraBtn.checked = false;
+            }
         }
     }
 
@@ -526,8 +587,21 @@
 
     function checkDeliveryType() {
         let checkedPostOffice = document.getElementById("postOfficeRadioBtn").checked;
-        let checkedBoxberry = document.getElementById("boxberryRadioBtn").checked;
-        let checkedPickUp = document.getElementById("pickUpRadioBtn").checked;
+        let boxberryBtn = document.getElementById("boxberryRadioBtn");
+        let checkedBoxberry = false;
+        if (boxberryBtn !== null) {
+            checkedBoxberry = boxberryBtn.checked
+        }
+        let pickUpMoscowRadioBtn = document.getElementById("pickUpMoscowRadioBtn");
+        let checkedPickUpMoscow = false;
+        if (pickUpMoscowRadioBtn !== null) {
+            checkedPickUpMoscow = pickUpMoscowRadioBtn.checked;
+        }
+        let pickUpSamaraRadioBtn = document.getElementById("pickUpSamaraRadioBtn");
+        let checkedPickUpSamara = false;
+        if (pickUpSamaraRadioBtn !== null) {
+            checkedPickUpSamara = pickUpSamaraRadioBtn.checked;
+        }
 
         if (checkedPostOffice) {
             setPostOfficeState(true);
@@ -539,7 +613,12 @@
             setPostOfficeState(false);
             setCashPaymentDisabled(true);
         }
-        if (checkedPickUp) {
+        if (checkedPickUpMoscow) {
+            setPostOfficeState(false);
+            setBoxberryMoscowState(false);
+            setCashPaymentDisabled(false);
+        }
+        if (checkedPickUpSamara) {
             setPostOfficeState(false);
             setBoxberryMoscowState(false);
             setCashPaymentDisabled(false);

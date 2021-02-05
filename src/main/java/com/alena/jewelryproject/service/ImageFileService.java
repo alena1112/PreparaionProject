@@ -2,20 +2,16 @@ package com.alena.jewelryproject.service;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
 @Service
 public class ImageFileService {
     private static final Logger log = LoggerFactory.getLogger(ImageFileService.class);
-    private final int IMAGE_QUALITY = 3;
 
     @Value("${images.path}") String imagesPath;
 
@@ -27,7 +23,6 @@ public class ImageFileService {
             if (!image.exists()) {
                 image.createNewFile();
                 os = new FileOutputStream(image);
-                changeImageSize(new ByteArrayInputStream(bytes), os, imageName);
 
                 log.info(String.format("Image file %s was saved successfully", imageName));
                 return true;
@@ -94,15 +89,5 @@ public class ImageFileService {
             log.error(String.format("Exception while loading file %s", name), e);
         }
         return null;
-    }
-
-    private void changeImageSize(InputStream is, FileOutputStream fos, String imageName) throws IOException {
-        BufferedImage bufferedImage = ImageIO.read(is);
-        if (bufferedImage.getWidth() > 1500 && bufferedImage.getHeight() > 1500) {
-            bufferedImage = Scalr.resize(bufferedImage, Scalr.Method.QUALITY,
-                    bufferedImage.getWidth() / IMAGE_QUALITY,
-                    bufferedImage.getHeight() / IMAGE_QUALITY);
-        }
-        ImageIO.write(bufferedImage, imageName.substring(imageName.lastIndexOf(".") + 1), fos);
     }
 }
