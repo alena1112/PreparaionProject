@@ -18,10 +18,15 @@ public class DeliveryController {
     @GetMapping
     public ModelAndView getDeliveryInfo() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("deliveryCost", settingsService.getSettingByKey(DELIVERY_COST_RUSSIA_POST_OFFICE));
-        modelAndView.addObject("deliveryFree", settingsService.getSettingByKey(DELIVERY_COST_RUSSIA_POST_OFFICE_FREE));
-        modelAndView.addObject("boxberryCost", settingsService.getSettingByKey(BOXBERRY_MOSCOW_DELIVERY_COST));
-        modelAndView.addObject("boxberryFree", settingsService.getSettingByKey(BOXBERRY_MOSCOW_DELIVERY_COST_FREE));
+        modelAndView.addObject("deliveryPickupAvailableMoscow", settingsService.getSettingByKey(DELIVERY_PICKUP_AVAILABLE_MOSCOW));
+        modelAndView.addObject("deliveryPickupAvailableSamara", settingsService.getSettingByKey(DELIVERY_PICKUP_AVAILABLE_SAMARA));
+        String russiaPostOfficeDelivery = settingsService.getSettingByKey(DELIVERY_COST_RUSSIA_POST_OFFICE);
+        modelAndView.addObject("deliveryCost", russiaPostOfficeDelivery);
+        modelAndView.addObject("deliveryFree", SettingsService.isFree(russiaPostOfficeDelivery));
+        String boxberryMoscowDeliveryCost = settingsService.getSettingByKey(BOXBERRY_MOSCOW_DELIVERY_COST);
+        modelAndView.addObject("boxberryCost", boxberryMoscowDeliveryCost);
+        modelAndView.addObject("boxberryAvailable", settingsService.getSettingByKey(BOXBERRY_MOSCOW_DELIVERY_AVAILABLE));
+        modelAndView.addObject("boxberryFree", SettingsService.isFree(boxberryMoscowDeliveryCost));
         modelAndView.addObject("ukraineDeliveryCost", settingsService.getSettingByKey(DELIVERY_COST_UKRAINE_POST_OFFICE));
         modelAndView.addObject("kazakhstanDeliveryCost", settingsService.getSettingByKey(DELIVERY_COST_KAZAKHSTAN_POST_OFFICE));
         modelAndView.setViewName("shop/info/delivery");

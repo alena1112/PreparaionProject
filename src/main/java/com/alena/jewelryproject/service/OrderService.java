@@ -220,10 +220,10 @@ public class OrderService {
             case POST_OFFICE:
                 switch (country) {
                     case RUSSIA:
-                        boolean isFree = settingsService.getSettingByKey(DELIVERY_COST_RUSSIA_POST_OFFICE_FREE, false);
+                        String russiaPostOfficeDeliveryCost = settingsService.getSettingByKey(DELIVERY_COST_RUSSIA_POST_OFFICE, "0");
+                        boolean isFree = SettingsService.isFree(russiaPostOfficeDeliveryCost);
                         if (!isFree) {
-                            String value = settingsService.getSettingByKey(DELIVERY_COST_RUSSIA_POST_OFFICE, "0");
-                            return Double.parseDouble(value);
+                            return Double.parseDouble(russiaPostOfficeDeliveryCost);
                         } else {
                             return 0.0;
                         }
@@ -238,9 +238,9 @@ public class OrderService {
                 }
                 break;
             case BOXBERRY_MOSCOW:
-                boolean isFree = settingsService.getSettingByKey(BOXBERRY_MOSCOW_DELIVERY_COST_FREE, false);
+                String value = settingsService.getSettingByKey(BOXBERRY_MOSCOW_DELIVERY_COST, "0");
+                boolean isFree = SettingsService.isFree(value);
                 if (!isFree) {
-                    String value = settingsService.getSettingByKey(BOXBERRY_MOSCOW_DELIVERY_COST, "0");
                     return Double.parseDouble(value);
                 } else {
                     return 0.0;
