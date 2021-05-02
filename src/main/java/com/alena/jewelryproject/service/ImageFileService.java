@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 @Service
@@ -23,6 +25,8 @@ public class ImageFileService {
             if (!image.exists()) {
                 image.createNewFile();
                 os = new FileOutputStream(image);
+                BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));
+                ImageIO.write(bufferedImage, imageName.substring(imageName.lastIndexOf(".") + 1), os);
 
                 log.info(String.format("Image file %s was saved successfully", imageName));
                 return true;

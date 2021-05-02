@@ -20,7 +20,7 @@ public class FollowersTest {
     @Test
     public void getUselessFollowings() {
         List<String> bloggers = Arrays.asList("sofia_stuzhuk", "demivika", "milalevchuk");
-        Path followersPath = Paths.get("src/test/resources/followers_04_09.txt");
+        Path followersPath = Paths.get("src/test/resources/followers.txt");
         Path followingPath = Paths.get("src/test/resources/following.txt");
         List<String> followers = readFile(followersPath);
         List<String> followings = readFile(followingPath);

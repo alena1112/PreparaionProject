@@ -8,7 +8,8 @@ import java.util.Optional;
 public enum JewelryType {
     EARRINGS("earrings", "Серьги"),
     BRACELET("bracelet", "Браслет"),
-    NECKLACE("necklace", "Колье");
+    NECKLACE("necklace", "Колье"),
+    GLASSES_CHAIN("glasses_chain", "Цепи для очков");
 
     private String id;
     private String name;

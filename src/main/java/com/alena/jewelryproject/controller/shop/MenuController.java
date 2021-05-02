@@ -30,7 +30,7 @@ public class MenuController {
     @Value("${menu.page.count}")
     private Integer countInPage;
 
-    @NeedInSiteMap(paths = {"?type=all", "?type=only_new", "?type=bracelet", "?type=earrings", "?type=necklace"})
+    @NeedInSiteMap(paths = {"?type=all", "?type=only_new", "?type=bracelet", "?type=earrings", "?type=necklace", "?type=glasses_chain"})
     @GetMapping
     public ModelAndView getAllJewelries(HttpServletRequest request,
                                         @RequestParam(value = "type", required = false) MenuType type,
@@ -73,6 +73,7 @@ public class MenuController {
             case bracelet:
             case earrings:
             case necklace:
+            case glasses_chain:
                 return jewelryService.getAllJewelriesCount(JewelryType.fromId(menuType.name()));
             case all:
             default:

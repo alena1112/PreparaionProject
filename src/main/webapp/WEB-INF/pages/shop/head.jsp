@@ -127,11 +127,11 @@
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '287091855880814');
+        fbq('init', '282499756610477');
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=287091855880814&ev=PageView&noscript=1"
+                   src="https://www.facebook.com/tr?id=282499756610477&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Facebook Pixel Code -->
 </head>
@@ -157,6 +157,8 @@
                        onclick="openSmallMenu()" id="earrings">СЕРЬГИ</a>
                     <a href="${pageContext.request.contextPath}/menu?type=necklace" class="w3-bar-item menu-button"
                        onclick="openSmallMenu()" id="necklace">КОЛЬЕ</a>
+                    <a href="${pageContext.request.contextPath}/menu?type=glasses_chain" class="w3-bar-item menu-button"
+                       onclick="openSmallMenu()" id="glasses_chain">ЦЕПИ ДЛЯ ОЧКОВ</a>
                 </div>
             </div>
 
@@ -181,15 +183,17 @@
 
     <div id="bigMenu" class="w3-bar w3-white w3-hide-medium w3-hide-small" style="max-width:1200px;margin:auto">
         <a href="${pageContext.request.contextPath}/menu?type=only_new" class="w3-bar-item menu-button"
-           style="width:20%" id="only_new">НОВИНКИ</a>
+           style="width:16.6%" id="only_new">НОВИНКИ</a>
         <a href="${pageContext.request.contextPath}/menu?type=all" class="w3-bar-item menu-button"
-           style="width:20%" id="all">ВСЕ УКРАШЕНИЯ</a>
+           style="width:16.6%" id="all">ВСЕ УКРАШЕНИЯ</a>
         <a href="${pageContext.request.contextPath}/menu?type=bracelet" class="w3-bar-item menu-button"
-           style="width:20%" id="bracelet">БРАСЛЕТЫ</a>
+           style="width:16.6%" id="bracelet">БРАСЛЕТЫ</a>
         <a href="${pageContext.request.contextPath}/menu?type=earrings" class="w3-bar-item menu-button"
-           style="width:20%" id="earrings">СЕРЬГИ</a>
+           style="width:16.6%" id="earrings">СЕРЬГИ</a>
         <a href="${pageContext.request.contextPath}/menu?type=necklace" class="w3-bar-item menu-button"
-           style="width:20%" id="necklace">КОЛЬЕ</a>
+           style="width:16.6%" id="necklace">КОЛЬЕ</a>
+        <a href="${pageContext.request.contextPath}/menu?type=glasses_chain" class="w3-bar-item menu-button"
+           style="width:16.6%" id="glasses_chain">ЦЕПИ ДЛЯ ОЧКОВ</a>
     </div>
 </div>
 </body>
