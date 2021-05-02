@@ -34,7 +34,7 @@ public class JewelryService {
     }
 
     public List<Jewelry> getAllJewelries() {
-        return jewelryRepository.findAll(Sort.by("id"));
+        return jewelryRepository.findAll(Sort.by("createdDate").descending());
     }
 
     public List<Jewelry> getNewUnhiddenJewelries(int maxCount) {

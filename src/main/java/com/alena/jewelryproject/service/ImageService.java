@@ -18,6 +18,7 @@ public class ImageService {
     private ImageFileService imageFileService;
 
     public Image uploadImage(String imageName, byte[] bytes, int index, Jewelry jewelry) {
+        log.info("Image " + imageName + " start to load");
         if (imageFileService.uploadImage(imageName, bytes)) {
             Image imageEntity = new Image();
             imageEntity.setJewelry(jewelry);
