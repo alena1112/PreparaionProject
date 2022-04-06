@@ -48,8 +48,6 @@
             </div>
 
             <div class="w3-col s4 w3-right-align">
-                <a class="fa fa-instagram w3-hover-opacity w3-large" href="https://www.instagram.com/graceful.jewelry"
-                   style="margin-right:8px!important"></a>
                 <a class="fa fa-envelope-o w3-hover-opacity w3-large" href="mailto:admin@gracefuljewelry.ru"></a>
             </div>
         </div>
