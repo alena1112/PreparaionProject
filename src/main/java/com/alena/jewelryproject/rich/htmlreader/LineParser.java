@@ -1,6 +1,7 @@
 package com.alena.jewelryproject.rich.htmlreader;
 
 import com.alena.jewelryproject.model.Material;
+import com.alena.jewelryproject.model.enums.Shop;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
 public class LineParser {
     private static final Logger log = LoggerFactory.getLogger(LineParser.class);
 
-    public static Function<Elements, Material> parseLine(Shops shop) {
+    public static Function<Elements, Material> parseLine(Shop shop) {
         switch (shop) {
             case GREEN_BIRD:
                 return LineParser::parseGreenBirdLine;
@@ -39,7 +40,7 @@ public class LineParser {
                 numberInPackage = Integer.parseInt(m.group(4));
             }
         } else {
-            throw new RegexPatternNotCorrectException(pattern.toString(), Shops.GREEN_BIRD.getId(), tags.get(1).text());
+            throw new RegexPatternNotCorrectException(pattern.toString(), Shop.GREEN_BIRD.getId(), tags.get(1).text());
         }
 
         tags.get(0).childNodes().get(1).attributes().get("src");
@@ -69,7 +70,7 @@ public class LineParser {
         if (m.matches()) {
             packageSize = Integer.parseInt(m.group(1));
         } else {
-            throw new RegexPatternNotCorrectException(pattern.toString(), Shops.PANDAHALL.getId(), tags.get(3).text());
+            throw new RegexPatternNotCorrectException(pattern.toString(), Shop.PANDAHALL.getId(), tags.get(3).text());
         }
         double price = 0;
         pattern = Pattern.compile("^[A-Za-zа-яА-Я.]+([\\d,.]+)$");
@@ -77,7 +78,7 @@ public class LineParser {
         if (m.matches()) {
             price = Double.parseDouble(m.group(1).replace(",", ""));
         } else {
-            throw new RegexPatternNotCorrectException(pattern.toString(), Shops.PANDAHALL.getId(), tags.get(7).text());
+            throw new RegexPatternNotCorrectException(pattern.toString(), Shop.PANDAHALL.getId(), tags.get(7).text());
         }
         int orderQty = Integer.parseInt(tags.get(5).text());
 
@@ -107,7 +108,7 @@ public class LineParser {
                     numberInPackage = 2;
                 }
             } else {
-                throw new RegexPatternNotCorrectException(pattern.toString(), Shops.STILNAYA.getId(), tags.get(1).text());
+                throw new RegexPatternNotCorrectException(pattern.toString(), Shop.STILNAYA.getId(), tags.get(1).text());
             }
         } else {
             name = tags.get(0).text() + " " + text;
@@ -118,7 +119,7 @@ public class LineParser {
         if (m.matches()) {
             price = Double.parseDouble(m.group(1).replace(",", "."));
         } else {
-            throw new RegexPatternNotCorrectException(pattern.toString(), Shops.STILNAYA.getId(), tags.get(6).text());
+            throw new RegexPatternNotCorrectException(pattern.toString(), Shop.STILNAYA.getId(), tags.get(6).text());
         }
 
         Material material = new Material();
@@ -140,7 +141,7 @@ public class LineParser {
                 packageSize = Integer.parseInt(m.group(1));
             } else {
                 log.warn(String.format("Could not parse line '%s' for Luxfurnitura shop", tags.get(3).text()));
-                throw new RegexPatternNotCorrectException(pattern.toString(), Shops.LUXFURNITURA.getId(), tags.get(3).text());
+                throw new RegexPatternNotCorrectException(pattern.toString(), Shop.LUXFURNITURA.getId(), tags.get(3).text());
             }
             double price = 0;
             pattern = Pattern.compile("^([\\d\\p{Z}]+)\\p{Z}[а-яА-Я]+$");
@@ -149,7 +150,7 @@ public class LineParser {
                 price = Double.parseDouble(m.group(1).replace(" ", ""));
             } else {
                 log.warn(String.format("Could not parse line '%s' for Luxfurnitura shop", tags.get(2).text()));
-                throw new RegexPatternNotCorrectException(pattern.toString(), Shops.LUXFURNITURA.getId(), tags.get(2).text());
+                throw new RegexPatternNotCorrectException(pattern.toString(), Shop.LUXFURNITURA.getId(), tags.get(2).text());
             }
 
             Material material = new Material();

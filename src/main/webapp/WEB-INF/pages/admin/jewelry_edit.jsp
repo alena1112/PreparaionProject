@@ -19,6 +19,17 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous">
     </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
     <script>
         function uploadImage(input, i) {
             if (input.files && input.files[0]) {
@@ -52,6 +63,77 @@
                 }
             };
             request.open("DELETE", "deleteImage?position=" + i, true);
+            request.send();
+        }
+
+        function loadMaterials() {
+            var shopOption = document.getElementById("shopOption")
+            var shopName = shopOption.options[shopOption.selectedIndex].id
+            var orderDateOption = document.getElementById("orderDateOption")
+            var orderId = orderDateOption.options[orderDateOption.selectedIndex].id;
+            var name = document.getElementById("nameInput").value
+
+            var request = new XMLHttpRequest();
+            request.responseType = "text";
+
+            request.onreadystatechange = function () {
+                if (this.status === 200) {
+                    var dataArray = JSON.parse(this.body);
+                    var tableelement = document.getElementById("materialsTable")
+
+                    var keys = Object.keys(dataArray), times = {}, rows = {};
+
+                    (function processData() {
+
+                        var row, key, r;
+
+                        for (key in data) {
+                            row = rows[key] = {};
+                            for (r in dataArray[key]) addInfo(row, dataArray[key][r]);
+                        }
+
+                        function addInfo(row, record) {
+                            times[record.Time] = true;
+                            row[record.Time] = record.Count;
+                        }
+
+                    })();
+
+                    (function createTable() {
+
+                        var key,
+                            count,
+                            time,
+                            tr = "<tr>",
+                            $body = "body",
+                            $table = "<table>",
+                            $thead = "<thead>",
+                            $tbody = "<tbody>";
+
+                        $body.append($table);
+                        $table.append($thead);
+                        $table.append($tbody);
+
+                        $thead.append(tr);
+
+                        tr.append('<th>name</th>');
+
+                        for (time in times) tr.append('<th>' + time + '</th>');
+
+                        for (key in rows) {
+                            tr = '<tr>';
+                            tr.append('<th>' + key + '</th>');
+                            for (time in times) {
+                                count = (rows[key][time] || 0);
+                                tr.append('<td>' + count + '</td>');
+                            }
+                            $tbody.append(tr);
+                        }
+
+                    })();
+                }
+            };
+            request.open("GET", "loadMaterials?shop=" + shopName + "&orderId=" + orderId + "&name=" + name, true);
             request.send();
         }
     </script>
@@ -163,8 +245,8 @@
 
                 <div class="mb-3">
                     <label for="originalPrice">Original Price</label>
-                    <spring:input type="text" class="form-control" id="originalPrice" path="originalPrice" value="${jewelry.originalPrice}"
-                                  required="required"/>
+                    <spring:input type="text" class="form-control" id="originalPrice" path="originalPrice"
+                                  value="${jewelry.originalPrice}"/>
                     <div class="invalid-feedback" style="width: 100%;">
                         Your Original Price is required.
                     </div>
@@ -218,18 +300,59 @@
                     <spring:textarea class="form-control" id="materialDescription" rows="3"
                                      path="materialDescription"/>
                     <div class="invalid-feedback">
-                        Please enter a valid email address for shipping updates.
+                        Please enter a valid Material Description.
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="weight">Weight <span class="text-muted">(Optional)</span></label>
-                    <spring:textarea class="form-control" id="weight" rows="2" path="weight"/>
+                    <br>
+                    <label class="text-muted">гр.</label>
+                    <br>
+                    <label class="text-muted">Вес одной сережки гр.</label>
+                    <spring:input type="text" class="form-control" id="weight" path="weight" value="${jewelry.weight}"/>
                 </div>
 
                 <div class="mb-3">
                     <label for="size">Size <span class="text-muted">(Optional)</span></label>
+                    <br>
+                    <label class="text-muted">Длина браслета см.</label>
+                    <br>
+                    <label class="text-muted">Длина колье см.</label>
+                    <br>
+                    <label class="text-muted">Длина сережки см.</label>
+                    <br>
+                    <label class="text-muted">Длина регулируемой части см.</label>
                     <spring:input type="text" class="form-control" id="size" path="size" value="${jewelry.size}"/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="jewelryMaterialsTable">Materials <span class="text-muted">(Optional)</span></label>
+                    <table class="table table-bordered" id="jewelryMaterialsTable">
+                        <tr class="table_heading">
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Unit Price With Delivery</th>
+                            <th>Number</th>
+                            <th>Delete</th>
+                        </tr>
+                        <c:forEach items="${jewelryMaterials}" var="item" varStatus="status">
+                            <tr>
+                                <td>
+                                    <img src="${item.material.imageURL}"
+                                         alt="material"
+                                         style="width:50px; height:50px">
+                                </td>
+                                <td>${item.material.name}</td>
+                                <td>${item.material.unitPriceWithDelivery}</td>
+                                <td>${item.number}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                    <button class="btn btn-secondary" type="button" data-toggle="modal"
+                            data-target="#addMaterialModal"
+                            data-whatever="@mdo">Добавить
+                    </button>
                 </div>
 
                 <hr class="mb-4">
@@ -238,5 +361,83 @@
             </form>
         </div>
     </div>
+
+    <div class="modal fade" id="addMaterialModal" tabindex="-1" role="dialog" aria-labelledby="addMaterialModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMaterialModalLabel">Add Material</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <div class="row">
+
+                                <div style="margin:0 3px 0 3px;">
+                                    <label for="shopOption">Shop</label>
+                                    <select class="custom-select d-block w-100" id="shopOption">
+                                        <option value="">Choose...</option>
+                                        <c:forEach items="${shops}" var="shop">
+                                            <option id="${shop}" value="${shop}">${shop}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                                <div style="margin-right: 3px">
+                                    <label for="orderDateOption">Order Date</label>
+                                    <select class="custom-select d-block w-100" id="orderDateOption">
+                                        <option value="">Choose...</option>
+                                        <c:forEach items="${orders}" var="order">
+                                            <option id="${order}" value="${order}">${order.purchaseDate}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                                <div style="margin-right: 3px">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="nameInput"/>
+                                </div>
+
+                                <button style="margin: 10px" type="button" class="btn btn-secondary"
+                                        onclick="loadMaterials()">Search
+                                </button>
+
+                            </div>
+                            <table class="table table-bordered" id="materialsTable">
+                                <tr class="table_heading">
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Unit Price With Delivery</th>
+                                    <th>Number</th>
+                                    <th>Add</th>
+                                </tr>
+                                    <%--                                <c:forEach items="${materials}" var="item" varStatus="status">--%>
+                                    <%--                                    <tr>--%>
+                                    <%--                                        <td>--%>
+                                    <%--                                            <img src="${item.material.imageURL}"--%>
+                                    <%--                                                 alt="material"--%>
+                                    <%--                                                 style="width:50px; height:50px">--%>
+                                    <%--                                        </td>--%>
+                                    <%--                                        <td>${item.material.name}</td>--%>
+                                    <%--                                        <td>${item.material.unitPriceWithDelivery}</td>--%>
+                                    <%--                                        <td>${item.number}</td>--%>
+                                    <%--                                    </tr>--%>
+                                    <%--                                </c:forEach>--%>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </spring:form>
 </body>

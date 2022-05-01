@@ -1,5 +1,6 @@
 package com.alena.jewelryproject.rich.htmlreader;
 
+import com.alena.jewelryproject.model.enums.Shop;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
 public class DeliveryCostParser {
     private static final Logger log = LoggerFactory.getLogger(DeliveryCostParser.class);
 
-    public static Function<Document, Double> parseDelivery(Shops shop) {
+    public static Function<Document, Double> parseDelivery(Shop shop) {
         log.info(String.format("Starting parse delivery price for %s shop", shop.getId()));
         switch (shop) {
             case GREEN_BIRD:

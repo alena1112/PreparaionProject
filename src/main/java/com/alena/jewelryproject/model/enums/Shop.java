@@ -1,14 +1,16 @@
-package com.alena.jewelryproject.rich.htmlreader;
+package com.alena.jewelryproject.model.enums;
 
-public enum Shops {
+public enum Shop {
     GREEN_BIRD("greenBird"),
     PANDAHALL("pandahall"),
     STILNAYA("stilnaya"),
-    LUXFURNITURA("luxfurnitura");
+    LUXFURNITURA("luxfurnitura"),
+    OTHER("other"),
+    ;
 
     private String id;
 
-    Shops(String id) {
+    Shop(String id) {
         this.id = id;
     }
 
@@ -16,8 +18,8 @@ public enum Shops {
         return id;
     }
 
-    public static Shops getShopById(String id) {
-        for (Shops shop : Shops.values()) {
+    public static Shop getShopById(String id) {
+        for (Shop shop : Shop.values()) {
             if (shop.getId().equals(id)) {
                 return shop;
             }

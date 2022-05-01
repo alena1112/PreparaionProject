@@ -1,6 +1,7 @@
 package com.alena.jewelryproject.model;
 
 import com.alena.jewelryproject.FormatHelper;
+import com.alena.jewelryproject.model.enums.Shop;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,8 +16,8 @@ public class MaterialOrder extends IdentifiableEntity {
     @Column(name = "delivery_price")
     private double deliveryPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shop_id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "shop")
     private Shop shop;
 
     @Column(name = "purchase_date")
@@ -55,6 +56,6 @@ public class MaterialOrder extends IdentifiableEntity {
     }
 
     public String getFormatOrder() {
-        return String.format("%s, дата %s, доставка %s", shop.getName(), FormatHelper.formatDate.format(purchaseDate), deliveryPrice);
+        return String.format("%s, дата %s, доставка %s", shop.name(), FormatHelper.formatDate.format(purchaseDate), deliveryPrice);
     }
 }

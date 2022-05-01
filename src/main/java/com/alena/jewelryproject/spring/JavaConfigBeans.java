@@ -9,6 +9,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Properties;
 
 @Configuration
@@ -17,6 +19,8 @@ import java.util.Properties;
         "classpath:application-${spring.profiles.active}.properties"
 })
 public class JavaConfigBeans {
+    @PersistenceContext
+    private EntityManager entityManager;
 
     //бин для обработки файла свойств application.properties
     @Bean
@@ -56,5 +60,10 @@ public class JavaConfigBeans {
         properties.put("mail.debug", mailDebug);
 
         return mailSender;
+    }
+
+    @Bean
+    public EntityManager entityManager() {
+        return entityManager;
     }
 }

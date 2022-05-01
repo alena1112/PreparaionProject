@@ -42,12 +42,6 @@ public class Jewelry extends IdentifiableEntity {
     @OneToMany(mappedBy = "jewelry", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "jewelry_material",
-            joinColumns = {@JoinColumn(name = "jewelry_id")},
-            inverseJoinColumns = {@JoinColumn(name = "material_id")})
-    private List<Material> materials;
-
     @Expose
     @Column(name = "material_description")
     private String materialDescription;

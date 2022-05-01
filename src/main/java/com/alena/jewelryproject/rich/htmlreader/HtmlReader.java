@@ -2,7 +2,7 @@ package com.alena.jewelryproject.rich.htmlreader;
 
 import com.alena.jewelryproject.model.Material;
 import com.alena.jewelryproject.model.MaterialOrder;
-import com.alena.jewelryproject.model.Shop;
+import com.alena.jewelryproject.model.enums.Shop;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
