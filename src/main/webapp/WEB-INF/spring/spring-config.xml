@@ -44,46 +44,4 @@
     <!--    </bean>-->
     <!--    &lt;!&ndash;для работы аннотации transactional&ndash;&gt;-->
     <!--    <tx:annotation-driven/>-->
-
-    <bean id="calculator" class="com.alena.jewelryproject.rich.htmlreader.Calculator"/>
-
-    <bean id="greenBirdParser" class="com.alena.jewelryproject.rich.htmlreader.HtmlReader">
-        <property name="charsetName" value="windows-1251"/>
-        <property name="tableTag" value="table"/>
-        <property name="tableAttributeName" value="class"/>
-        <property name="tableName" value="visit_history"/>
-        <property name="lineTag" value="tr"/>
-        <property name="columnTag" value="td"/>
-        <property name="columnSize" value="4"/>
-    </bean>
-
-    <bean id="pandahallParser" class="com.alena.jewelryproject.rich.htmlreader.HtmlReader">
-        <property name="charsetName" value="utf-8"/>
-        <property name="tableTag" value="div"/>
-        <property name="tableAttributeName" value="class"/>
-        <property name="tableName" value="order_list"/>
-        <property name="lineTag" value="ul"/>
-        <property name="columnTag" value="li,img"/>
-        <property name="columnSize" value="11"/>
-    </bean>
-
-    <bean id="stilnayaParser" class="com.alena.jewelryproject.rich.htmlreader.HtmlReader">
-        <property name="charsetName" value="utf-8"/>
-        <property name="tableTag" value="table"/>
-        <property name="tableAttributeName" value="class"/>
-        <property name="tableName" value="vmbs-order-materials"/>
-        <property name="lineTag" value="tr"/>
-        <property name="columnTag" value="td"/>
-        <property name="columnSize" value="7"/>
-    </bean>
-
-    <bean id="luxfurnituraParser" class="com.alena.jewelryproject.rich.htmlreader.HtmlReader">
-        <property name="charsetName" value="utf-8"/>
-        <property name="tableTag" value="table"/>
-        <property name="tableAttributeName" value="id"/>
-        <property name="tableName" value="purchases"/>
-        <property name="lineTag" value="tr"/>
-        <property name="columnTag" value="td"/>
-        <property name="columnSize" value="5"/>
-    </bean>
 </beans>

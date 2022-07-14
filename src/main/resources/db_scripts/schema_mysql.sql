@@ -1,25 +1,3 @@
-create table material_order
-(
-    id             int          not null AUTO_INCREMENT,
-    delivery_price double,
-    shop           varchar(100) not null,
-    purchase_date  DATETIME,
-    PRIMARY KEY (id)
-);
-
-create table material
-(
-    id                       int not null AUTO_INCREMENT,
-    name                     varchar(1000),
-    price                    double,
-    unit_price_with_delivery double,
-    number                   int,
-    image_url                varchar(300),
-    material_order_id        int not null,
-    PRIMARY KEY (id),
-    FOREIGN KEY (material_order_id) REFERENCES material_order (id)
-);
-
 create table jewelry
 (
     id                   int      not null AUTO_INCREMENT,
@@ -119,14 +97,4 @@ create table emails_log
     from_email   varchar(50) not null,
     to_email     varchar(50) not null,
     PRIMARY KEY (id)
-);
-
-create table jewelry_material
-(
-    id          int not null AUTO_INCREMENT,
-    jewelry_id  int not null,
-    material_id int not null,
-    number      int not null,
-    FOREIGN KEY (jewelry_id) REFERENCES jewelry (id),
-    FOREIGN KEY (material_id) REFERENCES material (id)
 );

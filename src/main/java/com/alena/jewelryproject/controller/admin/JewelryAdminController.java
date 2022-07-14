@@ -3,7 +3,6 @@ package com.alena.jewelryproject.controller.admin;
 import com.alena.jewelryproject.controller.base.ImageHelper;
 import com.alena.jewelryproject.model.Image;
 import com.alena.jewelryproject.model.Jewelry;
-import com.alena.jewelryproject.model.Material;
 import com.alena.jewelryproject.model.enums.JewelryType;
 import com.alena.jewelryproject.model.enums.Shop;
 import com.alena.jewelryproject.service.*;
@@ -37,8 +36,6 @@ public class JewelryAdminController {
     @Autowired
     private JewelryService jewelryService;
     @Autowired
-    private MaterialService materialService;
-    @Autowired
     private ImageService imageService;
     @Autowired
     private ImportExportJewelriesService importExportJewelriesService;
@@ -66,9 +63,7 @@ public class JewelryAdminController {
         modelAndView.addObject("jewelry", jewelry);
         modelAndView.addObject("jewelryTypes", JewelryType.values());
         modelAndView.addObject("imageHelper", new ImageHelper(jewelry, getContextPath(request)));
-        modelAndView.addObject("jewelryMaterials", materialService.getJewelryMaterials(jewelry));
         modelAndView.addObject("shops", Shop.values());
-        modelAndView.addObject("orders", materialService.getMaterialOrders());
         modelAndView.setViewName("admin/jewelry_edit");
         return modelAndView;
     }
@@ -155,14 +150,5 @@ public class JewelryAdminController {
         } catch (Exception ex) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-    @GetMapping(value = "/loadMaterials")
-    public ResponseEntity<List<Material>> loadMaterials(
-            @RequestParam("shop") Shop shop,
-            @RequestParam("orderId") Long orderId,
-            @RequestParam("name") String name) {
-        List<Material> materials = materialService.findMaterials(shop, orderId, name);
-        return ResponseEntity.ok(materials);
     }
 }
