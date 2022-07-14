@@ -23,8 +23,12 @@ public class ApiController {
     public List<JewelryDto> getJewelry() {
         List<Jewelry> jewelries = jewelryService.getAllJewelries();
         return jewelries.stream()
-                .map(j -> new JewelryDto(j.getName(), j.getDescription(),
-                        ImageHelper.getImageFullPath(j.getImage(0).getName(), "")))
-                .collect(Collectors.toList());
+                .map(j -> new JewelryDto(
+                        String.valueOf(j.getId()),
+                        j.getName(),
+                        j.getDescription(),
+                        String.valueOf(j.getPrice()),
+                        ImageHelper.getImageFullPath(j.getImage(0).getName(), "")
+                )).collect(Collectors.toList());
     }
 }
